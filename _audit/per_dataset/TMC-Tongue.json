@@ -1,0 +1,307 @@
+{
+  "dataset_id": "TMC-Tongue",
+  "display_name": "TMC-Tongue",
+  "root": "d:\\project\\4.0\\智能体检\\舌象更新\\TMC-Tongue",
+  "canonical_image_roots": [
+    "d:\\project\\4.0\\智能体检\\舌象更新\\TMC-Tongue\\shezhen datasets\\shezhenv3-txt\\train\\images",
+    "d:\\project\\4.0\\智能体检\\舌象更新\\TMC-Tongue\\shezhen datasets\\shezhenv3-txt\\val\\images",
+    "d:\\project\\4.0\\智能体检\\舌象更新\\TMC-Tongue\\shezhen datasets\\shezhenv3-txt\\test\\images"
+  ],
+  "images": {
+    "scanned_images": 6719,
+    "readable_images": 6719,
+    "corrupt_images": 0,
+    "unique_md5": 6575,
+    "intra_duplicate_md5_groups": 134,
+    "intra_duplicate_extra_files": 144,
+    "size_distribution_top": [
+      {
+        "size": "640x640",
+        "count": 1456
+      },
+      {
+        "size": "580x773",
+        "count": 560
+      },
+      {
+        "size": "2048x1365",
+        "count": 339
+      },
+      {
+        "size": "768x576",
+        "count": 309
+      },
+      {
+        "size": "2736x3648",
+        "count": 89
+      },
+      {
+        "size": "562x750",
+        "count": 81
+      },
+      {
+        "size": "580x1031",
+        "count": 55
+      },
+      {
+        "size": "420x420",
+        "count": 50
+      },
+      {
+        "size": "580x772",
+        "count": 40
+      },
+      {
+        "size": "1080x1440",
+        "count": 36
+      },
+      {
+        "size": "580x435",
+        "count": 35
+      },
+      {
+        "size": "580x580",
+        "count": 35
+      },
+      {
+        "size": "450x600",
+        "count": 34
+      },
+      {
+        "size": "400x400",
+        "count": 33
+      },
+      {
+        "size": "580x775",
+        "count": 29
+      }
+    ],
+    "mode_distribution": {
+      "RGB": 6648,
+      "RGBA": 63,
+      "P": 8
+    },
+    "corrupt_samples": [],
+    "multi_stem_path_groups": 0,
+    "multi_stem_examples": [],
+    "duplicate_md5_examples": [
+      {
+        "md5": "9591ffd5a09b688e9bff905026646631",
+        "count": 3,
+        "paths": [
+          "shezhen datasets/shezhenv3-txt/train/images/C (485).jpg",
+          "shezhen datasets/shezhenv3-txt/train/images/E (510).jpg",
+          "shezhen datasets/shezhenv3-txt/val/images/tongue (299).jpg"
+        ]
+      },
+      {
+        "md5": "dcd52545db8a632d29c6e3ac484cb538",
+        "count": 3,
+        "paths": [
+          "shezhen datasets/shezhenv3-txt/train/images/E (157).jpg",
+          "shezhen datasets/shezhenv3-txt/train/images/F (1444).jpg",
+          "shezhen datasets/shezhenv3-txt/val/images/tongue (100).jpg"
+        ]
+      },
+      {
+        "md5": "328b6ddc6cb7827c877bd9a5668a91b3",
+        "count": 3,
+        "paths": [
+          "shezhen datasets/shezhenv3-txt/train/images/F (102).jpg",
+          "shezhen datasets/shezhenv3-txt/train/images/F (608).jpg",
+          "shezhen datasets/shezhenv3-txt/val/images/tongue (207).jpg"
+        ]
+      },
+      {
+        "md5": "b5e513227d4bbeac34634ca9dc570bc8",
+        "count": 3,
+        "paths": [
+          "shezhen datasets/shezhenv3-txt/train/images/F (109).jpg",
+          "shezhen datasets/shezhenv3-txt/train/images/F (683).jpg",
+          "shezhen datasets/shezhenv3-txt/val/images/tongue (209).jpg"
+        ]
+      },
+      {
+        "md5": "2617694e58452d4fa8ff7c8e6fa3aabd",
+        "count": 3,
+        "paths": [
+          "shezhen datasets/shezhenv3-txt/train/images/F (1212).jpg",
+          "shezhen datasets/shezhenv3-txt/train/images/F (126).jpg",
+          "shezhen datasets/shezhenv3-txt/val/images/tongue (212).jpg"
+        ]
+      },
+      {
+        "md5": "3a589700427437739ad02f9d2d420b93",
+        "count": 3,
+        "paths": [
+          "shezhen datasets/shezhenv3-txt/train/images/F (1314).jpg",
+          "shezhen datasets/shezhenv3-txt/train/images/F (132).jpg",
+          "shezhen datasets/shezhenv3-txt/val/images/tongue (213).jpg"
+        ]
+      },
+      {
+        "md5": "932fbac1834cda1c9cc9b131a051c127",
+        "count": 3,
+        "paths": [
+          "shezhen datasets/shezhenv3-txt/train/images/F (477).jpg",
+          "shezhen datasets/shezhenv3-txt/train/images/F (92).jpg",
+          "shezhen datasets/shezhenv3-txt/val/images/tongue (204).jpg"
+        ]
+      },
+      {
+        "md5": "fb92366f72569dd632577ba374ff9a0d",
+        "count": 3,
+        "paths": [
+          "shezhen datasets/shezhenv3-txt/train/images/F (481).jpg",
+          "shezhen datasets/shezhenv3-txt/train/images/F (94).jpg",
+          "shezhen datasets/shezhenv3-txt/val/images/tongue (205).jpg"
+        ]
+      },
+      {
+        "md5": "352be0bfec0a42d47b3d0e6d9f3743f1",
+        "count": 3,
+        "paths": [
+          "shezhen datasets/shezhenv3-txt/val/images/tongue (199).jpg",
+          "shezhen datasets/shezhenv3-txt/val/images/tongue (69).jpg",
+          "shezhen datasets/shezhenv3-txt/val/images/tongue (95).jpg"
+        ]
+      },
+      {
+        "md5": "8231f3f772efeb93dd7592c4998288c4",
+        "count": 3,
+        "paths": [
+          "shezhen datasets/shezhenv3-txt/val/images/tongue (73).jpg",
+          "shezhen datasets/shezhenv3-txt/val/images/tongue (79).jpg",
+          "shezhen datasets/shezhenv3-txt/val/images/tongue (83).jpg"
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "task": "object_detection",
+    "canonical_format": "shezhenv3-txt",
+    "split_counts": {
+      "train": 5594,
+      "val": 572,
+      "test": 553
+    },
+    "expected_split_counts": {
+      "train": 5594,
+      "val": 572,
+      "test": 553
+    },
+    "split_matches_dryad_readme": {
+      "train": true,
+      "val": true,
+      "test": true
+    },
+    "class_instance_distribution": {
+      "0": 23,
+      "1": 620,
+      "2": 1545,
+      "3": 252,
+      "4": 703,
+      "5": 289,
+      "6": 3725,
+      "7": 1949,
+      "8": 1542,
+      "9": 5167,
+      "10": 1156,
+      "11": 125,
+      "12": 291,
+      "13": 507,
+      "14": 2,
+      "15": 292,
+      "16": 9,
+      "17": 187,
+      "18": 2,
+      "19": 377
+    },
+    "num_classes_observed": 20,
+    "empty_label_files": 0,
+    "bad_label_lines_or_files": 0,
+    "image_label_pair_ok": 6719,
+    "images_missing_label": 0,
+    "labels_missing_image": 0,
+    "classes_txt": [
+      "jiankangshe",
+      "botaishe",
+      "hongshe",
+      "zishe",
+      "pangdashe",
+      "shoushe",
+      "hongdianshe",
+      "liewenshe",
+      "chihenshe",
+      "baitaishe",
+      "huangtaishe",
+      "heitaishe",
+      "huataishe",
+      "shenquao",
+      "shenqutu",
+      "gandanao",
+      "gandantu",
+      "piweiao",
+      "piweitu",
+      "xinfeitu",
+      "xinfeiao"
+    ],
+    "yaml_names": {
+      "0": "jiankangshe",
+      "1": "botaishe",
+      "2": "hongshe",
+      "3": "zishe",
+      "4": "pangdashe",
+      "5": "shoushe",
+      "6": "hongdianshe",
+      "7": "liewenshe",
+      "8": "chihenshe",
+      "9": "baitaishe",
+      "10": "huangtaishe",
+      "11": "heitaishe",
+      "12": "huataishe",
+      "13": "shenquao",
+      "14": "shenqutu",
+      "15": "gandanao",
+      "16": "gandantu",
+      "17": "piweiao",
+      "18": "xinfeitu",
+      "19": "xinfeiao"
+    },
+    "name_drift_classes_txt_vs_yaml": [
+      {
+        "id": 18,
+        "classes_txt": "piweitu",
+        "yaml": "xinfeitu"
+      },
+      {
+        "id": 19,
+        "classes_txt": "xinfeitu",
+        "yaml": "xinfeiao"
+      }
+    ],
+    "patient_id_evidence": "none (mixed filename patterns, no subject id field)",
+    "human_label_evidence": "Dryad README claims pathological annotations; local LICENSE absent",
+    "note": "coco/txt/xml are format mirrors; audit uses txt only to avoid x3 inflation"
+  },
+  "tree": {
+    "depth": 3,
+    "folders": {
+      ".": 0,
+      "shezhen datasets": 0,
+      "shezhen datasets/shezhenv3-coco": 0,
+      "shezhen datasets/shezhenv3-coco/shezhenv3-coco": 0,
+      "shezhen datasets/shezhenv3-txt": 1,
+      "shezhen datasets/shezhenv3-txt/test": 0,
+      "shezhen datasets/shezhenv3-txt/train": 0,
+      "shezhen datasets/shezhenv3-txt/val": 0,
+      "shezhen datasets/shezhenv3-xml": 0,
+      "shezhen datasets/shezhenv3-xml/shezhenv3-xml": 0
+    }
+  },
+  "license_probe": {
+    "license_files_found": [],
+    "readme_keyword_hits": []
+  },
+  "audited_at": "2026-08-07T06:03:31Z"
+}

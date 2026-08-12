@@ -1,0 +1,449 @@
+{
+  "generated_at": "2026-08-07T06:04:23Z",
+  "datasets": [
+    {
+      "dataset_id": "BioHit",
+      "display_name": "BioHit Tongue Image Dataset",
+      "unique_images_md5": 300,
+      "scanned_canonical_images": 300,
+      "corrupt_images": 0,
+      "corrupt_rate": 0.0,
+      "intra_dup_extra_files": 0,
+      "top_size": {
+        "size": "768x576",
+        "count": 300
+      },
+      "patient_id_evidence": "none (numeric filenames 1..N)",
+      "human_label_evidence": "manual segmentation masks in groundtruth/mask",
+      "task": "segmentation",
+      "license_files_found": [],
+      "readme_keyword_hits": [],
+      "label_snapshot": {
+        "paired_dataset_mask": 300,
+        "pair_rate": 1.0,
+        "mask_fg_ratio_p50": 0.2206,
+        "mask_fg_ratio_p10": 0.1611,
+        "mask_fg_ratio_p90": 0.2828
+      }
+    },
+    {
+      "dataset_id": "DSCT",
+      "display_name": "DSCT裂纹舌数据集",
+      "unique_images_md5": 92,
+      "scanned_canonical_images": 95,
+      "corrupt_images": 0,
+      "corrupt_rate": 0.0,
+      "intra_dup_extra_files": 3,
+      "top_size": {
+        "size": "300x300",
+        "count": 95
+      },
+      "patient_id_evidence": "none (numeric jpeg names)",
+      "human_label_evidence": "expert data/{0,1} folders; CSV expert label columns present",
+      "task": "binary_crack",
+      "license_files_found": [],
+      "readme_keyword_hits": [],
+      "label_snapshot": {
+        "folder_label_distribution": {
+          "0": 53,
+          "1": 42
+        },
+        "canonical_images": 95,
+        "redundancy_factor": 5.06
+      }
+    },
+    {
+      "dataset_id": "TMC-Tongue",
+      "display_name": "TMC-Tongue",
+      "unique_images_md5": 6575,
+      "scanned_canonical_images": 6719,
+      "corrupt_images": 0,
+      "corrupt_rate": 0.0,
+      "intra_dup_extra_files": 144,
+      "top_size": {
+        "size": "640x640",
+        "count": 1456
+      },
+      "patient_id_evidence": "none (mixed filename patterns, no subject id field)",
+      "human_label_evidence": "Dryad README claims pathological annotations; local LICENSE absent",
+      "task": "object_detection",
+      "license_files_found": [],
+      "readme_keyword_hits": [],
+      "label_snapshot": {
+        "split_counts": {
+          "train": 5594,
+          "val": 572,
+          "test": 553
+        },
+        "class_instance_distribution": {
+          "0": 23,
+          "1": 620,
+          "2": 1545,
+          "3": 252,
+          "4": 703,
+          "5": 289,
+          "6": 3725,
+          "7": 1949,
+          "8": 1542,
+          "9": 5167,
+          "10": 1156,
+          "11": 125,
+          "12": 291,
+          "13": 507,
+          "14": 2,
+          "15": 292,
+          "16": 9,
+          "17": 187,
+          "18": 2,
+          "19": 377
+        },
+        "name_drift_classes_txt_vs_yaml": [
+          {
+            "id": 18,
+            "classes_txt": "piweitu",
+            "yaml": "xinfeitu"
+          },
+          {
+            "id": 19,
+            "classes_txt": "xinfeitu",
+            "yaml": "xinfeiao"
+          }
+        ]
+      }
+    },
+    {
+      "dataset_id": "TongueDx",
+      "display_name": "TongueDx",
+      "unique_images_md5": 5263,
+      "scanned_canonical_images": 6344,
+      "corrupt_images": 0,
+      "corrupt_rate": 0.0,
+      "intra_dup_extra_files": 1081,
+      "top_size": {
+        "size": "1800x4000",
+        "count": 5281
+      },
+      "patient_id_evidence": "csv id column + filename {id}_{view}.jpg",
+      "human_label_evidence": "structured binary phenotype columns in release/list CSV",
+      "task": "multi_label_classification",
+      "license_files_found": [],
+      "readme_keyword_hits": [],
+      "label_snapshot": {
+        "unique_patient_ids": 4650,
+        "label_value_distributions": {
+          "TonguePale": {
+            "1": 624,
+            "0": 4485
+          },
+          "TipSideRed": {
+            "0": 2866,
+            "1": 2243
+          },
+          "Spot": {
+            "0": 2678,
+            "1": 2431
+          },
+          "Ecchymosis": {
+            "0": 4638,
+            "1": 471
+          },
+          "Crack": {
+            "0": 835,
+            "1": 4274
+          },
+          "Toothmark": {
+            "0": 2125,
+            "1": 2984
+          },
+          "FurThick": {
+            "1": 4973,
+            "0": 136
+          },
+          "FurYellow": {
+            "0": 4276,
+            "1": 833
+          },
+          "Heart": {
+            "1": 2393,
+            "0": 2716
+          },
+          "Lung": {
+            "0": 2057,
+            "1": 3052
+          },
+          "Spleen": {
+            "1": 5077,
+            "0": 32
+          },
+          "Liver": {
+            "1": 3163,
+            "0": 1946
+          },
+          "Kidney": {
+            "0": 1662,
+            "1": 3447
+          }
+        }
+      }
+    },
+    {
+      "dataset_id": "Tongueset3",
+      "display_name": "Tongueset3",
+      "unique_images_md5": 999,
+      "scanned_canonical_images": 1000,
+      "corrupt_images": 0,
+      "corrupt_rate": 0.0,
+      "intra_dup_extra_files": 1,
+      "top_size": {
+        "size": "400x400",
+        "count": 1000
+      },
+      "patient_id_evidence": "none (numeric filenames 1..N)",
+      "human_label_evidence": "manual Labelme segmentation (TongueSAM authors)",
+      "task": "segmentation",
+      "license_files_found": [],
+      "readme_keyword_hits": [],
+      "label_snapshot": {
+        "source_note": "TongueSAM TongueSet3: 1000 images from Baidu AI Studio, manual Labelme masks; resized 400x400; in-the-wild/mobile domain",
+        "paired_img_gt": 1000,
+        "pair_rate": 1.0,
+        "mask_encoding": "RGB; tongue≈(1,1,1), background≈(0,0,0) — appears black in viewers",
+        "mask_fg_ratio_p10": 0.1134,
+        "mask_fg_ratio_p50": 0.2959,
+        "mask_fg_ratio_p90": 0.6101,
+        "masks_with_fg_ratio_gt_0_5": 220,
+        "warning": "No phenotype/disease class labels; mask pixel value is 1 not 255"
+      }
+    },
+    {
+      "dataset_id": "TonguExpert",
+      "display_name": "TonguExpertDatabase",
+      "unique_images_md5": 5992,
+      "scanned_canonical_images": 5992,
+      "corrupt_images": 0,
+      "corrupt_rate": 0.0,
+      "intra_dup_extra_files": 0,
+      "top_size": {
+        "size": "677x569",
+        "count": 3
+      },
+      "patient_id_evidence": "SID sample id (TE...); not guaranteed person-level",
+      "human_label_evidence": "L1_Labels_Manual.txt is manual; L2_Labels_Predict.txt is model-predicted",
+      "task": "phenotype_multi_label",
+      "license_files_found": [],
+      "readme_keyword_hits": [],
+      "label_snapshot": {
+        "pair_rate": 1.0,
+        "L1_manual": {
+          "exists": true,
+          "header": [
+            "SID",
+            "labels_tai",
+            "labels_zhi",
+            "labels_fissure",
+            "labels_tooth_mk"
+          ],
+          "rows": 1747,
+          "unique_sid": 1747,
+          "label_distributions": {
+            "labels_tai": {
+              "NA": 1369,
+              "light_yellow": 162,
+              "white": 112,
+              "yellow": 104
+            },
+            "labels_zhi": {
+              "NA": 1408,
+              "dark": 140,
+              "light": 91,
+              "regular": 108
+            },
+            "labels_fissure": {
+              "light": 306,
+              "NA": 1175,
+              "severe": 266
+            },
+            "labels_tooth_mk": {
+              "NA": 1091,
+              "severe": 226,
+              "light": 430
+            }
+          }
+        },
+        "L2_predict": {
+          "exists": true,
+          "header": [
+            "SID",
+            "coating_label",
+            "tai_label",
+            "zhi_label",
+            "fissure_label",
+            "tooth_mk_label"
+          ],
+          "rows": 5992,
+          "unique_sid": 5992,
+          "label_distributions": {
+            "coating_label": {
+              "greasy_thick": 532,
+              "greasy": 5342,
+              "non_greasy": 118
+            },
+            "tai_label": {
+              "light_yellow": 2284,
+              "white": 3349,
+              "yellow": 359
+            },
+            "zhi_label": {
+              "regular": 2998,
+              "light": 1400,
+              "dark": 1594
+            },
+            "fissure_label": {
+              "None": 4017,
+              "light": 1230,
+              "severe": 745
+            },
+            "tooth_mk_label": {
+              "severe": 696,
+              "None": 3393,
+              "light": 1903
+            }
+          }
+        },
+        "L1_coverage_of_raw": 0.2916,
+        "warning": "Do not use L2 predicted labels as gold standard"
+      }
+    },
+    {
+      "dataset_id": "Tooth-Marked",
+      "display_name": "Tooth-Marked Tongue",
+      "unique_images_md5": 1250,
+      "scanned_canonical_images": 1250,
+      "corrupt_images": 0,
+      "corrupt_rate": 0.0,
+      "intra_dup_extra_files": 0,
+      "top_size": {
+        "size": "714x756",
+        "count": 2
+      },
+      "patient_id_evidence": "weak (timestamp-like filenames, no explicit subject id)",
+      "human_label_evidence": "folder names marked/unmarked only",
+      "task": "binary_toothmark",
+      "license_files_found": [],
+      "readme_keyword_hits": [],
+      "label_snapshot": {
+        "folder_label_distribution": {
+          "marked": 546,
+          "unmarked": 704
+        }
+      }
+    },
+    {
+      "dataset_id": "Stain",
+      "display_name": "中医舌诊染苔数据",
+      "unique_images_md5": 1935,
+      "scanned_canonical_images": 2008,
+      "corrupt_images": 0,
+      "corrupt_rate": 0.0,
+      "intra_dup_extra_files": 73,
+      "top_size": {
+        "size": "5568x3712",
+        "count": 614
+      },
+      "patient_id_evidence": "none (serial + food name)",
+      "human_label_evidence": "folder 染苔/非染苔; stain filenames encode food source",
+      "task": "binary_stain_vs_clean",
+      "license_files_found": [],
+      "readme_keyword_hits": [],
+      "label_snapshot": {
+        "folder_label_distribution": {
+          "染苔": 1001,
+          "非染苔": 1007
+        },
+        "stain_food_source_top": [
+          {
+            "source": "彩虹糖",
+            "count": 55
+          },
+          {
+            "source": "芒果",
+            "count": 44
+          },
+          {
+            "source": "巧克力",
+            "count": 42
+          },
+          {
+            "source": "蓝莓干",
+            "count": 34
+          },
+          {
+            "source": "黑葡提",
+            "count": 31
+          },
+          {
+            "source": "黑莓",
+            "count": 30
+          },
+          {
+            "source": "蓝莓",
+            "count": 25
+          },
+          {
+            "source": "橘子",
+            "count": 24
+          },
+          {
+            "source": "金桔盐金枣",
+            "count": 23
+          },
+          {
+            "source": "黑巧",
+            "count": 22
+          },
+          {
+            "source": "小台芒",
+            "count": 19
+          },
+          {
+            "source": "红心火龙果",
+            "count": 18
+          },
+          {
+            "source": "咖啡",
+            "count": 17
+          },
+          {
+            "source": "莎布蕾饼干",
+            "count": 17
+          },
+          {
+            "source": "莎布蕾咖啡味饼干",
+            "count": 16
+          },
+          {
+            "source": "桑葚",
+            "count": 15
+          },
+          {
+            "source": "台式梅肉",
+            "count": 14
+          },
+          {
+            "source": "苏卡咖啡",
+            "count": 14
+          },
+          {
+            "source": "奥利奥",
+            "count": 13
+          },
+          {
+            "source": "彩虹糖黄色",
+            "count": 12
+          }
+        ],
+        "warning": "Stain positives are food-dye artifacts, not pathological coating"
+      }
+    }
+  ]
+}

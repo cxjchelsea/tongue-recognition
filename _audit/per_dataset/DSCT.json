@@ -1,0 +1,103 @@
+{
+  "dataset_id": "DSCT",
+  "display_name": "DSCT裂纹舌数据集",
+  "root": "d:\\project\\4.0\\智能体检\\舌象更新\\DSCT裂纹舌数据集",
+  "canonical_image_roots": [
+    "d:\\project\\4.0\\智能体检\\舌象更新\\DSCT裂纹舌数据集\\data\\data\\expert data\\0",
+    "d:\\project\\4.0\\智能体检\\舌象更新\\DSCT裂纹舌数据集\\data\\data\\expert data\\1"
+  ],
+  "images": {
+    "scanned_images": 95,
+    "readable_images": 95,
+    "corrupt_images": 0,
+    "unique_md5": 92,
+    "intra_duplicate_md5_groups": 3,
+    "intra_duplicate_extra_files": 3,
+    "size_distribution_top": [
+      {
+        "size": "300x300",
+        "count": 95
+      }
+    ],
+    "mode_distribution": {
+      "RGB": 95
+    },
+    "corrupt_samples": [],
+    "multi_stem_path_groups": 0,
+    "multi_stem_examples": [],
+    "duplicate_md5_examples": [
+      {
+        "md5": "07458fdfe144a0c58f30b35905f8511c",
+        "count": 2,
+        "paths": [
+          "data/data/expert data/1/341.jpeg",
+          "data/data/expert data/1/41.jpeg"
+        ]
+      },
+      {
+        "md5": "8267f7071d3fc2c64591d7c1090209c9",
+        "count": 2,
+        "paths": [
+          "data/data/expert data/1/517.jpeg",
+          "data/data/expert data/1/53.jpeg"
+        ]
+      },
+      {
+        "md5": "3beed1a35266654b82117d2272ae3739",
+        "count": 2,
+        "paths": [
+          "data/data/expert data/1/55.jpeg",
+          "data/data/expert data/1/644.jpeg"
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "task": "binary_crack",
+    "canonical_root": "d:\\project\\4.0\\智能体检\\舌象更新\\DSCT裂纹舌数据集\\data\\data\\expert data",
+    "folder_label_distribution": {
+      "0": 53,
+      "1": 42
+    },
+    "csv_label_counts_sample": {
+      "1": 723,
+      "2": 331,
+      "": 9,
+      "accuracy:0.8600": 1,
+      "auc:0.9087": 1,
+      "precision:0.8500": 1,
+      "recall:0.9100": 1,
+      "f1:0.8611": 1,
+      "0": 371
+    },
+    "total_images_in_tree": 481,
+    "canonical_images": 95,
+    "redundancy_factor": 5.06,
+    "patient_id_evidence": "none (numeric jpeg names)",
+    "human_label_evidence": "expert data/{0,1} folders; CSV expert label columns present"
+  },
+  "tree": {
+    "depth": 3,
+    "folders": {
+      ".": 2,
+      "code": 0,
+      "code/code": 0,
+      "code/code/SVM": 11,
+      "code/code/crack extract ipy": 7,
+      "code/code/expert": 15,
+      "code/code/feature extrat": 0,
+      "code/code/logistic": 11,
+      "code/code/matlab code": 16,
+      "code/code/random forest and xgboost": 10,
+      "data": 0,
+      "data/data": 0,
+      "data/data/expert data": 0,
+      "data/data/index data": 0
+    }
+  },
+  "license_probe": {
+    "license_files_found": [],
+    "readme_keyword_hits": []
+  },
+  "audited_at": "2026-08-07T06:03:22Z"
+}

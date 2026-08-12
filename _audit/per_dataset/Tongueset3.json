@@ -1,0 +1,73 @@
+{
+  "dataset_id": "Tongueset3",
+  "display_name": "Tongueset3",
+  "root": "d:\\project\\4.0\\智能体检\\舌象更新\\Tongueset3",
+  "canonical_image_roots": [
+    "d:\\project\\4.0\\智能体检\\舌象更新\\Tongueset3\\img"
+  ],
+  "images": {
+    "scanned_images": 1000,
+    "readable_images": 1000,
+    "corrupt_images": 0,
+    "unique_md5": 999,
+    "intra_duplicate_md5_groups": 1,
+    "intra_duplicate_extra_files": 1,
+    "size_distribution_top": [
+      {
+        "size": "400x400",
+        "count": 1000
+      }
+    ],
+    "mode_distribution": {
+      "RGB": 1000
+    },
+    "corrupt_samples": [],
+    "multi_stem_path_groups": 0,
+    "multi_stem_examples": [],
+    "duplicate_md5_examples": [
+      {
+        "md5": "1c3a8f8fb172f13df9fa797167ea2f0b",
+        "count": 2,
+        "paths": [
+          "img/102.jpg",
+          "img/1020.jpg"
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "task": "segmentation",
+    "source_note": "TongueSAM TongueSet3: 1000 images from Baidu AI Studio, manual Labelme masks; resized 400x400; in-the-wild/mobile domain",
+    "img_stems": 1000,
+    "gt_stems": 1000,
+    "paired_img_gt": 1000,
+    "pair_rate": 1.0,
+    "mask_encoding": "RGB; tongue≈(1,1,1), background≈(0,0,0) — appears black in viewers",
+    "mask_value_sets_top": [
+      {
+        "values": "(0, 1)",
+        "count": 1000
+      }
+    ],
+    "mask_fg_ratio_p10": 0.1134,
+    "mask_fg_ratio_p50": 0.2959,
+    "mask_fg_ratio_p90": 0.6101,
+    "masks_with_fg_ratio_gt_0_5": 220,
+    "patient_id_evidence": "none (numeric filenames 1..N)",
+    "human_label_evidence": "manual Labelme segmentation (TongueSAM authors)",
+    "warning": "No phenotype/disease class labels; mask pixel value is 1 not 255"
+  },
+  "tree": {
+    "depth": 3,
+    "folders": {
+      ".": 0,
+      "gt": 1000,
+      "img": 1000
+    }
+  },
+  "license_probe": {
+    "license_files_found": [],
+    "readme_keyword_hits": []
+  },
+  "audited_at": "2026-08-07T06:04:13Z"
+}

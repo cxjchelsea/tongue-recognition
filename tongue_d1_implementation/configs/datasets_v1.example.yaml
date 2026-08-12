@@ -1,0 +1,57 @@
+ontology: ontology/tongue_phenotype_v1.yaml
+mappings_dir: ontology/mappings
+
+datasets:
+  - {name: biohit, adapter: paired_mask, enabled: true, root: "D:/datasets/BioHit", images_dir: images, masks_dir: masks, mapping: biohit_v1.yaml}
+  - {name: tongueset3, adapter: paired_mask, enabled: true, root: "D:/datasets/TongueSet3", images_dir: img, masks_dir: gt, mapping: tongueset3_v1.yaml}
+  - name: tmc_tongue
+    adapter: tmc_yolo
+    enabled: true
+    root: "D:/datasets/TMC-Tongue"
+    images_glob: "**/images/**/*"
+    labels_glob: "**/labels/**/*.txt"
+    classes_yaml: "data.yaml"
+    mapping: tmc_v1.yaml
+    allowed_image_ext: [".jpg",".jpeg",".png",".bmp"]
+  - name: tonguedx
+    adapter: tonguedx_csv
+    enabled: true
+    root: "D:/datasets/TongueDx"
+    csv: "labels.csv"
+    image_path_column: "image_path"
+    patient_id_column: "id"
+    mapping: tonguedx_v1.yaml
+    label_columns: [TonguePale,TipSideRed,Spot,Ecchymosis,Crack,Toothmark,FurThick,FurYellow,Heart,Lung,Spleen,Liver,Kidney]
+  - name: tonguexpert
+    adapter: tonguexpert
+    enabled: true
+    root: "D:/datasets/TonguExpertDatabase"
+    raw_dir: "TongueImage/Raw"
+    mask_dir: "TongueImage/Mask"
+    l1_file: "Phenotypes/L1_Labels_Manual.txt"
+    l2_file: "Phenotypes/L2_Labels_Predict.txt"
+    id_column: null
+    mapping: tonguexpert_v1.yaml
+  - name: tooth_marked
+    adapter: folder_classification
+    enabled: true
+    root: "D:/datasets/Tooth-Marked"
+    class_dirs: {marked: marked, unmarked: unmarked}
+    mapping: tooth_marked_v1.yaml
+  - name: dsct
+    adapter: folder_classification
+    enabled: true
+    root: "D:/datasets/DSCT/data/data/expert data"
+    class_dirs: {"0": "0", "1": "1"}
+    mapping: dsct_v1.yaml
+  - name: stained_coating
+    adapter: folder_classification
+    enabled: true
+    root: "D:/datasets/StainedTongue"
+    class_dirs: {染苔: 染苔, 非染苔: 非染苔}
+    mapping: stained_v1.yaml
+
+build:
+  manifest_version: "1.0"
+  fail_on_missing_dataset: true
+  fail_on_needs_review: false

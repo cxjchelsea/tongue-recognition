@@ -1,0 +1,111 @@
+{
+  "dataset_id": "Tooth-Marked",
+  "display_name": "Tooth-Marked Tongue",
+  "root": "d:\\project\\4.0\\智能体检\\舌象更新\\Tooth-Marked Tongue",
+  "canonical_image_roots": [
+    "d:\\project\\4.0\\智能体检\\舌象更新\\Tooth-Marked Tongue\\marked\\marked",
+    "d:\\project\\4.0\\智能体检\\舌象更新\\Tooth-Marked Tongue\\unmarked\\unmarked"
+  ],
+  "images": {
+    "scanned_images": 1250,
+    "readable_images": 1250,
+    "corrupt_images": 0,
+    "unique_md5": 1250,
+    "intra_duplicate_md5_groups": 0,
+    "intra_duplicate_extra_files": 0,
+    "size_distribution_top": [
+      {
+        "size": "714x756",
+        "count": 2
+      },
+      {
+        "size": "1322x1071",
+        "count": 2
+      },
+      {
+        "size": "1480x1079",
+        "count": 2
+      },
+      {
+        "size": "865x988",
+        "count": 2
+      },
+      {
+        "size": "729x850",
+        "count": 2
+      },
+      {
+        "size": "770x928",
+        "count": 2
+      },
+      {
+        "size": "619x669",
+        "count": 1
+      },
+      {
+        "size": "717x638",
+        "count": 1
+      },
+      {
+        "size": "755x861",
+        "count": 1
+      },
+      {
+        "size": "681x861",
+        "count": 1
+      },
+      {
+        "size": "839x747",
+        "count": 1
+      },
+      {
+        "size": "720x869",
+        "count": 1
+      },
+      {
+        "size": "725x868",
+        "count": 1
+      },
+      {
+        "size": "717x787",
+        "count": 1
+      },
+      {
+        "size": "921x810",
+        "count": 1
+      }
+    ],
+    "mode_distribution": {
+      "L": 1250
+    },
+    "corrupt_samples": [],
+    "multi_stem_path_groups": 0,
+    "multi_stem_examples": [],
+    "duplicate_md5_examples": []
+  },
+  "labels": {
+    "task": "binary_toothmark",
+    "folder_label_distribution": {
+      "marked": 546,
+      "unmarked": 704
+    },
+    "positive_rate": 0.4368,
+    "patient_id_evidence": "weak (timestamp-like filenames, no explicit subject id)",
+    "human_label_evidence": "folder names marked/unmarked only"
+  },
+  "tree": {
+    "depth": 3,
+    "folders": {
+      ".": 0,
+      "marked": 0,
+      "marked/marked": 546,
+      "unmarked": 0,
+      "unmarked/unmarked": 704
+    }
+  },
+  "license_probe": {
+    "license_files_found": [],
+    "readme_keyword_hits": []
+  },
+  "audited_at": "2026-08-07T06:04:20Z"
+}

@@ -1,0 +1,6 @@
+dataset: tooth_marked
+version: "1.0"
+defaults: {annotation_type: image_level, label_source: folder_label, supervision_tier: silver}
+mappings:
+  marked: {status: exact, canonical_task: features.tooth_mark.present, canonical_label: true}
+  unmarked: {status: exact, canonical_task: features.tooth_mark.present, canonical_label: false}

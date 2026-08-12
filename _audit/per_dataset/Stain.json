@@ -1,0 +1,280 @@
+{
+  "dataset_id": "Stain",
+  "display_name": "中医舌诊染苔数据",
+  "root": "d:\\project\\4.0\\智能体检\\舌象更新\\中医舌诊染苔数据",
+  "canonical_image_roots": [
+    "d:\\project\\4.0\\智能体检\\舌象更新\\中医舌诊染苔数据\\中医舌诊染苔数据\\染苔",
+    "d:\\project\\4.0\\智能体检\\舌象更新\\中医舌诊染苔数据\\中医舌诊染苔数据\\非染苔"
+  ],
+  "images": {
+    "scanned_images": 2008,
+    "readable_images": 2008,
+    "corrupt_images": 0,
+    "unique_md5": 1935,
+    "intra_duplicate_md5_groups": 67,
+    "intra_duplicate_extra_files": 73,
+    "size_distribution_top": [
+      {
+        "size": "5568x3712",
+        "count": 614
+      },
+      {
+        "size": "1480x2220",
+        "count": 327
+      },
+      {
+        "size": "365x365",
+        "count": 44
+      },
+      {
+        "size": "1392x928",
+        "count": 20
+      },
+      {
+        "size": "1440x1920",
+        "count": 11
+      },
+      {
+        "size": "3456x4608",
+        "count": 10
+      },
+      {
+        "size": "720x960",
+        "count": 9
+      },
+      {
+        "size": "365x398",
+        "count": 6
+      },
+      {
+        "size": "365x453",
+        "count": 6
+      },
+      {
+        "size": "442x960",
+        "count": 5
+      },
+      {
+        "size": "365x424",
+        "count": 5
+      },
+      {
+        "size": "365x475",
+        "count": 5
+      },
+      {
+        "size": "365x431",
+        "count": 5
+      },
+      {
+        "size": "365x435",
+        "count": 5
+      },
+      {
+        "size": "960x960",
+        "count": 4
+      }
+    ],
+    "mode_distribution": {
+      "RGB": 2008
+    },
+    "corrupt_samples": [],
+    "multi_stem_path_groups": 0,
+    "multi_stem_examples": [],
+    "duplicate_md5_examples": [
+      {
+        "md5": "67f475e5a72330f5967fa096220080ce",
+        "count": 3,
+        "paths": [
+          "中医舌诊染苔数据/染苔/207_蓝莓.JPG",
+          "中医舌诊染苔数据/染苔/208_蓝莓.JPG",
+          "中医舌诊染苔数据/染苔/209_蓝莓.JPG"
+        ]
+      },
+      {
+        "md5": "05ce64693467a648b5e992b47327faa0",
+        "count": 3,
+        "paths": [
+          "中医舌诊染苔数据/非染苔/695.JPG",
+          "中医舌诊染苔数据/非染苔/697.JPG",
+          "中医舌诊染苔数据/非染苔/790.JPG"
+        ]
+      },
+      {
+        "md5": "c349cfdbc29386f9f80fd02523be6d0d",
+        "count": 3,
+        "paths": [
+          "中医舌诊染苔数据/非染苔/708.JPG",
+          "中医舌诊染苔数据/非染苔/711.JPG",
+          "中医舌诊染苔数据/非染苔/713.JPG"
+        ]
+      },
+      {
+        "md5": "8563cd529dcbe3401625665690b9ffbf",
+        "count": 3,
+        "paths": [
+          "中医舌诊染苔数据/非染苔/720.JPG",
+          "中医舌诊染苔数据/非染苔/722.JPG",
+          "中医舌诊染苔数据/非染苔/723.JPG"
+        ]
+      },
+      {
+        "md5": "4b809d5002e2f2137ff35008594b6665",
+        "count": 3,
+        "paths": [
+          "中医舌诊染苔数据/非染苔/771.JPG",
+          "中医舌诊染苔数据/非染苔/773.JPG",
+          "中医舌诊染苔数据/非染苔/776.JPG"
+        ]
+      },
+      {
+        "md5": "635cfcbe5e405620dfc0cf48e6563c6f",
+        "count": 3,
+        "paths": [
+          "中医舌诊染苔数据/非染苔/777.JPG",
+          "中医舌诊染苔数据/非染苔/781.JPG",
+          "中医舌诊染苔数据/非染苔/782.JPG"
+        ]
+      },
+      {
+        "md5": "fed38a719c6d5cea8f09c4b37c7bf2a2",
+        "count": 2,
+        "paths": [
+          "中医舌诊染苔数据/染苔/10_苏卡咖啡.JPG",
+          "中医舌诊染苔数据/染苔/11_苏卡咖啡.JPG"
+        ]
+      },
+      {
+        "md5": "f8c8c1a661b2c8c8966a2247ca582617",
+        "count": 2,
+        "paths": [
+          "中医舌诊染苔数据/染苔/210_芒果.JPG",
+          "中医舌诊染苔数据/染苔/211_芒果.JPG"
+        ]
+      },
+      {
+        "md5": "b7de69122307655408014658c433c181",
+        "count": 2,
+        "paths": [
+          "中医舌诊染苔数据/染苔/231_德芙巧克力.JPG",
+          "中医舌诊染苔数据/染苔/232_德芙巧克力.JPG"
+        ]
+      },
+      {
+        "md5": "cf3d78c8944bb98bf2159a0198e04f51",
+        "count": 2,
+        "paths": [
+          "中医舌诊染苔数据/染苔/270_牛奶.JPG",
+          "中医舌诊染苔数据/染苔/311_牛奶.JPG"
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "task": "binary_stain_vs_clean",
+    "folder_label_distribution": {
+      "染苔": 1001,
+      "非染苔": 1007
+    },
+    "stain_food_source_top": [
+      {
+        "source": "彩虹糖",
+        "count": 55
+      },
+      {
+        "source": "芒果",
+        "count": 44
+      },
+      {
+        "source": "巧克力",
+        "count": 42
+      },
+      {
+        "source": "蓝莓干",
+        "count": 34
+      },
+      {
+        "source": "黑葡提",
+        "count": 31
+      },
+      {
+        "source": "黑莓",
+        "count": 30
+      },
+      {
+        "source": "蓝莓",
+        "count": 25
+      },
+      {
+        "source": "橘子",
+        "count": 24
+      },
+      {
+        "source": "金桔盐金枣",
+        "count": 23
+      },
+      {
+        "source": "黑巧",
+        "count": 22
+      },
+      {
+        "source": "小台芒",
+        "count": 19
+      },
+      {
+        "source": "红心火龙果",
+        "count": 18
+      },
+      {
+        "source": "咖啡",
+        "count": 17
+      },
+      {
+        "source": "莎布蕾饼干",
+        "count": 17
+      },
+      {
+        "source": "莎布蕾咖啡味饼干",
+        "count": 16
+      },
+      {
+        "source": "桑葚",
+        "count": 15
+      },
+      {
+        "source": "台式梅肉",
+        "count": 14
+      },
+      {
+        "source": "苏卡咖啡",
+        "count": 14
+      },
+      {
+        "source": "奥利奥",
+        "count": 13
+      },
+      {
+        "source": "彩虹糖黄色",
+        "count": 12
+      }
+    ],
+    "unique_food_sources": 173,
+    "patient_id_evidence": "none (serial + food name)",
+    "human_label_evidence": "folder 染苔/非染苔; stain filenames encode food source",
+    "warning": "Stain positives are food-dye artifacts, not pathological coating"
+  },
+  "tree": {
+    "depth": 3,
+    "folders": {
+      ".": 0,
+      "中医舌诊染苔数据": 0,
+      "中医舌诊染苔数据/染苔": 1001,
+      "中医舌诊染苔数据/非染苔": 1007
+    }
+  },
+  "license_probe": {
+    "license_files_found": [],
+    "readme_keyword_hits": []
+  },
+  "audited_at": "2026-08-07T06:04:23Z"
+}

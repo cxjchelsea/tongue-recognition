@@ -1,0 +1,9 @@
+dataset: stained_coating
+version: "1.0"
+defaults: {annotation_type: image_level, label_source: scenario_label, supervision_tier: silver}
+mappings:
+  染苔: {status: exact, canonical_task: quality.stain_suspected, canonical_label: true}
+  非染苔: {status: exact, canonical_task: quality.stain_suspected, canonical_label: false}
+  stained: {status: exact, canonical_task: quality.stain_suspected, canonical_label: true}
+  non-stained: {status: exact, canonical_task: quality.stain_suspected, canonical_label: false}
+  non_stained: {status: exact, canonical_task: quality.stain_suspected, canonical_label: false}

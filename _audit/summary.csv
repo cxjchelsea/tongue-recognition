@@ -1,0 +1,9 @@
+﻿dataset_id,display_name,scanned_canonical_images,readable_images,corrupt_images,unique_md5,intra_duplicate_extra_files,top_image_size,task,patient_id_evidence,license_files_count
+BioHit,BioHit Tongue Image Dataset,300,300,0,300,0,768x576,segmentation,none (numeric filenames 1..N),0
+DSCT,DSCT裂纹舌数据集,95,95,0,92,3,300x300,binary_crack,none (numeric jpeg names),0
+TMC-Tongue,TMC-Tongue,6719,6719,0,6575,144,640x640,object_detection,"none (mixed filename patterns, no subject id field)",0
+TongueDx,TongueDx,6344,6344,0,5263,1081,1800x4000,multi_label_classification,csv id column + filename {id}_{view}.jpg,0
+Tongueset3,Tongueset3,1000,1000,0,999,1,400x400,segmentation,none (numeric filenames 1..N),0
+TonguExpert,TonguExpertDatabase,5992,5992,0,5992,0,677x569,phenotype_multi_label,SID sample id (TE...); not guaranteed person-level,0
+Tooth-Marked,Tooth-Marked Tongue,1250,1250,0,1250,0,714x756,binary_toothmark,"weak (timestamp-like filenames, no explicit subject id)",0
+Stain,中医舌诊染苔数据,2008,2008,0,1935,73,5568x3712,binary_stain_vs_clean,none (serial + food name),0

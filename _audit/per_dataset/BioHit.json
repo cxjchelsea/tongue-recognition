@@ -1,0 +1,60 @@
+{
+  "dataset_id": "BioHit",
+  "display_name": "BioHit Tongue Image Dataset",
+  "root": "d:\\project\\4.0\\智能体检\\舌象更新\\BioHit Tongue Image Dataset",
+  "canonical_image_roots": [
+    "d:\\project\\4.0\\智能体检\\舌象更新\\BioHit Tongue Image Dataset\\TongeImageDataset\\dataset"
+  ],
+  "images": {
+    "scanned_images": 300,
+    "readable_images": 300,
+    "corrupt_images": 0,
+    "unique_md5": 300,
+    "intra_duplicate_md5_groups": 0,
+    "intra_duplicate_extra_files": 0,
+    "size_distribution_top": [
+      {
+        "size": "768x576",
+        "count": 300
+      }
+    ],
+    "mode_distribution": {
+      "RGB": 300
+    },
+    "corrupt_samples": [],
+    "multi_stem_path_groups": 0,
+    "multi_stem_examples": [],
+    "duplicate_md5_examples": []
+  },
+  "labels": {
+    "task": "segmentation",
+    "dataset_stems": 300,
+    "mask_stems": 300,
+    "gt_image_stems": 300,
+    "paired_dataset_mask": 300,
+    "pair_rate": 1.0,
+    "missing_mask_examples": [],
+    "missing_dataset_examples": [],
+    "mask_fg_ratio_p50": 0.2206,
+    "mask_fg_ratio_p10": 0.1611,
+    "mask_fg_ratio_p90": 0.2828,
+    "patient_id_evidence": "none (numeric filenames 1..N)",
+    "human_label_evidence": "manual segmentation masks in groundtruth/mask"
+  },
+  "tree": {
+    "depth": 3,
+    "folders": {
+      ".": 0,
+      "TongeImageDataset": 0,
+      "TongeImageDataset/dataset": 300,
+      "TongeImageDataset/groundtruth": 0,
+      "TongeImageDataset/groundtruth/images": 300,
+      "TongeImageDataset/groundtruth/mask": 300
+    }
+  },
+  "license_probe": {
+    "license_files_found": [],
+    "readme_keyword_hits": []
+  },
+  "audited_at": "2026-08-07T06:03:22Z"
+}

@@ -1,0 +1,190 @@
+{
+  "dataset_id": "TonguExpert",
+  "display_name": "TonguExpertDatabase",
+  "root": "d:\\project\\4.0\\智能体检\\舌象更新\\TonguExpertDatabase",
+  "canonical_image_roots": [
+    "d:\\project\\4.0\\智能体检\\舌象更新\\TonguExpertDatabase\\TongueImage\\Raw"
+  ],
+  "images": {
+    "scanned_images": 5992,
+    "readable_images": 5992,
+    "corrupt_images": 0,
+    "unique_md5": 5992,
+    "intra_duplicate_md5_groups": 0,
+    "intra_duplicate_extra_files": 0,
+    "size_distribution_top": [
+      {
+        "size": "677x569",
+        "count": 3
+      },
+      {
+        "size": "685x625",
+        "count": 3
+      },
+      {
+        "size": "718x620",
+        "count": 3
+      },
+      {
+        "size": "551x551",
+        "count": 3
+      },
+      {
+        "size": "551x469",
+        "count": 3
+      },
+      {
+        "size": "644x583",
+        "count": 2
+      },
+      {
+        "size": "631x578",
+        "count": 2
+      },
+      {
+        "size": "685x550",
+        "count": 2
+      },
+      {
+        "size": "634x539",
+        "count": 2
+      },
+      {
+        "size": "696x661",
+        "count": 2
+      },
+      {
+        "size": "730x572",
+        "count": 2
+      },
+      {
+        "size": "753x580",
+        "count": 2
+      },
+      {
+        "size": "606x579",
+        "count": 2
+      },
+      {
+        "size": "644x462",
+        "count": 2
+      },
+      {
+        "size": "605x565",
+        "count": 2
+      }
+    ],
+    "mode_distribution": {
+      "RGB": 5992
+    },
+    "corrupt_samples": [],
+    "multi_stem_path_groups": 0,
+    "multi_stem_examples": [],
+    "duplicate_md5_examples": []
+  },
+  "labels": {
+    "task": "phenotype_multi_label",
+    "raw_images": 5992,
+    "mask_images": 5992,
+    "raw_mask_paired": 5992,
+    "pair_rate": 1.0,
+    "L1_manual": {
+      "exists": true,
+      "header": [
+        "SID",
+        "labels_tai",
+        "labels_zhi",
+        "labels_fissure",
+        "labels_tooth_mk"
+      ],
+      "rows": 1747,
+      "unique_sid": 1747,
+      "label_distributions": {
+        "labels_tai": {
+          "NA": 1369,
+          "light_yellow": 162,
+          "white": 112,
+          "yellow": 104
+        },
+        "labels_zhi": {
+          "NA": 1408,
+          "dark": 140,
+          "light": 91,
+          "regular": 108
+        },
+        "labels_fissure": {
+          "light": 306,
+          "NA": 1175,
+          "severe": 266
+        },
+        "labels_tooth_mk": {
+          "NA": 1091,
+          "severe": 226,
+          "light": 430
+        }
+      }
+    },
+    "L2_predict": {
+      "exists": true,
+      "header": [
+        "SID",
+        "coating_label",
+        "tai_label",
+        "zhi_label",
+        "fissure_label",
+        "tooth_mk_label"
+      ],
+      "rows": 5992,
+      "unique_sid": 5992,
+      "label_distributions": {
+        "coating_label": {
+          "greasy_thick": 532,
+          "greasy": 5342,
+          "non_greasy": 118
+        },
+        "tai_label": {
+          "light_yellow": 2284,
+          "white": 3349,
+          "yellow": 359
+        },
+        "zhi_label": {
+          "regular": 2998,
+          "light": 1400,
+          "dark": 1594
+        },
+        "fissure_label": {
+          "None": 4017,
+          "light": 1230,
+          "severe": 745
+        },
+        "tooth_mk_label": {
+          "severe": 696,
+          "None": 3393,
+          "light": 1903
+        }
+      }
+    },
+    "L1_sid_in_raw": 1747,
+    "L2_sid_in_raw": 5992,
+    "L1_coverage_of_raw": 0.2916,
+    "L2_coverage_of_raw": 1.0,
+    "patient_id_evidence": "SID sample id (TE...); not guaranteed person-level",
+    "human_label_evidence": "L1_Labels_Manual.txt is manual; L2_Labels_Predict.txt is model-predicted",
+    "warning": "Do not use L2 predicted labels as gold standard"
+  },
+  "tree": {
+    "depth": 3,
+    "folders": {
+      ".": 1,
+      "Phenotypes": 23,
+      "TongueImage": 0,
+      "TongueImage/Mask": 5992,
+      "TongueImage/Raw": 5992
+    }
+  },
+  "license_probe": {
+    "license_files_found": [],
+    "readme_keyword_hits": []
+  },
+  "audited_at": "2026-08-07T06:04:19Z"
+}

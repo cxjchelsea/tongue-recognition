@@ -1,0 +1,5 @@
+dataset: biohit
+version: "1.0"
+defaults: {annotation_type: mask, label_source: human_mask, supervision_tier: gold_candidate}
+mappings:
+  tongue_mask: {status: exact, canonical_task: segmentation.tongue, canonical_label: tongue}

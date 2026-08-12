@@ -1,0 +1,25 @@
+dataset: tmc_tongue
+version: "1.0"
+defaults: {annotation_type: bbox, label_source: dataset_annotation, supervision_tier: silver}
+mappings:
+  jiankangshe: {status: excluded, reason: "normal label cannot imply absence of every V1 phenotype"}
+  botaishe: {status: exact, canonical_task: coating.properties.peeling, canonical_label: true}
+  hongshe: {status: exact, canonical_task: tongue_body.color, canonical_label: red}
+  zishe: {status: exact, canonical_task: tongue_body.color, canonical_label: purple}
+  pangdashe: {status: exact, canonical_task: tongue_body.shape, canonical_label: enlarged}
+  shoushe: {status: exact, canonical_task: tongue_body.shape, canonical_label: thin}
+  hongdianshe: {status: exact, canonical_task: features.red_spot.present, canonical_label: true}
+  liewenshe: {status: exact, canonical_task: features.crack.present, canonical_label: true}
+  chihenshe: {status: exact, canonical_task: features.tooth_mark.present, canonical_label: true}
+  baitaishe: {status: exact, canonical_task: coating.color, canonical_label: white}
+  huangtaishe: {status: exact, canonical_task: coating.color, canonical_label: yellow}
+  heitaishe: {status: exact, canonical_task: coating.color, canonical_label: black}
+  huataishe: {status: needs_review, reason: "verify source definition before mapping"}
+  shenquao: {status: excluded, reason: "outside V1 visual phenotype scope"}
+  shenqutu: {status: excluded, reason: "outside V1 visual phenotype scope"}
+  gandanao: {status: excluded, reason: "outside V1 visual phenotype scope"}
+  gandantu: {status: excluded, reason: "outside V1 visual phenotype scope"}
+  piweiao: {status: excluded, reason: "outside V1 visual phenotype scope"}
+  piweitu: {status: excluded, reason: "outside V1 visual phenotype scope; source name drift exists"}
+  xinfeitu: {status: excluded, reason: "outside V1 visual phenotype scope"}
+  xinfeiao: {status: excluded, reason: "outside V1 visual phenotype scope"}

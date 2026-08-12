@@ -1,0 +1,6 @@
+dataset: dsct
+version: "1.0"
+defaults: {annotation_type: image_level, label_source: expert_dataset_annotation, supervision_tier: silver}
+mappings:
+  "0": {status: needs_review, reason: "audit material is internally inconsistent on 0/1 semantics; verify original DSCT source"}
+  "1": {status: needs_review, reason: "audit material is internally inconsistent on 0/1 semantics; verify original DSCT source"}

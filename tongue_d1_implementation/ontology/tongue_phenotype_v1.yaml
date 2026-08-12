@@ -1,0 +1,79 @@
+version: "1.0"
+name: tongue_phenotype_v1
+scope: visual_phenotype_only
+
+tasks:
+  segmentation.tongue:
+    task_type: binary_segmentation
+    status: core
+    labels: [tongue]
+
+  quality.stain_suspected:
+    task_type: binary
+    status: core
+    labels: [false, true]
+
+  tongue_body.color:
+    task_type: multiclass_partial
+    status: core
+    labels: [pale, normal, red, dark, purple]
+
+  tongue_body.regional.tip_side_red:
+    task_type: binary
+    status: auxiliary
+    labels: [false, true]
+
+  tongue_body.shape:
+    task_type: multilabel
+    status: core
+    labels: [enlarged, thin]
+
+  coating.color:
+    task_type: multiclass_partial
+    status: core
+    labels: [white, light_yellow, yellow, black]
+
+  coating.properties.thick:
+    task_type: binary
+    status: core
+    labels: [false, true]
+
+  coating.properties.peeling:
+    task_type: binary
+    status: core
+    labels: [false, true]
+
+  coating.properties.greasy:
+    task_type: ordinal
+    status: experimental
+    labels: [none, greasy, greasy_thick]
+
+  features.crack.present:
+    task_type: binary
+    status: core
+    labels: [false, true]
+
+  features.crack.severity:
+    task_type: ordinal
+    status: core
+    labels: [mild, severe]
+
+  features.tooth_mark.present:
+    task_type: binary
+    status: core
+    labels: [false, true]
+
+  features.tooth_mark.severity:
+    task_type: ordinal
+    status: core
+    labels: [mild, severe]
+
+  features.red_spot.present:
+    task_type: binary
+    status: core
+    labels: [false, true]
+
+  features.ecchymosis.present:
+    task_type: binary
+    status: core
+    labels: [false, true]

@@ -1,0 +1,408 @@
+{
+  "dataset_id": "TongueDx",
+  "display_name": "TongueDx",
+  "root": "d:\\project\\4.0\\智能体检\\舌象更新\\TongueDx",
+  "canonical_image_roots": [
+    "d:\\project\\4.0\\智能体检\\舌象更新\\TongueDx\\TongueDx2\\release\\origin"
+  ],
+  "images": {
+    "scanned_images": 6344,
+    "readable_images": 6344,
+    "corrupt_images": 0,
+    "unique_md5": 5263,
+    "intra_duplicate_md5_groups": 1077,
+    "intra_duplicate_extra_files": 1081,
+    "size_distribution_top": [
+      {
+        "size": "1800x4000",
+        "count": 5281
+      },
+      {
+        "size": "1536x2048",
+        "count": 220
+      },
+      {
+        "size": "1200x1600",
+        "count": 122
+      },
+      {
+        "size": "900x1600",
+        "count": 72
+      },
+      {
+        "size": "1152x2048",
+        "count": 48
+      },
+      {
+        "size": "768x1024",
+        "count": 44
+      },
+      {
+        "size": "899x1599",
+        "count": 34
+      },
+      {
+        "size": "1153x2048",
+        "count": 32
+      },
+      {
+        "size": "1080x1920",
+        "count": 28
+      },
+      {
+        "size": "2048x1536",
+        "count": 20
+      },
+      {
+        "size": "3488x4640",
+        "count": 18
+      },
+      {
+        "size": "1500x2000",
+        "count": 17
+      },
+      {
+        "size": "769x1024",
+        "count": 13
+      },
+      {
+        "size": "1200x1599",
+        "count": 12
+      },
+      {
+        "size": "1368x1824",
+        "count": 12
+      }
+    ],
+    "mode_distribution": {
+      "RGB": 6343,
+      "RGBA": 1
+    },
+    "corrupt_samples": [],
+    "multi_stem_path_groups": 1064,
+    "multi_stem_examples": [
+      {
+        "stem": "1000_1",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/1000_1.jpg",
+          "TongueDx2/release/origin/test/1000_1.jpg"
+        ],
+        "count": 2
+      },
+      {
+        "stem": "1000_2",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/1000_2.jpg",
+          "TongueDx2/release/origin/test/1000_2.jpg"
+        ],
+        "count": 2
+      },
+      {
+        "stem": "101_1",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/101_1.jpg",
+          "TongueDx2/release/origin/test/101_1.jpg"
+        ],
+        "count": 2
+      },
+      {
+        "stem": "102_1",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/102_1.jpg",
+          "TongueDx2/release/origin/test/102_1.jpg"
+        ],
+        "count": 2
+      },
+      {
+        "stem": "106_1",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/106_1.jpg",
+          "TongueDx2/release/origin/test/106_1.jpg"
+        ],
+        "count": 2
+      },
+      {
+        "stem": "109_1",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/109_1.jpg",
+          "TongueDx2/release/origin/test/109_1.jpg"
+        ],
+        "count": 2
+      },
+      {
+        "stem": "111_1",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/111_1.jpg",
+          "TongueDx2/release/origin/test/111_1.jpg"
+        ],
+        "count": 2
+      },
+      {
+        "stem": "112_1",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/112_1.jpg",
+          "TongueDx2/release/origin/test/112_1.jpg"
+        ],
+        "count": 2
+      },
+      {
+        "stem": "113_1",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/113_1.jpg",
+          "TongueDx2/release/origin/test/113_1.jpg"
+        ],
+        "count": 2
+      },
+      {
+        "stem": "115_1",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/115_1.jpg",
+          "TongueDx2/release/origin/test/115_1.jpg"
+        ],
+        "count": 2
+      }
+    ],
+    "duplicate_md5_examples": [
+      {
+        "md5": "7c54b7e4d830befe102bb391beb62a8a",
+        "count": 3,
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/15_1.jpg",
+          "TongueDx2/release/origin/0001_1000/77_1.jpg",
+          "TongueDx2/release/origin/test/15_1.jpg"
+        ]
+      },
+      {
+        "md5": "dc51e4096367a4d589ecef2a60a921a8",
+        "count": 3,
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/16_1.jpg",
+          "TongueDx2/release/origin/0001_1000/39_1.jpg",
+          "TongueDx2/release/origin/test/39_1.jpg"
+        ]
+      },
+      {
+        "md5": "d15ecfee16f57f5833465faabc0dcebf",
+        "count": 3,
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/268_1.jpg",
+          "TongueDx2/release/origin/0001_1000/37_1.jpg",
+          "TongueDx2/release/origin/test/268_1.jpg"
+        ]
+      },
+      {
+        "md5": "dd5194ce22b35bf65495ac46ef7a0508",
+        "count": 3,
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/451_1.jpg",
+          "TongueDx2/release/origin/0001_1000/675_1.jpg",
+          "TongueDx2/release/origin/test/675_1.jpg"
+        ]
+      },
+      {
+        "md5": "ac463ef7ee84114eff6eaacf9eaf82d0",
+        "count": 2,
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/1000_1.jpg",
+          "TongueDx2/release/origin/test/1000_1.jpg"
+        ]
+      },
+      {
+        "md5": "b01971928ee64da31dcf19a883769049",
+        "count": 2,
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/1000_2.jpg",
+          "TongueDx2/release/origin/test/1000_2.jpg"
+        ]
+      },
+      {
+        "md5": "2e139de52b44536ab9aa1f8d551002b4",
+        "count": 2,
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/101_1.jpg",
+          "TongueDx2/release/origin/test/101_1.jpg"
+        ]
+      },
+      {
+        "md5": "04d05d378d1c6033c1ba147cb35764eb",
+        "count": 2,
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/102_1.jpg",
+          "TongueDx2/release/origin/test/102_1.jpg"
+        ]
+      },
+      {
+        "md5": "32ce61940755fe6f254d194d13631077",
+        "count": 2,
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/106_1.jpg",
+          "TongueDx2/release/origin/test/106_1.jpg"
+        ]
+      },
+      {
+        "md5": "aa2fa6524091eaa11c8f78abde780afc",
+        "count": 2,
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/109_1.jpg",
+          "TongueDx2/release/origin/test/109_1.jpg"
+        ]
+      }
+    ]
+  },
+  "labels": {
+    "task": "multi_label_classification",
+    "csv_files": [
+      "TongueDx2/release/list/test.csv",
+      "TongueDx2/release/list/train_fold1.csv",
+      "TongueDx2/release/list/train_fold2.csv",
+      "TongueDx2/release/list/train_fold3.csv",
+      "TongueDx2/release/list/train_fold4.csv",
+      "TongueDx2/release/list/train_fold5.csv",
+      "TongueDx2/release/list/val_fold1.csv",
+      "TongueDx2/release/list/val_fold2.csv",
+      "TongueDx2/release/list/val_fold3.csv",
+      "TongueDx2/release/list/val_fold4.csv",
+      "TongueDx2/release/list/val_fold5.csv"
+    ],
+    "csv_rows_total_all_lists": 21965,
+    "unique_patient_ids": 4650,
+    "unique_image_paths_in_csv": 5109,
+    "csv_image_path_missing_on_disk_unique": 5109,
+    "label_value_distributions": {
+      "TonguePale": {
+        "1": 624,
+        "0": 4485
+      },
+      "TipSideRed": {
+        "0": 2866,
+        "1": 2243
+      },
+      "Spot": {
+        "0": 2678,
+        "1": 2431
+      },
+      "Ecchymosis": {
+        "0": 4638,
+        "1": 471
+      },
+      "Crack": {
+        "0": 835,
+        "1": 4274
+      },
+      "Toothmark": {
+        "0": 2125,
+        "1": 2984
+      },
+      "FurThick": {
+        "1": 4973,
+        "0": 136
+      },
+      "FurYellow": {
+        "0": 4276,
+        "1": 833
+      },
+      "Heart": {
+        "1": 2393,
+        "0": 2716
+      },
+      "Lung": {
+        "0": 2057,
+        "1": 3052
+      },
+      "Spleen": {
+        "1": 5077,
+        "0": 32
+      },
+      "Liver": {
+        "1": 3163,
+        "0": 1946
+      },
+      "Kidney": {
+        "0": 1662,
+        "1": 3447
+      }
+    },
+    "origin_images": 6344,
+    "seg_images": 6344,
+    "origin_seg_paired_relpaths": 6344,
+    "origin_seg_pair_rate": 1.0,
+    "basename_collisions": 1064,
+    "basename_collision_examples": [
+      {
+        "name": "1000_1.jpg",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/1000_1.jpg",
+          "TongueDx2/release/origin/test/1000_1.jpg"
+        ]
+      },
+      {
+        "name": "1000_2.jpg",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/1000_2.jpg",
+          "TongueDx2/release/origin/test/1000_2.jpg"
+        ]
+      },
+      {
+        "name": "101_1.jpg",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/101_1.jpg",
+          "TongueDx2/release/origin/test/101_1.jpg"
+        ]
+      },
+      {
+        "name": "102_1.jpg",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/102_1.jpg",
+          "TongueDx2/release/origin/test/102_1.jpg"
+        ]
+      },
+      {
+        "name": "106_1.jpg",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/106_1.jpg",
+          "TongueDx2/release/origin/test/106_1.jpg"
+        ]
+      },
+      {
+        "name": "109_1.jpg",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/109_1.jpg",
+          "TongueDx2/release/origin/test/109_1.jpg"
+        ]
+      },
+      {
+        "name": "111_1.jpg",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/111_1.jpg",
+          "TongueDx2/release/origin/test/111_1.jpg"
+        ]
+      },
+      {
+        "name": "112_1.jpg",
+        "paths": [
+          "TongueDx2/release/origin/0001_1000/112_1.jpg",
+          "TongueDx2/release/origin/test/112_1.jpg"
+        ]
+      }
+    ],
+    "patients_with_multi_view_filename": 617,
+    "patient_id_evidence": "csv id column + filename {id}_{view}.jpg",
+    "human_label_evidence": "structured binary phenotype columns in release/list CSV"
+  },
+  "tree": {
+    "depth": 3,
+    "folders": {
+      ".": 0,
+      "TongueDx2": 0,
+      "TongueDx2/release": 0,
+      "TongueDx2/release/list": 11,
+      "TongueDx2/release/origin": 0,
+      "TongueDx2/release/seg": 0
+    }
+  },
+  "license_probe": {
+    "license_files_found": [],
+    "readme_keyword_hits": []
+  },
+  "audited_at": "2026-08-07T06:03:42Z"
+}
