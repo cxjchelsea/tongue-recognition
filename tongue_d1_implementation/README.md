@@ -1,6 +1,7 @@
 # Tongue D1 Data Contract
 
-这是舌诊视觉表型模型 V1 的 D1 可运行实现。
+这是舌诊视觉表型模型 V1 的 D1 可运行实现。  
+当前契约小版本：**D1.1 / Contract v1.1**（显式负监督；见 `docs/D1_1_FREEZE_REPORT.md`）。
 
 ## 已实现
 

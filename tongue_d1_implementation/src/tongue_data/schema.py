@@ -31,7 +31,7 @@ class SampleRecord:
     source_split: Optional[str] = None
     duplicate_group_id: Optional[str] = None
     dataset_version: Optional[str] = None
-    ingest_version: str = "1.0"
+    ingest_version: str = "1.1"
     def to_dict(self): return asdict(self)
 
 @dataclass

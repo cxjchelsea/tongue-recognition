@@ -32,13 +32,21 @@ def validate_manifest(manifest_dir):
     if len(sp) and (~sp["sample_id"].astype(str).isin(ids)).any(): errors.append("spatial annotations reference missing sample")
 
     if len(l):
-        if (l["label_available"]!=True).any(): errors.append("persisted label row with label_available != true")
-        te_l2=l[(l["source_dataset"]=="tonguexpert") & l["source_field"].isin(
-            ["coating_label","tai_label","zhi_label","fissure_label","tooth_mk_label"]
+        if (l["label_available"] != True).any():
+            errors.append("persisted label row with label_available != true")
+        # D1.1：value∈{0,1}；0 表示 explicit negative，仍是有效监督
+        value_numeric = pd.to_numeric(l["value"], errors="coerce")
+        if value_numeric.isna().any() or (~value_numeric.isin([0, 1])).any():
+            errors.append("labels.value must be in {0, 1}")
+        te_l2 = l[(l["source_dataset"] == "tonguexpert") & l["source_field"].isin(
+            ["coating_label", "tai_label", "zhi_label", "fissure_label", "tooth_mk_label"]
         )]
         if len(te_l2):
-            if (te_l2["label_source"]=="human").any(): errors.append("TonguExpert L2 marked human")
-            if (te_l2["supervision_tier"]=="gold_candidate").any(): errors.append("TonguExpert L2 marked gold_candidate")
+            if (te_l2["label_source"] == "human").any():
+                errors.append("TonguExpert L2 marked human")
+            if (te_l2["supervision_tier"] == "gold_candidate").any():
+                errors.append("TonguExpert L2 marked gold_candidate")
+
 
     if len(sp):
         # 向量化校验 bbox，避免上万框时逐行极慢

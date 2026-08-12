@@ -1,7 +1,10 @@
 dataset: tonguedx
-version: "1.0"
+version: "1.1"
+# D1.1：partial attribute 用 positive_label + value∈{0,1} 表达显式负监督；
+# 不得把 not-pale / not-yellow 映射成 normal / white。
 defaults: {annotation_type: image_level, label_source: dataset_annotation, supervision_tier: silver}
 mappings:
+  # multiclass_partial：0 = explicit not-pale（不是 normal）
   TonguePale: {status: exact, canonical_task: tongue_body.color, positive_label: pale}
   TipSideRed: {status: exact, canonical_task: tongue_body.regional.tip_side_red, positive_label: true, negative_label: false, note: "not whole-tongue red"}
   Spot: {status: compatible, canonical_task: features.red_spot.present, positive_label: true, negative_label: false}
@@ -9,6 +12,7 @@ mappings:
   Crack: {status: exact, canonical_task: features.crack.present, positive_label: true, negative_label: false}
   Toothmark: {status: exact, canonical_task: features.tooth_mark.present, positive_label: true, negative_label: false}
   FurThick: {status: exact, canonical_task: coating.properties.thick, positive_label: true, negative_label: false}
+  # multiclass_partial：0 = explicit not-yellow（不是 white）
   FurYellow: {status: exact, canonical_task: coating.color, positive_label: yellow}
   Heart: {status: excluded, reason: "outside V1"}
   Lung: {status: excluded, reason: "outside V1"}

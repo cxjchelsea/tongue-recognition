@@ -1,0 +1,150 @@
+{
+  "contract_version": "1.1",
+  "ontology_version": "1.0",
+  "tonguedx_mapping_version": "1.1",
+  "manifest_version": "1.1",
+  "ingest_version": "1.1",
+  "git_commit": "f6d9e574fad8d99882548493cd245bf7af726b33",
+  "build_timestamp": "2026-08-12T07:17:12.597642+00:00",
+  "samples_total": 22473,
+  "labels_total": 91690,
+  "spatial_total": 24365,
+  "warnings_count": 0,
+  "dataset_statistics": {
+    "biohit": {
+      "samples": 300,
+      "labels": 0,
+      "spatial_annotations": 300,
+      "unique_md5": 300,
+      "patient_ids": 0
+    },
+    "tongueset3": {
+      "samples": 1000,
+      "labels": 0,
+      "spatial_annotations": 1000,
+      "unique_md5": 999,
+      "patient_ids": 0
+    },
+    "tmc_tongue": {
+      "samples": 6719,
+      "labels": 17073,
+      "spatial_annotations": 17073,
+      "unique_md5": 6575,
+      "patient_ids": 0
+    },
+    "tonguedx": {
+      "samples": 5109,
+      "labels": 40872,
+      "spatial_annotations": 0,
+      "unique_md5": 5092,
+      "patient_ids": 4650
+    },
+    "tonguexpert": {
+      "samples": 5992,
+      "labels": 30297,
+      "spatial_annotations": 5992,
+      "unique_md5": 5992,
+      "patient_ids": 0
+    },
+    "tooth_marked": {
+      "samples": 1250,
+      "labels": 1250,
+      "spatial_annotations": 0,
+      "unique_md5": 1250,
+      "patient_ids": 0
+    },
+    "dsct": {
+      "samples": 95,
+      "labels": 190,
+      "spatial_annotations": 0,
+      "unique_md5": 92,
+      "patient_ids": 0
+    },
+    "stained_coating": {
+      "samples": 2008,
+      "labels": 2008,
+      "spatial_annotations": 0,
+      "unique_md5": 1935,
+      "patient_ids": 0
+    }
+  },
+  "d1_v1_0_labels_total": 82929,
+  "d1_1_labels_total": 91690,
+  "labels_delta_vs_d1_v1_0": 8761,
+  "tonguedx_source_csv_counts": {
+    "TonguePale": {
+      "0": 4485,
+      "1": 624
+    },
+    "FurYellow": {
+      "0": 4276,
+      "1": 833
+    },
+    "Crack": {
+      "1": 4274,
+      "0": 835
+    },
+    "Toothmark": {
+      "1": 2984,
+      "0": 2125
+    },
+    "Spot": {
+      "0": 2678,
+      "1": 2431
+    },
+    "Ecchymosis": {
+      "0": 4638,
+      "1": 471
+    },
+    "FurThick": {
+      "1": 4973,
+      "0": 136
+    },
+    "TipSideRed": {
+      "0": 2866,
+      "1": 2243
+    }
+  },
+  "tonguedx_manifest_attr": {
+    "TonguePale": {
+      "positive": 624,
+      "explicit_negative": 4485,
+      "unavailable": 0
+    },
+    "FurYellow": {
+      "positive": 833,
+      "explicit_negative": 4276,
+      "unavailable": 0
+    }
+  },
+  "tonguedx_manifest_binary": {
+    "Crack": {
+      "positive": 4274,
+      "explicit_negative": 835
+    },
+    "Toothmark": {
+      "positive": 2984,
+      "explicit_negative": 2125
+    },
+    "Spot": {
+      "positive": 2431,
+      "explicit_negative": 2678
+    },
+    "Ecchymosis": {
+      "positive": 471,
+      "explicit_negative": 4638
+    },
+    "FurThick": {
+      "positive": 4973,
+      "explicit_negative": 136
+    },
+    "TipSideRed": {
+      "positive": 2243,
+      "explicit_negative": 2866
+    }
+  },
+  "guards": {
+    "FurYellow_mapped_to_white": 0,
+    "TonguePale_mapped_to_normal": 0
+  }
+}

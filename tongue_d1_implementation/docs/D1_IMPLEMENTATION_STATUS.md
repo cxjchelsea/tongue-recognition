@@ -24,20 +24,24 @@
 - [x] `validate-contract --strict` 通过
 - [x] `validate-manifest` 通过
 - [x] Freeze D1 Contract v1.0（门槛已全部满足）
+- [x] **D1.1** Explicit Negative Supervision Patch（Contract/Manifest v1.1）
+  - TonguePale/FurYellow 的源值 0 以 `value=0` 保留
+  - binary 映射语义不变；NA 仍不落盘
+  - 详见 `docs/D1_1_FREEZE_REPORT.md`
 
-## 最近一次真实 build 摘要
+## 最近一次真实 build 摘要（D1.1）
 
 | dataset | samples | labels | spatial |
 |---|---:|---:|---:|
 | biohit | 300 | 0 | 300 |
 | tongueset3 | 1000 | 0 | 1000 |
 | tmc_tongue | 6719 | 17073 | 17073 |
-| tonguedx | 5109 | 32111 | 0 |
+| tonguedx | 5109 | 40872 | 0 |
 | tonguexpert | 5992 | 30297 | 5992 |
 | tooth_marked | 1250 | 1250 | 0 |
 | dsct | 95 | 190 | 0 |
 | stained_coating | 2008 | 2008 | 0 |
-| **合计** | **22473** | **82929** | **24365** |
+| **合计** | **22473** | **91690** | **24365** |
 
 产物目录：`data/manifests/v1/`
 
