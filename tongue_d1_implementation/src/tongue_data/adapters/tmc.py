@@ -58,8 +58,11 @@ class TMCYoloAdapter(DatasetAdapter):
                 if item is None:
                     warnings.append(f"{self.name}: unmapped class {source_label}")
                     continue
-                if item["status"] in {"excluded","needs_review"}:
-                    warnings.append(f"{self.name}: {source_label} -> {item['status']}")
+                # excluded 为预期（如滑苔/脏腑分区），不逐框刷 warning
+                if item["status"] == "excluded":
+                    continue
+                if item["status"] == "needs_review":
+                    warnings.append(f"{self.name}: {source_label} -> needs_review")
                     continue
                 x1=max(0,(xc-bw/2)*wid); y1=max(0,(yc-bh/2)*hei)
                 x2=min(wid,(xc+bw/2)*wid); y2=min(hei,(yc+bh/2)*hei)

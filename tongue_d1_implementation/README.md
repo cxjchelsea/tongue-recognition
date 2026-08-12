@@ -37,19 +37,13 @@ tongue-data validate-contract --strict
 
 ## 配置真实数据
 
-复制：
-
-```text
-configs/datasets_v1.example.yaml
-```
-
-为：
+本仓库已提供本机配置：
 
 ```text
 configs/datasets_v1.local.yaml
 ```
 
-只修改本机路径及实际文件名。
+（由 `configs/datasets_v1.example.yaml` 按实际目录生成；TongueDx 使用 fold1 train/val + test。）
 
 ## 构建统一 Manifest
 

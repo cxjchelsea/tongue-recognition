@@ -61,6 +61,9 @@ class ManifestBuilder:
         sdf = pd.DataFrame(all_s,columns=SAMPLE_COLUMNS)
         ldf = pd.DataFrame(all_l,columns=LABEL_COLUMNS)
         spdf = pd.DataFrame(all_sp,columns=SPATIAL_COLUMNS)
+        # parquet 要求同列类型一致；canonical_label 可能混有 bool/str
+        ldf = self._normalize_object_columns(ldf, ["canonical_label", "source_label"])
+        spdf = self._normalize_object_columns(spdf, ["canonical_label", "source_label"])
         sdf.to_parquet(out/"samples.parquet",index=False)
         ldf.to_parquet(out/"labels.parquet",index=False)
         spdf.to_parquet(out/"spatial_annotations.parquet",index=False)
@@ -77,3 +80,26 @@ class ManifestBuilder:
         }
         (out/"build_metadata.json").write_text(json.dumps(meta,ensure_ascii=False,indent=2),encoding="utf-8")
         return sdf,ldf,spdf,meta
+
+    @staticmethod
+    def _normalize_object_columns(frame, columns):
+        """将混型 object 列规范为可写入 parquet 的字符串。"""
+        out = frame.copy()
+        for column_name in columns:
+            if column_name not in out.columns:
+                continue
+            out[column_name] = out[column_name].map(ManifestBuilder._to_parquet_scalar)
+        return out
+
+    @staticmethod
+    def _to_parquet_scalar(value):
+        if value is None:
+            return None
+        try:
+            if pd.isna(value):
+                return None
+        except Exception:
+            pass
+        if isinstance(value, bool):
+            return "true" if value else "false"
+        return str(value)

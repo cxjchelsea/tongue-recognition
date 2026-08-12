@@ -41,13 +41,33 @@ def validate_manifest(manifest_dir):
             if (te_l2["supervision_tier"]=="gold_candidate").any(): errors.append("TonguExpert L2 marked gold_candidate")
 
     if len(sp):
-        dims=s.set_index("sample_id")[["width","height"]]
-        for _,r in sp[sp["annotation_type"]=="bbox"].iterrows():
-            if r["sample_id"] not in dims.index: continue
-            wid,hei=dims.loc[r["sample_id"]]
-            if not (0<=r["x_min"]<r["x_max"]<=wid): errors.append(f"bad bbox x: {r['annotation_id']}")
-            if not (0<=r["y_min"]<r["y_max"]<=hei): errors.append(f"bad bbox y: {r['annotation_id']}")
-        for _,r in sp[sp["annotation_type"]=="mask"].iterrows():
-            if r["mask_path"] and not Path(r["mask_path"]).exists():
-                errors.append(f"mask missing: {r['mask_path']}")
-    return errors,warnings
+        # 向量化校验 bbox，避免上万框时逐行极慢
+        bbox = sp[sp["annotation_type"] == "bbox"].copy()
+        if len(bbox):
+            dims = s.set_index("sample_id")[["width", "height"]]
+            joined = bbox.join(dims, on="sample_id", how="left")
+            bad_x = joined[
+                joined["width"].notna()
+                & ~(
+                    (joined["x_min"] >= 0)
+                    & (joined["x_min"] < joined["x_max"])
+                    & (joined["x_max"] <= joined["width"])
+                )
+            ]
+            bad_y = joined[
+                joined["height"].notna()
+                & ~(
+                    (joined["y_min"] >= 0)
+                    & (joined["y_min"] < joined["y_max"])
+                    & (joined["y_max"] <= joined["height"])
+                )
+            ]
+            for annotation_id in bad_x["annotation_id"].head(20):
+                errors.append(f"bad bbox x: {annotation_id}")
+            for annotation_id in bad_y["annotation_id"].head(20):
+                errors.append(f"bad bbox y: {annotation_id}")
+        masks = sp[sp["annotation_type"] == "mask"]
+        for mask_path in masks["mask_path"].dropna().unique():
+            if not Path(str(mask_path)).exists():
+                errors.append(f"mask missing: {mask_path}")
+    return errors, warnings

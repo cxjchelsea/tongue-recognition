@@ -14,7 +14,8 @@ mappings:
   baitaishe: {status: exact, canonical_task: coating.color, canonical_label: white}
   huangtaishe: {status: exact, canonical_task: coating.color, canonical_label: yellow}
   heitaishe: {status: exact, canonical_task: coating.color, canonical_label: black}
-  huataishe: {status: needs_review, reason: "verify source definition before mapping"}
+  # 滑苔舌：V1 ontology 无滑苔任务；不可等同 greasy（腻苔）
+  huataishe: {status: excluded, reason: "slippery coating (滑苔) is outside V1 phenotype scope; not equivalent to greasy (腻苔)"}
   shenquao: {status: excluded, reason: "outside V1 visual phenotype scope"}
   shenqutu: {status: excluded, reason: "outside V1 visual phenotype scope"}
   gandanao: {status: excluded, reason: "outside V1 visual phenotype scope"}

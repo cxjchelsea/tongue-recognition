@@ -12,18 +12,34 @@
 - [x] CLI
 - [x] 自动测试
 
-## 真实数据收尾仍需执行
+## 真实数据收尾
 
-- [ ] 将 example config 改成实际路径
-- [ ] 在 8 个真实数据目录跑一次 build
-- [ ] 修正实际目录/列名与 Adapter 假设的差异
-- [ ] 根据 DSCT 原始说明确认 0/1 语义
-- [ ] 确认 TonguExpert `dark` 是否需要独立 canonical 语义
-- [ ] 确认 TMC `huataishe` 是否以及如何进入 V1
-- [ ] 清理全部 unexpected/unmapped warning
-- [ ] `validate-contract --strict` 通过
-- [ ] `validate-manifest` 通过
-- [ ] Freeze D1 Contract v1.0
+- [x] 将 example config 改成实际路径（`configs/datasets_v1.local.yaml`）
+- [x] 在 8 个真实数据目录跑一次 build
+- [x] 修正实际目录/列名与 Adapter 假设的差异（TongueDx 多 CSV、TMC 限定 shezhenv3-txt、BioHit/Tooth/Stained 嵌套路径）
+- [x] 根据 DSCT 原始说明确认 0/1 语义（0=slight/mild，1=serious/severe；均衍生 crack.present）
+- [x] 确认 TonguExpert `dark` 独立映射为 `tongue_body.color.dark`（不等于 purple）
+- [x] 确认 TMC `huataishe`（滑苔）V1 `excluded`（不可等同腻苔）
+- [x] 清理全部 unexpected/unmapped warning（build warnings_count=0）
+- [x] `validate-contract --strict` 通过
+- [x] `validate-manifest` 通过
+- [x] Freeze D1 Contract v1.0（门槛已全部满足）
+
+## 最近一次真实 build 摘要
+
+| dataset | samples | labels | spatial |
+|---|---:|---:|---:|
+| biohit | 300 | 0 | 300 |
+| tongueset3 | 1000 | 0 | 1000 |
+| tmc_tongue | 6719 | 17073 | 17073 |
+| tonguedx | 5109 | 32111 | 0 |
+| tonguexpert | 5992 | 30297 | 5992 |
+| tooth_marked | 1250 | 1250 | 0 |
+| dsct | 95 | 190 | 0 |
+| stained_coating | 2008 | 2008 | 0 |
+| **合计** | **22473** | **82929** | **24365** |
+
+产物目录：`data/manifests/v1/`
 
 ## Freeze 门槛
 

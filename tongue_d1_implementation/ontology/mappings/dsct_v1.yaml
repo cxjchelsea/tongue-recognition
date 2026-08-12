@@ -1,6 +1,19 @@
 dataset: dsct
 version: "1.0"
 defaults: {annotation_type: image_level, label_source: expert_dataset_annotation, supervision_tier: silver}
+# 原始说明 logistic.txt：0=slight（轻），1=serious（重）；两类均为有裂纹，不是有/无二分类
 mappings:
-  "0": {status: needs_review, reason: "audit material is internally inconsistent on 0/1 semantics; verify original DSCT source"}
-  "1": {status: needs_review, reason: "audit material is internally inconsistent on 0/1 semantics; verify original DSCT source"}
+  "0":
+    status: exact
+    canonical_task: features.crack.severity
+    canonical_label: mild
+    reason: "source logistic.txt: 0=slight; both classes are cracked tongues"
+    derive:
+      - {canonical_task: features.crack.present, canonical_label: true}
+  "1":
+    status: exact
+    canonical_task: features.crack.severity
+    canonical_label: severe
+    reason: "source logistic.txt: 1=serious; both classes are cracked tongues"
+    derive:
+      - {canonical_task: features.crack.present, canonical_label: true}

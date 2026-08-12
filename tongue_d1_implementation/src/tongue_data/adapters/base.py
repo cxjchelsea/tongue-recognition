@@ -27,8 +27,11 @@ class DatasetAdapter(ABC):
         item = resolve_mapping_entry(self.mapping_doc, source_key, source_group)
         if item is None:
             return [], [f"{self.name}: unmapped source label: {source_key}"]
-        if item["status"] in {"excluded","needs_review"}:
-            return [], [f"{self.name}: {source_key} -> {item['status']}"]
+        # excluded 为预期行为，不刷 warning；needs_review 才需要人工处理
+        if item["status"] == "excluded":
+            return [], []
+        if item["status"] == "needs_review":
+            return [], [f"{self.name}: {source_key} -> needs_review"]
         task = item.get("canonical_task")
         label = item.get("canonical_label")
         if "positive_label" in item:

@@ -9,7 +9,8 @@ mappings:
   L1.labels_tai.yellow: {status: exact, canonical_task: coating.color, canonical_label: yellow}
   L1.labels_zhi.light: {status: compatible, canonical_task: tongue_body.color, canonical_label: pale}
   L1.labels_zhi.regular: {status: compatible, canonical_task: tongue_body.color, canonical_label: normal}
-  L1.labels_zhi.dark: {status: needs_review, reason: "dark must not be silently equated with purple"}
+  # dark=暗舌色，保留独立 canonical；禁止等同 purple（紫舌来自 TMC zishe）
+  L1.labels_zhi.dark: {status: exact, canonical_task: tongue_body.color, canonical_label: dark, reason: "source dark means dusky/dark tongue body color, not purple"}
   L1.labels_fissure.light:
     status: exact
     canonical_task: features.crack.severity
@@ -38,7 +39,8 @@ mappings:
   L2.tai_label.yellow: {status: exact, canonical_task: coating.color, canonical_label: yellow}
   L2.zhi_label.light: {status: compatible, canonical_task: tongue_body.color, canonical_label: pale}
   L2.zhi_label.regular: {status: compatible, canonical_task: tongue_body.color, canonical_label: normal}
-  L2.zhi_label.dark: {status: needs_review, reason: "dark must not be silently equated with purple"}
+  # dark=暗舌色，保留独立 canonical；禁止等同 purple
+  L2.zhi_label.dark: {status: exact, canonical_task: tongue_body.color, canonical_label: dark, reason: "source dark means dusky/dark tongue body color, not purple"}
   L2.fissure_label.None: {status: exact, canonical_task: features.crack.present, canonical_label: false}
   L2.fissure_label.light:
     status: exact
