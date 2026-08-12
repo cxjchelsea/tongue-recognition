@@ -1,6 +1,8 @@
 # 本机路径配置与构建产物
 configs/datasets_v1.local.yaml
 data/manifests/
+data/processed/
+reports/d2/
 *.egg-info/
 __pycache__/
 .pytest_cache/

@@ -1,7 +1,8 @@
 # Tongue D1 Data Contract
 
 这是舌诊视觉表型模型 V1 的 D1 可运行实现。  
-当前契约小版本：**D1.1 / Contract v1.1**（显式负监督；见 `docs/D1_1_FREEZE_REPORT.md`）。
+当前契约小版本：**D1.1 / Contract v1.1**（显式负监督；见 `docs/D1_1_FREEZE_REPORT.md`）。  
+清洗阶段：**D2-A**（去重 / 监督池；见 `docs/D2_A_FREEZE_REPORT.md`）。尚未做 train/val/test split。
 
 ## 已实现
 
@@ -67,6 +68,20 @@ build_metadata.json
 
 ```bash
 tongue-data validate-manifest --manifest-dir data/manifests/v1
+```
+
+## D2-A 清洗（不改 raw，不生成最终 split）
+
+```bash
+tongue-data clean \
+  --manifest-dir data/manifests/v1 \
+  --policy configs/cleaning_policy_v1.yaml \
+  --output data/processed/v1 \
+  --report-dir reports/d2
+
+tongue-data validate-clean \
+  --processed-dir data/processed/v1 \
+  --policy configs/cleaning_policy_v1.yaml
 ```
 
 ## 测试

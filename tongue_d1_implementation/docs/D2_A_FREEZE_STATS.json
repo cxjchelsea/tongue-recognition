@@ -1,0 +1,126 @@
+{
+  "stage": "D2-A",
+  "input_contract_version": "1.1",
+  "cleaning_policy_version": "1.0",
+  "git_commit": "66fe8f720544c310262be2b77080c1e03be1f04c",
+  "build_timestamp": "2026-08-12T07:58:25.488800+00:00",
+  "samples_before": 22473,
+  "samples_after": 22235,
+  "duplicate_aliases": 238,
+  "duplicate_groups": 22235,
+  "duplicate_multi_member_groups": 222,
+  "labels_before": 91690,
+  "labels_after": 87736,
+  "spatial_before": 24365,
+  "spatial_after": 24363,
+  "label_conflicts": 15,
+  "spatial_conflicts": 1605,
+  "cross_dataset_duplicates": 0,
+  "per_dataset": {
+    "biohit": {
+      "samples_before": 300,
+      "unique_md5": 300,
+      "duplicate_files": 0,
+      "canonical_samples": 300,
+      "aliases": 0,
+      "labels_before": 0,
+      "labels_after_merge": 0,
+      "spatial_before": 300,
+      "spatial_after_merge": 300
+    },
+    "dsct": {
+      "samples_before": 95,
+      "unique_md5": 92,
+      "duplicate_files": 3,
+      "canonical_samples": 92,
+      "aliases": 3,
+      "labels_before": 190,
+      "labels_after_merge": 184,
+      "spatial_before": 0,
+      "spatial_after_merge": 0
+    },
+    "stained_coating": {
+      "samples_before": 2008,
+      "unique_md5": 1935,
+      "duplicate_files": 73,
+      "canonical_samples": 1935,
+      "aliases": 73,
+      "labels_before": 2008,
+      "labels_after_merge": 1935,
+      "spatial_before": 0,
+      "spatial_after_merge": 0
+    },
+    "tmc_tongue": {
+      "samples_before": 6719,
+      "unique_md5": 6575,
+      "duplicate_files": 144,
+      "canonical_samples": 6575,
+      "aliases": 144,
+      "labels_before": 17073,
+      "labels_after_merge": 13349,
+      "spatial_before": 17073,
+      "spatial_after_merge": 17071
+    },
+    "tonguedx": {
+      "samples_before": 5109,
+      "unique_md5": 5092,
+      "duplicate_files": 17,
+      "canonical_samples": 5092,
+      "aliases": 17,
+      "labels_before": 40872,
+      "labels_after_merge": 40721,
+      "spatial_before": 0,
+      "spatial_after_merge": 0
+    },
+    "tongueset3": {
+      "samples_before": 1000,
+      "unique_md5": 999,
+      "duplicate_files": 1,
+      "canonical_samples": 999,
+      "aliases": 1,
+      "labels_before": 0,
+      "labels_after_merge": 0,
+      "spatial_before": 1000,
+      "spatial_after_merge": 1000
+    },
+    "tonguexpert": {
+      "samples_before": 5992,
+      "unique_md5": 5992,
+      "duplicate_files": 0,
+      "canonical_samples": 5992,
+      "aliases": 0,
+      "labels_before": 30297,
+      "labels_after_merge": 30297,
+      "spatial_before": 5992,
+      "spatial_after_merge": 5992
+    },
+    "tooth_marked": {
+      "samples_before": 1250,
+      "unique_md5": 1250,
+      "duplicate_files": 0,
+      "canonical_samples": 1250,
+      "aliases": 0,
+      "labels_before": 1250,
+      "labels_after_merge": 1250,
+      "spatial_before": 0,
+      "spatial_after_merge": 0
+    }
+  },
+  "supervision_pool_counts": {
+    "silver": 71160,
+    "pseudo": 27124,
+    "auxiliary": 9177,
+    "gold_candidate": 4473,
+    "external_holdout": 184
+  },
+  "DSCT_external_holdout_count": 184,
+  "TonguExpert_L2_pseudo_count": 27124,
+  "validators": {
+    "validate_clean": "PASS",
+    "pytest": "25 passed"
+  },
+  "conflict_type_counts": {
+    "binary_true_false": 11,
+    "value_mismatch": 4
+  }
+}

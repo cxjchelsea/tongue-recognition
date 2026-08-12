@@ -1,0 +1,106 @@
+version: "1.0"
+name: cleaning_policy_v1
+
+global:
+  raw_mutation_allowed: false
+  duplicate_key: [md5]
+  # 组内按稳定字典序选 canonical；singleton 也生成 group id
+  duplicate_group_id_format: "dup::{dataset}::{md5}"
+  singleton_groups: true
+  duplicate_strategy: canonical_keep_one
+  # 跨数据集同 MD5：严格失败，不自动决定
+  cross_dataset_duplicate_policy: fail
+  conflict_policy: exclude_from_train_eligible
+  canonical_tie_breakers:
+    - source_image_path
+    - source_sample_id
+    - sample_id
+
+datasets:
+  biohit:
+    role: segmentation
+    supervision_pool: gold_candidate
+    training_role: segmentation
+    duplicate_policy: keep_one
+    eligible_for_train: true
+    eligible_for_val: true
+    eligible_for_test: true
+
+  tongueset3:
+    role: segmentation
+    supervision_pool: gold_candidate
+    training_role: segmentation
+    duplicate_policy: keep_one
+    eligible_for_train: true
+    eligible_for_val: true
+    eligible_for_test: true
+
+  tmc_tongue:
+    role: phenotype_spatial
+    supervision_pool: silver
+    training_role: phenotype_spatial
+    duplicate_policy: merge_annotations_if_compatible
+    eligible_for_train: true
+    eligible_for_val: true
+    eligible_for_test: true
+    # absence of bbox 不得推导 negative（由 D1 契约保证，此处再声明）
+    infer_negative_from_missing_bbox: false
+
+  tonguedx:
+    role: phenotype_multilabel
+    supervision_pool: silver
+    training_role: phenotype_multilabel
+    duplicate_policy: merge_labels_if_compatible
+    eligible_for_train: true
+    eligible_for_val: true
+    eligible_for_test: true
+    # split 留到 D2-B/C；此处仅保留 patient_id
+    require_patient_level_split_later: true
+
+  tonguexpert:
+    role: phenotype_multilabel
+    # sample 级默认；L1/L2 在 label 级覆盖
+    supervision_pool: silver
+    training_role: phenotype_multilabel
+    duplicate_policy: keep_one
+    eligible_for_train: true
+    eligible_for_val: true
+    eligible_for_test: true
+    label_source_overrides:
+      human:
+        supervision_pool: gold_candidate
+      model_prediction:
+        supervision_pool: pseudo
+        eligible_for_train: true
+        eligible_for_val: false
+        eligible_for_test: false
+
+  tooth_marked:
+    role: auxiliary
+    supervision_pool: auxiliary
+    training_role: tooth_mark_aux
+    duplicate_policy: keep_one
+    eligible_for_train: true
+    eligible_for_val: true
+    eligible_for_test: true
+
+  dsct:
+    role: crack_severity_external_eval
+    supervision_pool: external_holdout
+    training_role: external_holdout
+    duplicate_policy: keep_one
+    eligible_for_train: false
+    eligible_for_val: false
+    eligible_for_test: true
+
+  stained_coating:
+    role: quality_stain
+    supervision_pool: auxiliary
+    training_role: quality_stain
+    duplicate_policy: keep_one
+    eligible_for_train: true
+    eligible_for_val: true
+    eligible_for_test: true
+    # 禁止进入病理苔色监督
+    allowed_canonical_tasks:
+      - quality.stain_suspected
