@@ -1,9 +1,21 @@
-"""D2-A clean 产物校验。"""
+"""D2-A / D2-A.1 clean 产物校验。"""
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pandas as pd
+
+from .policy import ALLOWED_CONFLICT_POLICIES, CleaningPolicy
+
+
+def _norm_label(value) -> str:
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    text = str(value).strip().lower()
+    if text in {"true", "false"}:
+        return text
+    return str(value)
 
 
 def validate_clean(processed_dir: str | Path, policy_path: str | Path | None = None):
@@ -31,7 +43,6 @@ def validate_clean(processed_dir: str | Path, policy_path: str | Path | None = N
     if samples["sample_id"].duplicated().any():
         errors.append("samples_clean: duplicate sample_id")
 
-    # 每个 duplicate group 恰好一个 canonical keep
     for group_id, group in decisions.groupby("duplicate_group_id"):
         keep_n = int(group["keep"].sum())
         if keep_n != 1:
@@ -40,7 +51,6 @@ def validate_clean(processed_dir: str | Path, policy_path: str | Path | None = N
         if len(canonical_ids) != 1:
             errors.append(f"group {group_id} has multiple canonical ids")
 
-    # alias 指向存在的 canonical
     clean_ids = set(samples["sample_id"].astype(str))
     for _, row in decisions.iterrows():
         canon = str(row["canonical_sample_id"])
@@ -59,7 +69,50 @@ def validate_clean(processed_dir: str | Path, policy_path: str | Path | None = N
     if len(spatial) and (~spatial["sample_id"].astype(str).isin(clean_ids)).any():
         errors.append("spatial_clean reference missing sample")
 
-    # TonguExpert L2 仅 pseudo
+    # 冲突 fact 不得进入 clean / train-eligible
+    conflict_path = root / "label_conflicts.json"
+    if conflict_path.exists() and len(labels):
+        label_conflicts = json.loads(conflict_path.read_text(encoding="utf-8"))
+        for conflict in label_conflicts:
+            sample_id = str(conflict.get("canonical_sample_id"))
+            task = str(conflict.get("canonical_task"))
+            label_key = str(conflict.get("canonical_label"))
+            if label_key == "true|false":
+                keys = {"true", "false"}
+            else:
+                keys = {label_key}
+            subset = labels[
+                (labels["sample_id"].astype(str) == sample_id)
+                & (labels["canonical_task"].astype(str) == task)
+                & (labels["canonical_label"].map(_norm_label).isin(keys))
+            ]
+            if len(subset):
+                errors.append(
+                    f"conflicted fact still in labels_clean: {sample_id} {task} {label_key}"
+                )
+                break
+            if len(assignments):
+                bad_assign = assignments[
+                    (assignments["sample_id"].astype(str) == sample_id)
+                    & (assignments["canonical_task"].astype(str) == task)
+                    & (assignments["canonical_label"].map(_norm_label).isin(keys))
+                    & (assignments["eligible_for_train"].astype(bool))
+                ]
+                if len(bad_assign):
+                    errors.append(
+                        f"conflicted fact still train-eligible: {sample_id} {task}"
+                    )
+                    break
+
+    # identical bbox dedup：同 sample+task+label+geometry 最多一条
+    if len(spatial):
+        geom_cols = ["sample_id", "annotation_task", "canonical_label", "annotation_type",
+                     "x_min", "y_min", "x_max", "y_max", "mask_path"]
+        present = [c for c in geom_cols if c in spatial.columns]
+        dup_geom = spatial.duplicated(subset=present, keep=False)
+        if dup_geom.any():
+            errors.append("identical spatial geometries not fully deduplicated")
+
     if len(assignments):
         l2 = assignments[
             (assignments["dataset"] == "tonguexpert")
@@ -67,8 +120,6 @@ def validate_clean(processed_dir: str | Path, policy_path: str | Path | None = N
         ]
         if len(l2) and (l2["supervision_pool"] != "pseudo").any():
             errors.append("TonguExpert L2 not exclusively pseudo")
-        if len(l2) and (l2["supervision_pool"] == "gold_candidate").any():
-            errors.append("TonguExpert L2 marked gold_candidate")
 
         dsct = assignments[assignments["dataset"] == "dsct"]
         if len(dsct):
@@ -85,7 +136,6 @@ def validate_clean(processed_dir: str | Path, policy_path: str | Path | None = N
             if len(bad):
                 errors.append("Stained assigned coating.color supervision")
 
-    # stained labels 不得出现病理苔色
     if len(labels):
         stained_labels = labels[labels["source_dataset"] == "stained_coating"]
         if len(stained_labels):
@@ -95,7 +145,6 @@ def validate_clean(processed_dir: str | Path, policy_path: str | Path | None = N
             if len(bad_tasks):
                 errors.append("Stained labels contain coating.color")
 
-    # cross-dataset duplicate among clean samples
     if len(samples):
         for md5_value, group in samples.groupby("md5"):
             datasets = set(group["dataset"].astype(str))
@@ -103,7 +152,6 @@ def validate_clean(processed_dir: str | Path, policy_path: str | Path | None = N
                 errors.append(f"cross-dataset duplicate md5 in clean samples: {md5_value}")
                 break
 
-    # TMC 不得从缺失 bbox 推 negative
     if len(labels) and "annotation_type" in labels.columns:
         tmc_neg = labels[
             (labels["source_dataset"] == "tmc_tongue")
@@ -114,11 +162,14 @@ def validate_clean(processed_dir: str | Path, policy_path: str | Path | None = N
             errors.append("TMC contains negative labels derived from missing bbox")
 
     if policy_path is not None:
-        # raw_mutation_allowed 必须为 false（配置层）
-        from .policy import CleaningPolicy
-
-        policy = CleaningPolicy(policy_path)
+        try:
+            policy = CleaningPolicy(policy_path)
+        except ValueError as exc:
+            errors.append(str(exc))
+            return errors, warnings
         if policy.global_cfg.get("raw_mutation_allowed", False):
             errors.append("policy allows raw mutation")
+        if policy.conflict_policy() not in ALLOWED_CONFLICT_POLICIES:
+            errors.append(f"illegal conflict_policy={policy.conflict_policy()}")
 
     return errors, warnings

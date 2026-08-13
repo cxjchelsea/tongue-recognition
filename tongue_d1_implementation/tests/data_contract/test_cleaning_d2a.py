@@ -285,3 +285,149 @@ def test_builder_end_to_end_and_raw_untouched(tmp_path):
     assert meta["samples_after"] == 2
     errors, warnings = validate_clean(processed, "configs/cleaning_policy_v1.yaml")
     assert errors == []
+
+
+def _bbox(sample_id, dataset, task, label, x_min, y_min, x_max, y_max, annotation_id=None):
+    return {
+        "sample_id": sample_id,
+        "annotation_id": annotation_id or f"{sample_id}::{x_min}",
+        "annotation_task": task,
+        "canonical_label": _as_text(label),
+        "annotation_type": "bbox",
+        "x_min": x_min,
+        "y_min": y_min,
+        "x_max": x_max,
+        "y_max": y_max,
+        "mask_path": None,
+        "source_dataset": dataset,
+        "source_label": _as_text(label),
+        "label_source": "dataset_annotation",
+        "supervision_tier": "silver",
+        "mapping_status": "exact",
+        "mapping_version": "1.0",
+        "note": None,
+    }
+
+
+def test_legitimate_multi_instance_bboxes_not_conflict():
+    samples = pd.DataFrame([_sample("tmc::a", "tmc_tongue", "m", "a.jpg")])
+    decisions = select_canonical_samples(build_duplicate_groups(samples, POLICY), POLICY)
+    spatial = pd.DataFrame(
+        [
+            _bbox("tmc::a", "tmc_tongue", "features.red_spot.present", True, 0, 0, 10, 10),
+            _bbox("tmc::a", "tmc_tongue", "features.red_spot.present", True, 20, 20, 30, 30),
+        ]
+    )
+    clean, meta, stats = reconcile_spatial(spatial, decisions, POLICY)
+    assert len(clean) == 2
+    assert stats["multi_instance_groups"] == 1
+    assert stats["multi_instance_annotations"] == 2
+    assert stats["review_groups"] == 0
+    assert meta["review_groups"] == []
+    assert len(meta["multi_instance_groups"]) == 1
+
+
+def test_duplicate_origins_keep_multi_instance_bboxes():
+    samples = pd.DataFrame(
+        [
+            _sample("tmc::a", "tmc_tongue", "m", "a.jpg"),
+            _sample("tmc::b", "tmc_tongue", "m", "b.jpg"),
+        ]
+    )
+    decisions = select_canonical_samples(build_duplicate_groups(samples, POLICY), POLICY)
+    spatial = pd.DataFrame(
+        [
+            _bbox("tmc::a", "tmc_tongue", "features.red_spot.present", True, 0, 0, 10, 10),
+            _bbox("tmc::b", "tmc_tongue", "features.red_spot.present", True, 20, 20, 30, 30),
+        ]
+    )
+    clean, meta, stats = reconcile_spatial(spatial, decisions, POLICY)
+    assert len(clean) == 2
+    assert clean["sample_id"].nunique() == 1
+    assert stats["multi_instance_groups"] == 1
+    origins = set()
+    for value in clean["origin_sample_id"].astype(str):
+        origins.update(value.split("|"))
+    assert origins == {"tmc::a", "tmc::b"}
+
+
+def test_identical_bbox_dedup_with_provenance():
+    samples = pd.DataFrame(
+        [
+            _sample("tmc::a", "tmc_tongue", "m", "a.jpg"),
+            _sample("tmc::b", "tmc_tongue", "m", "b.jpg"),
+        ]
+    )
+    decisions = select_canonical_samples(build_duplicate_groups(samples, POLICY), POLICY)
+    spatial = pd.DataFrame(
+        [
+            _bbox("tmc::a", "tmc_tongue", "features.red_spot.present", True, 1, 2, 3, 4),
+            _bbox("tmc::b", "tmc_tongue", "features.red_spot.present", True, 1, 2, 3, 4),
+        ]
+    )
+    clean, meta, stats = reconcile_spatial(spatial, decisions, POLICY)
+    assert len(clean) == 1
+    assert stats["identical_deduped"] == 1
+    assert stats["multi_instance_groups"] == 0
+    assert set(str(clean.iloc[0]["origin_sample_id"]).split("|")) == {"tmc::a", "tmc::b"}
+
+
+def test_label_conflict_drops_only_conflicted_fact():
+    samples = pd.DataFrame(
+        [
+            _sample("dx::a", "tonguedx", "m", "a.jpg"),
+            _sample("dx::b", "tonguedx", "m", "b.jpg"),
+        ]
+    )
+    decisions = select_canonical_samples(build_duplicate_groups(samples, POLICY), POLICY)
+    labels = pd.DataFrame(
+        [
+            _label("dx::a", "tonguedx", "tongue_body.color", "pale", 1, "TonguePale"),
+            _label("dx::a", "tonguedx", "features.crack.present", True, 1, "Crack"),
+            _label("dx::b", "tonguedx", "tongue_body.color", "pale", 0, "TonguePale"),
+            _label("dx::b", "tonguedx", "features.tooth_mark.present", True, 1, "Toothmark"),
+        ]
+    )
+    clean, conflicts, _ = reconcile_labels(labels, decisions, POLICY)
+    assert len(conflicts) == 1
+    assert not (clean["canonical_label"].astype(str) == "pale").any()
+    tasks = set(clean["canonical_task"].astype(str))
+    assert "features.crack.present" in tasks
+    assert "features.tooth_mark.present" in tasks
+
+
+def test_unknown_conflict_policy_fail_fast(tmp_path):
+    bad = Path("configs/cleaning_policy_v1.yaml").read_text(encoding="utf-8")
+    bad = bad.replace(
+        "conflict_policy: drop_conflicted_facts_from_clean",
+        "conflict_policy: some_unknown_policy",
+    )
+    path = tmp_path / "bad_policy.yaml"
+    path.write_text(bad, encoding="utf-8")
+    with pytest.raises(ValueError, match="unsupported conflict_policy"):
+        CleaningPolicy(path)
+
+
+def test_tonguexpert_l1_l2_pool_regression():
+    samples = pd.DataFrame([_sample("tx::a", "tonguexpert", "m", "a.jpg")])
+    decisions = select_canonical_samples(build_duplicate_groups(samples, POLICY), POLICY)
+    labels = pd.DataFrame(
+        [
+            _label(
+                "tx::a", "tonguexpert", "tongue_body.color", "dark", 1, "labels_zhi",
+                source="human", tier="gold_candidate",
+            ),
+            _label(
+                "tx::a", "tonguexpert", "tongue_body.color", "dark", 1, "zhi_label",
+                source="model_prediction", tier="pseudo",
+            ),
+        ]
+    )
+    labels_clean, _, _ = reconcile_labels(labels, decisions, POLICY)
+    assign = build_supervision_assignments(
+        labels_clean, pd.DataFrame(), samples, decisions, POLICY
+    )
+    human = assign[assign["label_source"] == "human"]
+    model = assign[assign["label_source"] == "model_prediction"]
+    assert (human["supervision_pool"] == "gold_candidate").all()
+    assert (model["supervision_pool"] == "pseudo").all()

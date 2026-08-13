@@ -1,4 +1,4 @@
-version: "1.0"
+version: "1.1"
 name: cleaning_policy_v1
 
 global:
@@ -10,7 +10,10 @@ global:
   duplicate_strategy: canonical_keep_one
   # 跨数据集同 MD5：严格失败，不自动决定
   cross_dataset_duplicate_policy: fail
-  conflict_policy: exclude_from_train_eligible
+  # D2-A.1：与代码一致——冲突 fact 写入 report，且不进入 labels_clean
+  conflict_policy: drop_conflicted_facts_from_clean
+  # 同 task/label 不同 geometry = 合法多实例，不是 conflict
+  spatial_different_geometry_policy: multi_instance_keep
   canonical_tie_breakers:
     - source_image_path
     - source_sample_id

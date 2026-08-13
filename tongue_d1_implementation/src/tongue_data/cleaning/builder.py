@@ -61,8 +61,8 @@ class CleaningBuilder:
         labels_clean, label_conflicts, label_stats = reconcile_labels(
             labels, decisions, self.policy
         )
-        spatial_clean, spatial_conflicts, spatial_stats = reconcile_spatial(
-            spatial, decisions
+        spatial_clean, spatial_meta, spatial_stats = reconcile_spatial(
+            spatial, decisions, self.policy
         )
 
         # samples_clean：仅 keep=true 的 canonical
@@ -84,6 +84,10 @@ class CleaningBuilder:
         spatial_clean.to_parquet(output_dir / "spatial_clean.parquet", index=False)
         decisions.to_parquet(output_dir / "dedup_decisions.parquet", index=False)
         assignments.to_parquet(output_dir / "supervision_assignments.parquet", index=False)
+        # 供 validate-clean 检查：冲突 fact 不得进入 clean labels
+        (output_dir / "label_conflicts.json").write_text(
+            json.dumps(label_conflicts, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
 
         per_dataset = {}
         for dataset_name, before_group in samples.groupby("dataset", sort=True):
@@ -115,12 +119,19 @@ class CleaningBuilder:
         aliases = int((~decisions["keep"]).sum())
 
         conflict_report = {
+            "note": "multi-instance geometry != conflict; only label value contradictions are conflicts",
+            "conflict_policy": self.policy.conflict_policy(),
             "duplicate_groups_total": duplicate_groups,
             "duplicate_groups_with_multi_members": multi_groups,
             "label_stats": label_stats,
             "spatial_stats": spatial_stats,
             "label_conflicts": label_conflicts,
-            "spatial_conflicts": spatial_conflicts,
+            "spatial_identical_duplicates": spatial_stats.get("identical_deduped", 0),
+            "spatial_multi_instance_groups": spatial_meta.get("multi_instance_groups", []),
+            "spatial_multi_instance_annotations": spatial_stats.get(
+                "multi_instance_annotations", 0
+            ),
+            "spatial_review_groups": spatial_meta.get("review_groups", []),
             "cross_dataset_duplicate_groups": cross_dups,
             "groups_with_conflicting_labels": len(label_conflicts),
             "groups_with_identical_or_deduped_facts": label_stats.get("identical", 0),
@@ -159,7 +170,12 @@ class CleaningBuilder:
             "duplicate_aliases": aliases,
             "per_dataset": per_dataset,
             "label_conflicts": len(label_conflicts),
-            "spatial_conflicts": len(spatial_conflicts),
+            "spatial_identical_deduped": spatial_stats.get("identical_deduped", 0),
+            "spatial_multi_instance_groups": spatial_stats.get("multi_instance_groups", 0),
+            "spatial_multi_instance_annotations": spatial_stats.get(
+                "multi_instance_annotations", 0
+            ),
+            "spatial_review_groups": spatial_stats.get("review_groups", 0),
             "cross_dataset_duplicates": len(cross_dups),
             "supervision_pool_counts": {str(k): int(v) for k, v in pool_counts.items()},
         }

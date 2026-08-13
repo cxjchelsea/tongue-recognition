@@ -1,0 +1,32 @@
+{
+  "stage": "D2-A.1",
+  "input_contract_version": "1.1",
+  "cleaning_policy_version": "1.1",
+  "git_commit": "b7d3de79b316532aa6455319a7b2eea4e893d9b4",
+  "build_timestamp": "2026-08-12T09:41:01.247626+00:00",
+  "note": "multi-instance geometry != conflict; former spatial_conflicts=1605 reclassified",
+  "former_spatial_conflicts_d2a": 1605,
+  "samples_before": 22473,
+  "samples_after": 22235,
+  "labels_before": 91690,
+  "labels_after": 87736,
+  "spatial_before": 24365,
+  "spatial_after": 24363,
+  "label_conflicts": 15,
+  "spatial_identical_deduped": 2,
+  "spatial_multi_instance_groups": 1606,
+  "spatial_multi_instance_annotations": 5329,
+  "spatial_review_groups": 0,
+  "cross_dataset_duplicates": 0,
+  "supervision_pool_counts": {
+    "silver": 71160,
+    "pseudo": 27124,
+    "auxiliary": 9177,
+    "gold_candidate": 4473,
+    "external_holdout": 184
+  },
+  "DSCT_external_holdout_count": 184,
+  "TonguExpert_L2_pseudo_count": 27124,
+  "pytest_result": "31 passed",
+  "validate_clean_result": "PASS"
+}

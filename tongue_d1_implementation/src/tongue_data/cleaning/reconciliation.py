@@ -47,9 +47,15 @@ def reconcile_labels(
 ) -> tuple[pd.DataFrame, list[dict], dict]:
     """将 alias 监督合并到 canonical；冲突不静默吞掉。
 
-    重要：不同 label_source（如 TonguExpert L1/L2）即使同 task/label
-    也必须保留，不能被折叠成一条。
+    conflict_policy=drop_conflicted_facts_from_clean：
+    - 冲突 fact 写入 conflict report
+    - 冲突 fact 不进入 labels_clean
+    - 同 sample 的非冲突互补监督保留
     """
+    conflict_policy = policy.conflict_policy()
+    if conflict_policy != "drop_conflicted_facts_from_clean":
+        raise ValueError(f"unsupported conflict_policy={conflict_policy!r}")
+
     if labels is None or labels.empty:
         empty = labels.copy() if labels is not None else pd.DataFrame()
         if "origin_sample_id" not in empty.columns:
@@ -78,15 +84,11 @@ def reconcile_labels(
     for canonical_id, group in work.groupby("canonical_sample_id", sort=True):
         conflicted_task_labels = set()
 
-        # 跨 origin 的 (task,label) 值冲突检测（不含 NA，因 NA 本就不在表中）
+        # 跨 origin 的 (task,label) 值冲突检测
         for (task, label_key), sub in group.groupby(
             ["canonical_task", "label_key"], sort=True
         ):
             values = sorted(set(int(v) for v in sub["value_norm"].tolist()))
-            # binary true/false 同时存在
-            labels_present = set(sub["label_key"].tolist())
-            if False:
-                pass
             if len(values) > 1:
                 conflicted_task_labels.add((str(task), str(label_key)))
                 conflicts.append(
@@ -107,7 +109,6 @@ def reconcile_labels(
         for task, sub in group.groupby("canonical_task", sort=True):
             label_set = set(sub["label_key"].tolist())
             if "true" in label_set and "false" in label_set:
-                # 仅当来自不同 origin 或明确对立时记冲突并排除
                 origins_true = set(
                     sub.loc[sub["label_key"] == "true", "origin_sample_id"].astype(str)
                 )
@@ -131,6 +132,7 @@ def reconcile_labels(
                     )
                     stats["conflicting"] += 1
 
+        # 只丢弃冲突 fact；互补监督继续保留
         kept = group[
             ~group.apply(
                 lambda row: (str(row["canonical_task"]), str(row["label_key"]))
@@ -139,7 +141,6 @@ def reconcile_labels(
             )
         ].copy()
 
-        # 去重键包含 label_source / source_field，避免 L1/L2 被折叠
         dedupe_keys = [
             "canonical_task",
             "label_key",
@@ -161,14 +162,12 @@ def reconcile_labels(
             representative["origin_sample_id"] = (
                 origin_ids[0] if len(origin_ids) == 1 else "|".join(origin_ids)
             )
-            # 清理临时列
             representative.pop("canonical_sample_id", None)
             representative.pop("duplicate_group_id", None)
             representative.pop("label_key", None)
             representative.pop("value_norm", None)
             clean_rows.append(representative)
 
-        # complementary：同一 canonical 上多个不同 fact
         fact_count = kept[["canonical_task", "label_key", "value_norm"]].drop_duplicates().shape[0]
         if fact_count > 1:
             stats["complementary"] += fact_count - 1
@@ -183,13 +182,38 @@ def reconcile_labels(
 def reconcile_spatial(
     spatial: pd.DataFrame,
     decisions: pd.DataFrame,
-) -> tuple[pd.DataFrame, list[dict], dict]:
-    """合并 spatial；完全一致去重；同 task/label 不同几何记 conflict 但仍保留。"""
+    policy: CleaningPolicy | None = None,
+) -> tuple[pd.DataFrame, dict, dict]:
+    """合并 spatial。
+
+    - identical geometry → dedup，合并 provenance
+    - 同 task/label 不同 geometry → 合法 multi-instance，全部保留，**不是 conflict**
+    - review_groups：第一版无可靠自动判定，固定为 0
+    """
+    if policy is not None:
+        geometry_policy = policy.spatial_different_geometry_policy()
+        if geometry_policy != "multi_instance_keep":
+            raise ValueError(
+                f"unsupported spatial_different_geometry_policy={geometry_policy!r}"
+            )
+
+    empty_meta = {
+        "multi_instance_groups": [],
+        "review_groups": [],
+    }
+    empty_stats = {
+        "identical_deduped": 0,
+        "distinct_annotations_kept": 0,
+        "multi_instance_groups": 0,
+        "multi_instance_annotations": 0,
+        "review_groups": 0,
+    }
+
     if spatial is None or spatial.empty:
         empty = spatial.copy() if spatial is not None else pd.DataFrame()
         if "origin_sample_id" not in empty.columns:
             empty["origin_sample_id"] = []
-        return empty, [], {"identical": 0, "kept_distinct": 0, "conflicting": 0}
+        return empty, empty_meta, empty_stats
 
     sample_to_canonical = dict(
         zip(decisions["sample_id"].astype(str), decisions["canonical_sample_id"].astype(str))
@@ -212,8 +236,14 @@ def reconcile_spatial(
         )
 
     clean_rows = []
-    conflicts = []
-    stats = {"identical": 0, "kept_distinct": 0, "conflicting": 0}
+    multi_instance_groups = []
+    stats = {
+        "identical_deduped": 0,
+        "distinct_annotations_kept": 0,
+        "multi_instance_groups": 0,
+        "multi_instance_annotations": 0,
+        "review_groups": 0,
+    }
 
     for canonical_id, group in work.groupby("sample_id", sort=True):
         seen_geom = {}
@@ -223,7 +253,7 @@ def reconcile_spatial(
             task_label = (str(row.get("annotation_task")), _norm_label(row.get("canonical_label")))
             by_task_label.setdefault(task_label, []).append(key)
             if key in seen_geom:
-                stats["identical"] += 1
+                stats["identical_deduped"] += 1
                 prev = seen_geom[key]
                 origins = sorted(
                     {
@@ -237,21 +267,25 @@ def reconcile_spatial(
             out["sample_id"] = str(canonical_id)
             out["annotation_id"] = f"{canonical_id}::{key[0]}::{key[1]}::{len(seen_geom)}"
             seen_geom[key] = out
-            stats["kept_distinct"] += 1
+            stats["distinct_annotations_kept"] += 1
 
         for task_label, keys in by_task_label.items():
             unique_keys = {k for k in keys}
-            if len(unique_keys) > 1 and task_label[0] and task_label[0] != "segmentation.tongue":
-                conflicts.append(
+            # 同 task/label 多个不同 geometry = 合法多实例检测，不是 conflict
+            if len(unique_keys) > 1 and task_label[0]:
+                annotation_count = len(unique_keys)
+                multi_instance_groups.append(
                     {
                         "canonical_sample_id": str(canonical_id),
                         "annotation_task": task_label[0],
                         "canonical_label": task_label[1],
-                        "distinct_geometries": len(unique_keys),
-                        "conflict_type": "spatial_geometry_mismatch",
+                        "distinct_geometries": annotation_count,
+                        "semantics": "multi_instance",
+                        "note": "different geometry under same task/label is legitimate multi-instance, not conflict",
                     }
                 )
-                stats["conflicting"] += 1
+                stats["multi_instance_groups"] += 1
+                stats["multi_instance_annotations"] += annotation_count
 
         clean_rows.extend(seen_geom.values())
 
@@ -259,4 +293,9 @@ def reconcile_spatial(
     if clean.empty:
         cols = list(spatial.columns) + ["origin_sample_id"]
         clean = pd.DataFrame(columns=list(dict.fromkeys(cols)))
-    return clean, conflicts, stats
+
+    meta = {
+        "multi_instance_groups": multi_instance_groups,
+        "review_groups": [],  # 第一版无可靠自动判定
+    }
+    return clean, meta, stats

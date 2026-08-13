@@ -2,7 +2,7 @@
 
 这是舌诊视觉表型模型 V1 的 D1 可运行实现。  
 当前契约小版本：**D1.1 / Contract v1.1**（显式负监督；见 `docs/D1_1_FREEZE_REPORT.md`）。  
-清洗阶段：**D2-A**（去重 / 监督池；见 `docs/D2_A_FREEZE_REPORT.md`）。尚未做 train/val/test split。
+清洗阶段：**D2-A.1**（Cleaning Policy v1.1；多实例 bbox ≠ conflict；见 `docs/D2_A_1_FREEZE_REPORT.md`）。尚未做 train/val/test split。
 
 ## 已实现
 
