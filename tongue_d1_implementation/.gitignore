@@ -6,6 +6,11 @@ data/splits/
 data/segmentation/
 reports/d2/
 reports/d3/
+runs/
+artifacts/
+checkpoints/
+*.pt
+*.pth
 *.egg-info/
 __pycache__/
 .pytest_cache/

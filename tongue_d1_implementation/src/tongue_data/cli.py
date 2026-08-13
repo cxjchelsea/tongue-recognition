@@ -8,6 +8,7 @@ from .cleaning import CleaningBuilder, validate_clean
 from .splitting import SplitBuilder, validate_split
 from .segmentation import SegmentationBuilder, validate_segmentation
 from .segmentation.dataset import smoke_test_dataset
+from .segmentation.training import run_smoke_training, run_tiny_overfit
 
 
 def emit(errors, warnings):
@@ -95,6 +96,19 @@ def main():
     smoke_parser = sub.add_parser("segmentation-smoke-test")
     smoke_parser.add_argument("--segmentation-dir", required=True)
     smoke_parser.add_argument("--config", required=True)
+
+    # D3-B
+    train_smoke_parser = sub.add_parser("segmentation-train-smoke")
+    train_smoke_parser.add_argument("--segmentation-dir", required=True)
+    train_smoke_parser.add_argument("--data-config", required=True)
+    train_smoke_parser.add_argument("--train-config", required=True)
+    train_smoke_parser.add_argument("--output", required=True)
+
+    overfit_parser = sub.add_parser("segmentation-overfit")
+    overfit_parser.add_argument("--segmentation-dir", required=True)
+    overfit_parser.add_argument("--data-config", required=True)
+    overfit_parser.add_argument("--train-config", required=True)
+    overfit_parser.add_argument("--output", required=True)
 
     args = parser.parse_args()
     if args.cmd == "validate-contract":
@@ -194,6 +208,33 @@ def main():
         )
         print(json.dumps(smoke, ensure_ascii=False))
         raise SystemExit(0 if smoke.get("ok") else 1)
+    if args.cmd == "segmentation-train-smoke":
+        metadata = run_smoke_training(
+            args.segmentation_dir,
+            args.data_config,
+            args.train_config,
+            args.output,
+        )
+        print(
+            f"device={metadata['device']} amp={metadata['amp']} "
+            f"epoch={metadata['final_epoch']} "
+            f"best_val_dice={metadata['best_val_dice']:.4f} "
+            f"resume={metadata['resume_test']['result']}"
+        )
+        return
+    if args.cmd == "segmentation-overfit":
+        metadata = run_tiny_overfit(
+            args.segmentation_dir,
+            args.data_config,
+            args.train_config,
+            args.output,
+        )
+        print(
+            f"samples={metadata['sample_count']} steps={metadata['steps']} "
+            f"loss={metadata['initial_loss']:.4f}->{metadata['final_loss']:.4f} "
+            f"dice={metadata['final_dice']:.4f} result={metadata['result']}"
+        )
+        return
 
 
 if __name__ == "__main__":

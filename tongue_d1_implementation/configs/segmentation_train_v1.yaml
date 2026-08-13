@@ -1,0 +1,72 @@
+version: "1.0"
+name: segmentation_train_v1
+# D3-B 训练契约；不修改 D3-A 已 Freeze 的数据契约
+
+data_contract: configs/segmentation_v1.yaml
+
+model:
+  architecture: unet
+  encoder: resnet34
+  encoder_weights: imagenet
+  in_channels: 3
+  classes: 1
+
+loss:
+  bce_weight: 0.5
+  dice_weight: 0.5
+  smooth: 1.0e-6
+
+optimizer:
+  name: adamw
+  lr: 0.001
+  weight_decay: 0.0001
+
+scheduler:
+  name: reduce_on_plateau
+  mode: max
+  factor: 0.5
+  patience: 3
+  min_lr: 1.0e-6
+
+training:
+  epochs: 50
+  batch_size: 4
+  num_workers: 0
+  amp: true
+  device: auto
+  gradient_clip_norm: null
+  # smoke 保护：默认命令必须显式限制
+  max_train_batches: null
+  max_val_batches: null
+
+early_stopping:
+  enabled: true
+  patience: 10
+
+checkpoint:
+  monitor: val_dice
+  mode: max
+
+metrics:
+  mask_threshold: 0.5
+
+reproducibility:
+  seed: 20260813
+
+debug:
+  tiny_overfit:
+    enabled: false
+    sample_count: 16
+    per_dataset:
+      biohit: 8
+      tongueset3: 8
+    augmentation: false
+    max_steps: 500
+    target_dice: 0.95
+    batch_size: 4
+    lr: 0.001
+
+smoke:
+  max_train_batches: 2
+  max_val_batches: 2
+  epochs: 1

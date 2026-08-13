@@ -29,12 +29,15 @@ class TongueSegmentationDataset:
         split: str,
         datasets: list[str] | None = None,
         seed: int | None = None,
+        disable_augmentation: bool = False,
     ):
         if isinstance(config, (str, Path)):
             config = SegmentationConfig(config)
         self.config = config
         self.split = str(split)
         self.seed = int(seed if seed is not None else config.seed)
+        # tiny-overfit：即使 split=train 也强制 deterministic preprocess
+        self.disable_augmentation = bool(disable_augmentation)
 
         if isinstance(manifest, (str, Path)):
             frame = pd.read_parquet(manifest)
@@ -62,8 +65,9 @@ class TongueSegmentationDataset:
 
         # 每样本确定性 RNG（train 增广可复现）
         rng = np.random.default_rng(_stable_sample_seed(sample_id, self.seed))
+        preprocess_split = "val" if self.disable_augmentation else self.split
         image_tensor, mask_tensor, geometry = preprocess_pair(
-            image, mask, self.config, self.split, rng=rng
+            image, mask, self.config, preprocess_split, rng=rng
         )
 
         try:
@@ -93,6 +97,55 @@ class TongueSegmentationDataset:
             "foreground_ratio": float(row["foreground_ratio"]),
             "md5": str(row["md5"]),
         }
+
+
+def select_tiny_overfit_subset(
+    manifest: pd.DataFrame,
+    *,
+    per_dataset: dict[str, int] | None = None,
+    sample_count: int = 16,
+    seed: int = 20260813,
+) -> pd.DataFrame:
+    """
+    从 train split deterministic 选取 tiny set。
+    按 dataset + sample_id 排序后取各域前 N；保证可复现。
+    """
+    train = manifest[manifest["split"].astype(str) == "train"].copy()
+    train = train.sort_values(["dataset", "sample_id"]).reset_index(drop=True)
+    if per_dataset:
+        parts = []
+        for dataset_name, count in per_dataset.items():
+            subset = train[train["dataset"].astype(str) == dataset_name].head(int(count))
+            parts.append(subset)
+        selected = pd.concat(parts, ignore_index=True) if parts else train.head(0)
+    else:
+        # 均匀轮询两域
+        selected_rows = []
+        by_dataset = {
+            name: group.reset_index(drop=True)
+            for name, group in train.groupby(train["dataset"].astype(str), sort=True)
+        }
+        names = sorted(by_dataset.keys())
+        index = 0
+        while len(selected_rows) < sample_count and names:
+            progressed = False
+            for name in names:
+                frame = by_dataset[name]
+                if index < len(frame):
+                    selected_rows.append(frame.iloc[index])
+                    progressed = True
+                    if len(selected_rows) >= sample_count:
+                        break
+            if not progressed:
+                break
+            index += 1
+        selected = pd.DataFrame(selected_rows)
+    selected = selected.sort_values(["dataset", "sample_id"]).reset_index(drop=True)
+    if selected.empty:
+        raise ValueError("tiny overfit subset is empty")
+    # seed 写入 attrs，便于审计（选择本身由排序决定）
+    selected.attrs["tiny_overfit_seed"] = int(seed)
+    return selected
 
 
 def create_dataloader(
