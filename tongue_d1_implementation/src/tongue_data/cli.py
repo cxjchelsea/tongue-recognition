@@ -183,6 +183,53 @@ def main():
     guard_smoke_parser.add_argument("--output", required=True)
     guard_smoke_parser.add_argument("--device", default="auto")
 
+    # D4-B：feature audit / calibrate / runtime / test audit
+    feature_audit_parser = sub.add_parser("input-guard-feature-audit")
+    feature_audit_parser.add_argument("--checkpoint", required=True)
+    feature_audit_parser.add_argument("--segmentation-dir", required=True)
+    feature_audit_parser.add_argument("--data-config", required=True)
+    feature_audit_parser.add_argument("--train-config", required=True)
+    feature_audit_parser.add_argument("--output", required=True)
+    feature_audit_parser.add_argument("--device", default="auto")
+
+    calibrate_parser = sub.add_parser("input-guard-calibrate")
+    calibrate_parser.add_argument("--checkpoint", required=True)
+    calibrate_parser.add_argument("--segmentation-dir", required=True)
+    calibrate_parser.add_argument("--data-config", required=True)
+    calibrate_parser.add_argument("--train-config", required=True)
+    calibrate_parser.add_argument(
+        "--policy", default="configs/input_guard_v1.yaml"
+    )
+    calibrate_parser.add_argument("--output", required=True)
+    calibrate_parser.add_argument("--device", default="auto")
+
+    guard_run_parser = sub.add_parser("input-guard-run")
+    guard_run_parser.add_argument("--image", required=True)
+    guard_run_parser.add_argument("--checkpoint", required=True)
+    guard_run_parser.add_argument("--data-config", required=True)
+    guard_run_parser.add_argument("--train-config", required=True)
+    guard_run_parser.add_argument(
+        "--policy", default="configs/input_guard_v1.yaml"
+    )
+    guard_run_parser.add_argument("--device", default="auto")
+    guard_run_parser.add_argument("--sample-id", default=None)
+
+    test_audit_parser = sub.add_parser("input-guard-test-audit")
+    test_audit_parser.add_argument("--checkpoint", required=True)
+    test_audit_parser.add_argument("--segmentation-dir", required=True)
+    test_audit_parser.add_argument("--data-config", required=True)
+    test_audit_parser.add_argument("--train-config", required=True)
+    test_audit_parser.add_argument(
+        "--policy", default="configs/input_guard_v1.yaml"
+    )
+    test_audit_parser.add_argument("--output", required=True)
+    test_audit_parser.add_argument("--device", default="auto")
+    test_audit_parser.add_argument(
+        "--allow-test",
+        action="store_true",
+        help="required; engineering audit only after threshold freeze",
+    )
+
     args = parser.parse_args()
     if args.cmd == "validate-contract":
         errors, warnings = validate_contract(
@@ -427,6 +474,88 @@ def main():
             f"implemented={summary['implemented_checks_count']}"
         )
         raise SystemExit(0 if summary["contract_status"] == "PASS" else 1)
+    if args.cmd == "input-guard-feature-audit":
+        from .input_guard.calibration import (
+            build_feature_distribution,
+            collect_calibration_rows,
+        )
+        import json
+        from pathlib import Path as _Path
+
+        rows = collect_calibration_rows(
+            checkpoint_path=args.checkpoint,
+            segmentation_dir=args.segmentation_dir,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            device=args.device,
+        )
+        distribution = build_feature_distribution(rows)
+        out = _Path(args.output)
+        out.mkdir(parents=True, exist_ok=True)
+        reports = _Path("reports/d4")
+        reports.mkdir(parents=True, exist_ok=True)
+        payload = json.dumps(distribution, ensure_ascii=False, indent=2)
+        (out / "d4b_feature_distribution.json").write_text(payload, encoding="utf-8")
+        (reports / "d4b_feature_distribution.json").write_text(payload, encoding="utf-8")
+        print(f"samples={distribution['sample_count']} output={out}")
+        return
+    if args.cmd == "input-guard-calibrate":
+        from .input_guard.calibration import run_calibration_pipeline
+
+        result = run_calibration_pipeline(
+            checkpoint_path=args.checkpoint,
+            segmentation_dir=args.segmentation_dir,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            policy_path=args.policy,
+            output_dir=args.output,
+            device=args.device,
+            write_policy=True,
+        )
+        print(
+            f"calibrated samples={result['sample_count']} "
+            f"policy_version={result['policy_version']} "
+            f"policy={result['policy_path']}"
+        )
+        return
+    if args.cmd == "input-guard-run":
+        from .input_guard.runtime import InputGuardRuntime, format_runtime_summary
+
+        runtime = InputGuardRuntime(
+            checkpoint_path=args.checkpoint,
+            data_config=args.data_config,
+            train_config=args.train_config,
+            policy_path=args.policy,
+            device=args.device,
+        )
+        result = runtime.evaluate(args.image, sample_id=args.sample_id)
+        print(format_runtime_summary(result))
+        return
+    if args.cmd == "input-guard-test-audit":
+        if not args.allow_test:
+            raise SystemExit(
+                "ERROR: test audit requires --allow-test after threshold freeze "
+                "(engineering audit only; do not retune)"
+            )
+        from .input_guard.audit import run_test_engineering_audit
+
+        report = run_test_engineering_audit(
+            checkpoint_path=args.checkpoint,
+            segmentation_dir=args.segmentation_dir,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            policy_path=args.policy,
+            output_dir=args.output,
+            device=args.device,
+        )
+        print(
+            f"total={report['total']} "
+            f"pass={report['decision_counts']['pass']} "
+            f"warning={report['decision_counts']['warning']} "
+            f"retake={report['decision_counts']['retake']} "
+            f"review={report['calibration_review_required']}"
+        )
+        return
 
 
 if __name__ == "__main__":

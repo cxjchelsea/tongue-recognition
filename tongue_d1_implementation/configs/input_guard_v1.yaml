@@ -1,147 +1,148 @@
-version: "1.0"
+version: '1.1'
 name: input_guard_v1
-contract_version: "1.0"
-qc_ontology_version: "1.0"
-reason_registry_version: "1.0"
-
-# 最终决策优先级：PASS < WARNING < RETAKE
+contract_version: '1.0'
+qc_ontology_version: '1.0'
+reason_registry_version: '1.0'
 decision_order:
-  - pass
-  - warning
-  - retake
-
-# primary_reason：同档内按此顺序（越小越优先）
+- pass
+- warning
+- retake
 primary_reason_priority:
-  - NO_TONGUE_DETECTED
-  - TONGUE_CROPPED
-  - TONGUE_BLUR
-  - IMAGE_BLUR
-  - OVEREXPOSED
-  - UNDEREXPOSED
-  - HIGHLIGHT_CLIPPING
-  - SHADOW_CLIPPING
-  - SEVERE_COLOR_CAST
-  - COLOR_CAST_SUSPECTED
-  - TONGUE_OCCLUDED
-  - TONGUE_TOO_SMALL
-  - TONGUE_SLIGHTLY_SMALL
-  - TONGUE_TOUCHES_FRAME
-  - SEGMENTATION_IMPLAUSIBLE
-  - SEGMENTATION_FRAGMENTED
-  - SEGMENTATION_LOW_CONFIDENCE
-  - IMAGE_RESOLUTION_TOO_LOW
-  - TONGUE_RESOLUTION_TOO_LOW
-  - UNEVEN_LIGHTING
-  - STRONG_SHADOW
-  - STAIN_SUSPECTED
-  - UNKNOWN_QUALITY_ISSUE
-
+- NO_TONGUE_DETECTED
+- TONGUE_CROPPED
+- TONGUE_BLUR
+- IMAGE_BLUR
+- OVEREXPOSED
+- UNDEREXPOSED
+- HIGHLIGHT_CLIPPING
+- SHADOW_CLIPPING
+- SEVERE_COLOR_CAST
+- COLOR_CAST_SUSPECTED
+- TONGUE_OCCLUDED
+- TONGUE_TOO_SMALL
+- TONGUE_SLIGHTLY_SMALL
+- TONGUE_TOUCHES_FRAME
+- SEGMENTATION_IMPLAUSIBLE
+- SEGMENTATION_FRAGMENTED
+- SEGMENTATION_LOW_CONFIDENCE
+- IMAGE_RESOLUTION_TOO_LOW
+- TONGUE_RESOLUTION_TOO_LOW
+- UNEVEN_LIGHTING
+- STRONG_SHADOW
+- STAIN_SUSPECTED
+- UNKNOWN_QUALITY_ISSUE
+policy_version: '1.1'
+threshold_status: engineering_heuristic
 notes:
-  - "D4-A only defines contract; thresholds null until D4-B/C calibration."
-  - "Quality checks evaluate capture suitability, not disease/phenotype."
-  - "Pathological tongue color/coating/crack/toothmark are NOT QC fail reasons."
-  - "Stain suspected is contamination/quality, not pathological coating.color."
-
+- Quality checks evaluate capture suitability, not disease/phenotype.
+- Pathological tongue color/coating/crack/toothmark are NOT QC fail reasons.
+- Stain suspected is contamination/quality, not pathological coating.color.
+- D4-B thresholds calibrated on BioHit+TongueSet3 train+val only; test excluded.
+- Thresholds are engineering heuristics, not clinical standards.
 checks:
   tongue_presence:
     enabled: true
     implementation_stage: D4-B
-    needs_calibration: true
-    thresholds:
-      warning: null
-      retake: null
+    needs_calibration: false
+    thresholds: {}
     warning_reason: null
     retake_reason: NO_TONGUE_DETECTED
-
   tongue_scale:
     enabled: true
     implementation_stage: D4-B
-    needs_calibration: true
+    needs_calibration: false
     thresholds:
-      warning: null
-      retake: null
+      warning_foreground_ratio: 0.0999275
+      retake_foreground_ratio: 0.063845
+      warning_bbox_width_ratio: 0.349375
+      retake_bbox_width_ratio: 0.28419999999999995
+      warning_bbox_height_ratio: 0.331
+      retake_bbox_height_ratio: 0.2517
     warning_reason: TONGUE_SLIGHTLY_SMALL
     retake_reason: TONGUE_TOO_SMALL
-
   tongue_completeness:
     enabled: true
     implementation_stage: D4-B
-    needs_calibration: true
+    needs_calibration: false
     thresholds:
-      warning: null
-      retake: null
+      warning_side_touch_ratio: 0.02
+      retake_side_touch_ratio: 0.4198999999999995
+      warning_bottom_touch_ratio: 0.2639999999999986
+      retake_bottom_touch_ratio: 0.6122999999999991
+      warning_top_touch_ratio: 0.05
     warning_reason: TONGUE_TOUCHES_FRAME
     retake_reason: TONGUE_CROPPED
-
   segmentation_integrity:
     enabled: true
     implementation_stage: D4-B
-    needs_calibration: true
+    needs_calibration: false
     thresholds:
-      warning: null
-      retake: null
+      warning_largest_component_ratio: 0.95
+      retake_largest_component_ratio: 0.85
+      warning_mean_probability: 0.9
+      retake_component_count: 5.0
     warning_reason: SEGMENTATION_LOW_CONFIDENCE
     retake_reason: SEGMENTATION_IMPLAUSIBLE
-
   focus:
     enabled: true
     implementation_stage: D4-B
-    needs_calibration: true
+    needs_calibration: false
     thresholds:
-      warning: null
-      retake: null
+      retake_roi_laplacian: 5.28003999710083
+      warning_roi_laplacian: 10.448310279846192
     warning_reason: IMAGE_BLUR
     retake_reason: TONGUE_BLUR
-
   exposure:
     enabled: true
     implementation_stage: D4-B
-    needs_calibration: true
+    needs_calibration: false
     thresholds:
-      warning: null
-      retake: null
+      warning_dark_pixel_ratio: 0.11580557721457649
+      retake_dark_pixel_ratio: 0.1592732976556388
+      warning_bright_pixel_ratio: 0.060150849837606574
+      retake_bright_pixel_ratio: 0.17296331014180452
+      warning_shadow_clip_ratio: 0.013768678284326949
+      retake_shadow_clip_ratio: 0.04700706389221267
+      warning_highlight_clip_ratio: 0.0021701881350913318
+      retake_highlight_clip_ratio: 0.011015224330453195
     warning_reason: null
     retake_reason: null
-
   illumination_uniformity:
     enabled: true
     implementation_stage: D4-B
-    needs_calibration: true
+    needs_calibration: false
     thresholds:
-      warning: null
-      retake: null
-
+      warning_relative_range: 0.9486678357347298
+      retake_relative_range: 1.201061970189598
   color_cast:
     enabled: true
-    implementation_stage: D4-B
+    implementation_stage: D4-D
     needs_calibration: true
     thresholds:
       warning: null
       retake: null
     warning_reason: COLOR_CAST_SUSPECTED
     retake_reason: SEVERE_COLOR_CAST
-
   occlusion:
     enabled: true
-    implementation_stage: D4-B
+    implementation_stage: D4-D
     needs_calibration: true
     thresholds:
       warning: null
       retake: null
     warning_reason: TONGUE_OCCLUDED
     retake_reason: TONGUE_OCCLUDED
-
   resolution:
     enabled: true
     implementation_stage: D4-B
-    needs_calibration: true
+    needs_calibration: false
     thresholds:
-      warning: null
-      retake: null
+      warning_tongue_pixel_count: 16051.6
+      retake_tongue_pixel_count: 10215.2
+      warning_effective_short_side_px: 124.0
+      retake_effective_short_side_px: 99.36
     warning_reason: TONGUE_RESOLUTION_TOO_LOW
     retake_reason: IMAGE_RESOLUTION_TOO_LOW
-
-  # 染苔检测在 D4-C；本阶段 defined + disabled
   stain_suspected:
     enabled: false
     implementation_stage: D4-C
@@ -151,3 +152,5 @@ checks:
       retake: null
     warning_reason: STAIN_SUSPECTED
     retake_reason: STAIN_SUSPECTED
+policy_version: '1.1'
+threshold_status: engineering_heuristic

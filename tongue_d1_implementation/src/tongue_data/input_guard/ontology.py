@@ -140,67 +140,67 @@ CHECK_FINDINGS: dict[CheckId, frozenset[str]] = {
 }
 
 
-# D4-A：defined=true；implementation 阶段标注（本阶段均未实现信号/模型检查）
+# defined / implemented 分离：D4-B 落地 8 项信号规则
 CHECK_DEFINITIONS: dict[CheckId, dict] = {
     CheckId.TONGUE_PRESENCE: {
         "defined": True,
         "implementation_stage": "D4-B",
-        "implemented": False,
+        "implemented": True,
         "depends_on_roi": False,
         "description": "舌体是否存在于画面中",
     },
     CheckId.TONGUE_SCALE: {
         "defined": True,
         "implementation_stage": "D4-B",
-        "implemented": False,
+        "implemented": True,
         "depends_on_roi": True,
         "description": "舌体尺度是否足够支持表型分析",
     },
     CheckId.TONGUE_COMPLETENESS: {
         "defined": True,
         "implementation_stage": "D4-B",
-        "implemented": False,
+        "implemented": True,
         "depends_on_roi": True,
         "description": "舌体是否完整 / 是否被画框裁断",
     },
     CheckId.SEGMENTATION_INTEGRITY: {
         "defined": True,
         "implementation_stage": "D4-B",
-        "implemented": False,
+        "implemented": True,
         "depends_on_roi": False,
         "description": "分割结果完整性与可信度",
     },
     CheckId.FOCUS: {
         "defined": True,
         "implementation_stage": "D4-B",
-        "implemented": False,
+        "implemented": True,
         "depends_on_roi": True,
         "description": "整图与舌 ROI 清晰度",
     },
     CheckId.EXPOSURE: {
         "defined": True,
         "implementation_stage": "D4-B",
-        "implemented": False,
+        "implemented": True,
         "depends_on_roi": True,
         "description": "曝光是否适合颜色表型",
     },
     CheckId.ILLUMINATION_UNIFORMITY: {
         "defined": True,
         "implementation_stage": "D4-B",
-        "implemented": False,
+        "implemented": True,
         "depends_on_roi": True,
         "description": "光照均匀性",
     },
     CheckId.COLOR_CAST: {
         "defined": True,
-        "implementation_stage": "D4-B",
+        "implementation_stage": "D4-D",
         "implemented": False,
         "depends_on_roi": True,
         "description": "偏色嫌疑（禁止粗暴 RGB 比判 RETAKE）",
     },
     CheckId.OCCLUSION: {
         "defined": True,
-        "implementation_stage": "D4-B",
+        "implementation_stage": "D4-D",
         "implemented": False,
         "depends_on_roi": True,
         "description": "遮挡（唇/齿/手指等）",
@@ -208,7 +208,7 @@ CHECK_DEFINITIONS: dict[CheckId, dict] = {
     CheckId.RESOLUTION: {
         "defined": True,
         "implementation_stage": "D4-B",
-        "implemented": False,
+        "implemented": True,
         "depends_on_roi": True,
         "description": "整图与舌 ROI 有效分辨率",
     },

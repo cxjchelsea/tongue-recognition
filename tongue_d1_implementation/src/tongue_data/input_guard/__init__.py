@@ -1,4 +1,4 @@
-"""D4 Input Guard：图像质量门禁契约与后续规则/模型入口。"""
+"""D4 Input Guard：图像质量门禁契约与信号规则运行时。"""
 
 from .decision import (
     aggregate_decision,
@@ -13,8 +13,11 @@ from .ontology import (
     EvaluationState,
     ReasonCode,
     Severity,
+    defined_checks_count,
+    implemented_checks_count,
 )
 from .policy import InputGuardPolicy, load_input_guard_policy
+from .runtime import InputGuardRuntime
 from .schema import CheckResult, InputGuardResult
 from .validators import validate_input_guard_contract
 
@@ -27,12 +30,15 @@ __all__ = [
     "InputGuardFeatures",
     "InputGuardPolicy",
     "InputGuardResult",
+    "InputGuardRuntime",
     "ReasonCode",
     "Severity",
     "aggregate_decision",
     "build_contract_skeleton_result",
     "build_result_from_check_effects",
+    "defined_checks_count",
     "features_from_segmentation_result",
+    "implemented_checks_count",
     "load_input_guard_policy",
     "validate_input_guard_contract",
 ]

@@ -1,0 +1,107 @@
+{
+  "stage": "D4-B",
+  "input_guard_contract_version": "1.0",
+  "input_guard_policy_version": "1.1",
+  "threshold_status": "engineering_heuristic",
+  "base_code_commit_before_d4b": "47d8298",
+  "implemented_checks": [
+    "quality.tongue_presence",
+    "quality.tongue_scale",
+    "quality.tongue_completeness",
+    "quality.segmentation_integrity",
+    "quality.focus",
+    "quality.exposure",
+    "quality.illumination_uniformity",
+    "quality.resolution"
+  ],
+  "unimplemented_checks": [
+    "quality.color_cast",
+    "quality.occlusion",
+    "quality.stain_suspected"
+  ],
+  "implemented_checks_count": 8,
+  "defined_checks_count": 11,
+  "calibration_datasets": ["biohit", "tongueset3"],
+  "calibration_splits": ["train", "val"],
+  "calibration_sample_count": 1169,
+  "test_used_for_calibration": false,
+  "blur_analysis_long_side": 256,
+  "thresholds": {
+    "quality.tongue_scale": {
+      "warning_foreground_ratio": 0.0999275,
+      "retake_foreground_ratio": 0.063845,
+      "warning_bbox_width_ratio": 0.349375,
+      "retake_bbox_width_ratio": 0.2842,
+      "warning_bbox_height_ratio": 0.331,
+      "retake_bbox_height_ratio": 0.2517
+    },
+    "quality.tongue_completeness": {
+      "warning_side_touch_ratio": 0.02,
+      "retake_side_touch_ratio": 0.4199,
+      "warning_bottom_touch_ratio": 0.264,
+      "retake_bottom_touch_ratio": 0.6123,
+      "warning_top_touch_ratio": 0.05
+    },
+    "quality.segmentation_integrity": {
+      "warning_largest_component_ratio": 0.95,
+      "retake_largest_component_ratio": 0.85,
+      "warning_mean_probability": 0.9,
+      "retake_component_count": 5.0,
+      "note": "largest_ratio floors used because train+val collapsed to 1.0"
+    },
+    "quality.focus": {
+      "retake_roi_laplacian": 5.28004,
+      "warning_roi_laplacian": 10.44831
+    },
+    "quality.exposure": {
+      "warning_dark_pixel_ratio": 0.11581,
+      "retake_dark_pixel_ratio": 0.15927,
+      "warning_bright_pixel_ratio": 0.06015,
+      "retake_bright_pixel_ratio": 0.17296,
+      "warning_shadow_clip_ratio": 0.01377,
+      "retake_shadow_clip_ratio": 0.04701,
+      "warning_highlight_clip_ratio": 0.00217,
+      "retake_highlight_clip_ratio": 0.01102
+    },
+    "quality.illumination_uniformity": {
+      "warning_relative_range": 0.94867,
+      "retake_relative_range": 1.20106
+    },
+    "quality.resolution": {
+      "warning_tongue_pixel_count": 16051.6,
+      "retake_tongue_pixel_count": 10215.2,
+      "warning_effective_short_side_px": 124.0,
+      "retake_effective_short_side_px": 99.36
+    }
+  },
+  "test_audit": {
+    "sample_count": 130,
+    "pass_count": 74,
+    "warning_count": 43,
+    "retake_count": 13,
+    "retake_rate": 0.1,
+    "calibration_review_required": false,
+    "policy_unchanged_after_audit": true,
+    "per_dataset_decisions": {
+      "biohit": {"pass": 29, "warning": 1, "retake": 0},
+      "tongueset3": {"pass": 45, "warning": 42, "retake": 13}
+    }
+  },
+  "known_failure_sample": "biohit::278.bmp",
+  "known_failure_decision": "pass",
+  "known_failure_note": "D4-B signal QC does not flag this D3 undersegmentation mismatch; not used to retune",
+  "evaluation_complete": false,
+  "guard_ready": false,
+  "validator_result": "PASS",
+  "pytest_result": "176 passed",
+  "d4b_status": "PASS",
+  "discipline": {
+    "qc_model_trained": false,
+    "stain_model_trained": false,
+    "d3_checkpoint_modified": false,
+    "test_used_for_threshold_tuning": false,
+    "color_cast_pseudo_implemented": false,
+    "occlusion_pseudo_implemented": false,
+    "entered_d4c": false
+  }
+}

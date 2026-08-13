@@ -383,10 +383,11 @@ def test_policy_and_contract_validate_ok():
     errors, warnings = validate_input_guard_contract(POLICY_PATH)
     assert errors == []
     assert defined_checks_count() == 11
-    assert implemented_checks_count() == 0
+    # D4-B 后 ontology 标记 8 项 implemented；policy 版本随校准更新
+    assert implemented_checks_count() == 8
     assert len(CHECK_DEFINITIONS) == 11
     policy = InputGuardPolicy(POLICY_PATH)
-    assert policy.version == "1.0"
+    assert policy.version in {"1.0", "1.1"}
 
 
 def test_retake_requires_reason_on_check():

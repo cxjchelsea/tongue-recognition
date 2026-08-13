@@ -27,13 +27,19 @@ class InputGuardFeatures:
     bbox_area_ratio: float | None = None
     bbox_tight: tuple[int, int, int, int] | None = None
 
-    # 边界接触（tight bbox）
+    # 边界接触（tight bbox / mask）
     touches_left: bool | None = None
     touches_right: bool | None = None
     touches_top: bool | None = None
     touches_bottom: bool | None = None
     touches_image_border: bool | None = None
     distance_to_border_ratio: float | None = None
+    left_touch_ratio: float | None = None
+    right_touch_ratio: float | None = None
+    top_touch_ratio: float | None = None
+    bottom_touch_ratio: float | None = None
+    border_touch_ratio: float | None = None
+    mask_border_touch_pixels: int | None = None
 
     # 分割完整性
     component_count: int | None = None
@@ -41,21 +47,39 @@ class InputGuardFeatures:
     mean_foreground_probability: float | None = None
     max_probability: float | None = None
 
-    # ROI 有效分辨率（margin ROI 尺寸；与 QC bbox 比率分离）
+    # ROI / tight bbox 有效分辨率
     roi_width_px: int | None = None
     roi_height_px: int | None = None
     roi_area_px: int | None = None
     roi_mask_fill_ratio: float | None = None
+    tight_bbox_width_px: int | None = None
+    tight_bbox_height_px: int | None = None
+    effective_short_side_px: int | None = None
 
-    # D4-B 预留信号特征（当前未实现 → None）
+    # D4-B 信号特征（未计算时保持 None，禁止填 0）
     blur_score: float | None = None
     roi_blur_score: float | None = None
+    image_gradient_energy: float | None = None
+    roi_gradient_energy: float | None = None
+    blur_analysis_long_side: float | None = None
     mean_luminance: float | None = None
+    roi_luminance_std: float | None = None
+    roi_luminance_p01: float | None = None
+    roi_luminance_p05: float | None = None
+    roi_luminance_p50: float | None = None
+    roi_luminance_p95: float | None = None
+    roi_luminance_p99: float | None = None
     dark_pixel_ratio: float | None = None
     bright_pixel_ratio: float | None = None
     highlight_clip_ratio: float | None = None
     shadow_clip_ratio: float | None = None
     illumination_uniformity_score: float | None = None
+    valid_grid_cells: int | None = None
+    max_min_luminance_difference: float | None = None
+    relative_luminance_range: float | None = None
+    left_right_difference: float | None = None
+    top_bottom_difference: float | None = None
+    spatial_luminance_cv: float | None = None
     color_cast_score: float | None = None
 
     # 元信息

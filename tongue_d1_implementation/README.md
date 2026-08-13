@@ -119,8 +119,30 @@ tongue-data segmentation-infer \
 tongue-data validate-input-guard --policy configs/input_guard_v1.yaml
 ```
 
-契约与 Freeze：`docs/D4_A_INPUT_GUARD_CONTRACT.md`、`docs/D4_A_FREEZE_REPORT.md`。  
-本阶段只定义 ontology / feature / decision schema；信号规则与染苔模型分别在 D4-B / D4-C。
+契约与 Freeze：`docs/D4_A_INPUT_GUARD_CONTRACT.md`、`docs/D4_A_FREEZE_REPORT.md`。
+
+## D4-B：信号质量规则（engineering heuristic）
+
+```bash
+tongue-data input-guard-calibrate \
+  --checkpoint runs/segmentation/d3c/baseline/best.pt \
+  --segmentation-dir data/segmentation/v1 \
+  --data-config configs/segmentation_v1.yaml \
+  --train-config configs/segmentation_train_v1.yaml \
+  --policy configs/input_guard_v1.yaml \
+  --output runs/input_guard/d4b/calibration
+
+tongue-data input-guard-run \
+  --image path/to/image.jpg \
+  --checkpoint runs/segmentation/d3c/baseline/best.pt \
+  --data-config configs/segmentation_v1.yaml \
+  --train-config configs/segmentation_train_v1.yaml \
+  --policy configs/input_guard_v1.yaml
+```
+
+Policy **v1.1**；阈值仅用 train+val 校准，**不是**临床标准。  
+`evaluation_complete` / `guard_ready` 仍为 false（缺 color_cast / occlusion / stain）。  
+Freeze：`docs/D4_B_FREEZE_REPORT.md`。
 
 ## D1/D2 边界
 

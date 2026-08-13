@@ -29,6 +29,7 @@ class InputGuardPolicy:
         self.path = Path(path) if path is not None else None
         self.doc = dict(doc)
         self.version = str(self.doc.get("version", ""))
+        self.policy_version = str(self.doc.get("policy_version", self.version))
         self.decision_order = [
             parse_decision(item) for item in self.doc.get("decision_order", [])
         ]
@@ -42,7 +43,7 @@ class InputGuardPolicy:
 
     def validate(self) -> list[str]:
         errors: list[str] = []
-        if self.version != "1.0":
+        if self.version not in {"1.0", "1.1"}:
             errors.append(f"unsupported policy version: {self.version}")
 
         expected_order = [Decision.PASS, Decision.WARNING, Decision.RETAKE]
@@ -50,11 +51,6 @@ class InputGuardPolicy:
             errors.append(
                 f"decision_order must be {[d.value for d in expected_order]}"
             )
-
-        known_short_names = {check.name.lower(): check for check in CheckId}
-        known_short_names.update(
-            {check.value.split(".", 1)[1]: check for check in CheckId}
-        )
 
         for check_key, check_cfg in self.checks.items():
             try:
@@ -73,6 +69,19 @@ class InputGuardPolicy:
 
             thresholds = check_cfg.get("thresholds")
             needs_calibration = bool(check_cfg.get("needs_calibration", False))
+            implemented = bool(
+                (CHECK_DEFINITIONS.get(check_id) or {}).get("implemented", False)
+            )
+            # policy 1.1：已实现 check 不得仍标记 needs_calibration
+            if (
+                implemented
+                and needs_calibration
+                and self.policy_version.startswith("1.1")
+            ):
+                errors.append(
+                    f"check {check_key}: implemented but still needs_calibration "
+                    f"under policy {self.policy_version}"
+                )
             if thresholds is not None:
                 if not isinstance(thresholds, dict):
                     errors.append(f"check {check_key}: thresholds must be mapping")

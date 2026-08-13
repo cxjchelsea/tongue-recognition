@@ -55,7 +55,12 @@ def validate_input_guard_contract(
         errors.append("implemented_checks_count > defined_checks_count")
     if implemented == 0:
         warnings.append(
-            "D4-A: implemented_checks_count=0 (expected; signal checks in D4-B/C)"
+            "implemented_checks_count=0 (signal checks not marked implemented)"
+        )
+    elif implemented < defined:
+        warnings.append(
+            f"partial implementation: implemented={implemented}/{defined} "
+            f"(color_cast/occlusion/stain deferred)"
         )
 
     # stain 必须 defined，且不得与病理苔色混淆
