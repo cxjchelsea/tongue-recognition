@@ -6,6 +6,7 @@ data/splits/
 data/segmentation/
 reports/d2/
 reports/d3/
+reports/d4/
 runs/
 artifacts/
 checkpoints/

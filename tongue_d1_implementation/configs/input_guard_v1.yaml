@@ -1,0 +1,153 @@
+version: "1.0"
+name: input_guard_v1
+contract_version: "1.0"
+qc_ontology_version: "1.0"
+reason_registry_version: "1.0"
+
+# 最终决策优先级：PASS < WARNING < RETAKE
+decision_order:
+  - pass
+  - warning
+  - retake
+
+# primary_reason：同档内按此顺序（越小越优先）
+primary_reason_priority:
+  - NO_TONGUE_DETECTED
+  - TONGUE_CROPPED
+  - TONGUE_BLUR
+  - IMAGE_BLUR
+  - OVEREXPOSED
+  - UNDEREXPOSED
+  - HIGHLIGHT_CLIPPING
+  - SHADOW_CLIPPING
+  - SEVERE_COLOR_CAST
+  - COLOR_CAST_SUSPECTED
+  - TONGUE_OCCLUDED
+  - TONGUE_TOO_SMALL
+  - TONGUE_SLIGHTLY_SMALL
+  - TONGUE_TOUCHES_FRAME
+  - SEGMENTATION_IMPLAUSIBLE
+  - SEGMENTATION_FRAGMENTED
+  - SEGMENTATION_LOW_CONFIDENCE
+  - IMAGE_RESOLUTION_TOO_LOW
+  - TONGUE_RESOLUTION_TOO_LOW
+  - UNEVEN_LIGHTING
+  - STRONG_SHADOW
+  - STAIN_SUSPECTED
+  - UNKNOWN_QUALITY_ISSUE
+
+notes:
+  - "D4-A only defines contract; thresholds null until D4-B/C calibration."
+  - "Quality checks evaluate capture suitability, not disease/phenotype."
+  - "Pathological tongue color/coating/crack/toothmark are NOT QC fail reasons."
+  - "Stain suspected is contamination/quality, not pathological coating.color."
+
+checks:
+  tongue_presence:
+    enabled: true
+    implementation_stage: D4-B
+    needs_calibration: true
+    thresholds:
+      warning: null
+      retake: null
+    warning_reason: null
+    retake_reason: NO_TONGUE_DETECTED
+
+  tongue_scale:
+    enabled: true
+    implementation_stage: D4-B
+    needs_calibration: true
+    thresholds:
+      warning: null
+      retake: null
+    warning_reason: TONGUE_SLIGHTLY_SMALL
+    retake_reason: TONGUE_TOO_SMALL
+
+  tongue_completeness:
+    enabled: true
+    implementation_stage: D4-B
+    needs_calibration: true
+    thresholds:
+      warning: null
+      retake: null
+    warning_reason: TONGUE_TOUCHES_FRAME
+    retake_reason: TONGUE_CROPPED
+
+  segmentation_integrity:
+    enabled: true
+    implementation_stage: D4-B
+    needs_calibration: true
+    thresholds:
+      warning: null
+      retake: null
+    warning_reason: SEGMENTATION_LOW_CONFIDENCE
+    retake_reason: SEGMENTATION_IMPLAUSIBLE
+
+  focus:
+    enabled: true
+    implementation_stage: D4-B
+    needs_calibration: true
+    thresholds:
+      warning: null
+      retake: null
+    warning_reason: IMAGE_BLUR
+    retake_reason: TONGUE_BLUR
+
+  exposure:
+    enabled: true
+    implementation_stage: D4-B
+    needs_calibration: true
+    thresholds:
+      warning: null
+      retake: null
+    warning_reason: null
+    retake_reason: null
+
+  illumination_uniformity:
+    enabled: true
+    implementation_stage: D4-B
+    needs_calibration: true
+    thresholds:
+      warning: null
+      retake: null
+
+  color_cast:
+    enabled: true
+    implementation_stage: D4-B
+    needs_calibration: true
+    thresholds:
+      warning: null
+      retake: null
+    warning_reason: COLOR_CAST_SUSPECTED
+    retake_reason: SEVERE_COLOR_CAST
+
+  occlusion:
+    enabled: true
+    implementation_stage: D4-B
+    needs_calibration: true
+    thresholds:
+      warning: null
+      retake: null
+    warning_reason: TONGUE_OCCLUDED
+    retake_reason: TONGUE_OCCLUDED
+
+  resolution:
+    enabled: true
+    implementation_stage: D4-B
+    needs_calibration: true
+    thresholds:
+      warning: null
+      retake: null
+    warning_reason: TONGUE_RESOLUTION_TOO_LOW
+    retake_reason: IMAGE_RESOLUTION_TOO_LOW
+
+  # 染苔检测在 D4-C；本阶段 defined + disabled
+  stain_suspected:
+    enabled: false
+    implementation_stage: D4-C
+    needs_calibration: true
+    thresholds:
+      warning: null
+      retake: null
+    warning_reason: STAIN_SUSPECTED
+    retake_reason: STAIN_SUSPECTED

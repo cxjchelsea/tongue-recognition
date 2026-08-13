@@ -113,6 +113,15 @@ tongue-data segmentation-infer \
 
 原则：下游表型必须使用 **original RGB + original-resolution mask**，禁止直接用 384×384 normalized tensor。
 
+## D4-A：Input Guard 契约（不训练 QC）
+
+```bash
+tongue-data validate-input-guard --policy configs/input_guard_v1.yaml
+```
+
+契约与 Freeze：`docs/D4_A_INPUT_GUARD_CONTRACT.md`、`docs/D4_A_FREEZE_REPORT.md`。  
+本阶段只定义 ontology / feature / decision schema；信号规则与染苔模型分别在 D4-B / D4-C。
+
 ## D1/D2 边界
 
 D1 不物理删除 raw 重复数据，也不生成最终 train/val/test。

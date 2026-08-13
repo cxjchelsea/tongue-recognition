@@ -166,6 +166,23 @@ def main():
         help="required; D3-E test access is engineering regression only",
     )
 
+    # D4-A：Input Guard 契约校验 / smoke（不训练 QC）
+    validate_guard_parser = sub.add_parser("validate-input-guard")
+    validate_guard_parser.add_argument(
+        "--policy", default="configs/input_guard_v1.yaml"
+    )
+
+    guard_smoke_parser = sub.add_parser("input-guard-smoke")
+    guard_smoke_parser.add_argument("--checkpoint", required=True)
+    guard_smoke_parser.add_argument("--segmentation-dir", required=True)
+    guard_smoke_parser.add_argument("--data-config", required=True)
+    guard_smoke_parser.add_argument("--train-config", required=True)
+    guard_smoke_parser.add_argument(
+        "--policy", default="configs/input_guard_v1.yaml"
+    )
+    guard_smoke_parser.add_argument("--output", required=True)
+    guard_smoke_parser.add_argument("--device", default="auto")
+
     args = parser.parse_args()
     if args.cmd == "validate-contract":
         errors, warnings = validate_contract(
@@ -385,6 +402,31 @@ def main():
             f"invalid_bbox={report['invalid_bbox']} empty_roi={report['empty_roi']}"
         )
         return
+    if args.cmd == "validate-input-guard":
+        from .input_guard.validators import emit_validate, validate_input_guard_contract
+
+        errors, warnings = validate_input_guard_contract(args.policy)
+        raise SystemExit(emit_validate(errors, warnings))
+    if args.cmd == "input-guard-smoke":
+        from .input_guard.smoke import run_input_guard_contract_smoke
+
+        summary = run_input_guard_contract_smoke(
+            checkpoint_path=args.checkpoint,
+            segmentation_dir=args.segmentation_dir,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            policy_path=args.policy,
+            output_dir=args.output,
+            device=args.device,
+        )
+        print(
+            f"contract_status={summary['contract_status']} "
+            f"samples={summary['sample_count']} "
+            f"evaluation_complete_all_false={summary['all_evaluation_complete_false']} "
+            f"defined={summary['defined_checks_count']} "
+            f"implemented={summary['implemented_checks_count']}"
+        )
+        raise SystemExit(0 if summary["contract_status"] == "PASS" else 1)
 
 
 if __name__ == "__main__":

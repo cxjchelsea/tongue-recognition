@@ -1,0 +1,33 @@
+{
+  "stage": "D4-A",
+  "input_guard_contract_version": "1.0",
+  "qc_ontology_version": "1.0",
+  "reason_registry_version": "1.0",
+  "input_segmentation_contract_version": "1.0",
+  "d3e_inference_contract_version": "1.0",
+  "base_code_commit_before_d4a": "587259a",
+  "policy_path": "configs/input_guard_v1.yaml",
+  "defined_checks_count": 11,
+  "implemented_checks_count": 0,
+  "defined_reason_codes_count": 23,
+  "feature_count": 32,
+  "decision_levels": ["pass", "warning", "retake"],
+  "severity_levels": ["none", "mild", "moderate", "severe"],
+  "evaluation_states": ["evaluated", "not_evaluated", "unavailable"],
+  "real_smoke_samples": 10,
+  "contract_smoke_status": "PASS",
+  "smoke_evaluation_complete_all_false": true,
+  "smoke_guard_ready_all_false": true,
+  "schema_validation_result": "PASS",
+  "policy_validation_result": "PASS",
+  "pytest_result": "156 passed",
+  "d4a_status": "PASS",
+  "discipline": {
+    "qc_model_trained": false,
+    "stain_model_trained": false,
+    "d3_checkpoint_modified": false,
+    "segmentation_threshold_modified": false,
+    "phenotype_entered": false,
+    "d4b_started": false
+  }
+}
