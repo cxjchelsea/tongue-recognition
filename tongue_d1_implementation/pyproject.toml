@@ -4,12 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tongue-data-contract"
-version = "0.2.1"
+version = "0.3.0"
 requires-python = ">=3.10"
 dependencies = ["pandas>=2.0", "pyarrow>=14.0", "PyYAML>=6.0", "Pillow>=10.0"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]
+segmentation = ["torch>=2.0"]
 
 [project.scripts]
 tongue-data = "tongue_data.cli:main"

@@ -1,8 +1,13 @@
 import argparse
+import json
+from pathlib import Path
+
 from .manifest import ManifestBuilder
 from .validators import validate_contract, validate_manifest
 from .cleaning import CleaningBuilder, validate_clean
 from .splitting import SplitBuilder, validate_split
+from .segmentation import SegmentationBuilder, validate_segmentation
+from .segmentation.dataset import smoke_test_dataset
 
 
 def emit(errors, warnings):
@@ -73,6 +78,24 @@ def main():
     validate_split_parser.add_argument("--processed-dir", default=None)
     validate_split_parser.add_argument("--policy", default=None)
 
+    # D3-A
+    build_seg_parser = sub.add_parser("build-segmentation-manifest")
+    build_seg_parser.add_argument("--processed-dir", required=True)
+    build_seg_parser.add_argument("--split-dir", required=True)
+    build_seg_parser.add_argument("--config", required=True)
+    build_seg_parser.add_argument("--output", required=True)
+    build_seg_parser.add_argument("--report-dir", required=True)
+    build_seg_parser.add_argument("--no-smoke", action="store_true")
+
+    validate_seg_parser = sub.add_parser("validate-segmentation")
+    validate_seg_parser.add_argument("--segmentation-dir", required=True)
+    validate_seg_parser.add_argument("--config", default=None)
+    validate_seg_parser.add_argument("--split-dir", default=None)
+
+    smoke_parser = sub.add_parser("segmentation-smoke-test")
+    smoke_parser.add_argument("--segmentation-dir", required=True)
+    smoke_parser.add_argument("--config", required=True)
+
     args = parser.parse_args()
     if args.cmd == "validate-contract":
         errors, warnings = validate_contract(
@@ -140,6 +163,37 @@ def main():
             args.split_dir, args.processed_dir, args.policy
         )
         raise SystemExit(emit(errors, warnings))
+    if args.cmd == "build-segmentation-manifest":
+        result = SegmentationBuilder(args.config).build(
+            args.processed_dir,
+            args.split_dir,
+            args.output,
+            args.report_dir,
+            run_smoke=not args.no_smoke,
+        )
+        meta = result["metadata"]
+        print(
+            f"samples={meta['total_samples']} "
+            f"train={meta['per_split']['train']} "
+            f"val={meta['per_split']['val']} "
+            f"test={meta['per_split']['test']} "
+            f"smoke={'PASS' if (result.get('smoke') or {}).get('ok', False) else 'SKIP/FAIL'}"
+        )
+        return
+    if args.cmd == "validate-segmentation":
+        errors, warnings = validate_segmentation(
+            args.segmentation_dir, args.config, args.split_dir
+        )
+        raise SystemExit(emit(errors, warnings))
+    if args.cmd == "segmentation-smoke-test":
+        smoke = smoke_test_dataset(
+            Path(args.segmentation_dir) / "segmentation_manifest.parquet"
+            if (Path(args.segmentation_dir) / "segmentation_manifest.parquet").exists()
+            else args.segmentation_dir,
+            args.config,
+        )
+        print(json.dumps(smoke, ensure_ascii=False))
+        raise SystemExit(0 if smoke.get("ok") else 1)
 
 
 if __name__ == "__main__":

@@ -3,7 +3,9 @@ configs/datasets_v1.local.yaml
 data/manifests/
 data/processed/
 data/splits/
+data/segmentation/
 reports/d2/
+reports/d3/
 *.egg-info/
 __pycache__/
 .pytest_cache/

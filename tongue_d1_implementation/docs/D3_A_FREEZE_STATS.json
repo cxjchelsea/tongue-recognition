@@ -1,0 +1,69 @@
+{
+  "stage": "D3-A",
+  "input_contract_version": "1.1",
+  "cleaning_policy_version": "1.1",
+  "split_policy_version": "1.0",
+  "segmentation_contract_version": "1.0",
+  "package_version": "0.3.0",
+  "seed": 20260813,
+  "base_code_commit": "14463be",
+  "build_timestamp": "2026-08-13T01:30:00+00:00",
+  "total_segmentation_samples": 1299,
+  "per_split": {
+    "train": 1039,
+    "val": 130,
+    "test": 130
+  },
+  "BioHit": {
+    "train": 240,
+    "val": 30,
+    "test": 30,
+    "total": 300
+  },
+  "TongueSet3": {
+    "train": 799,
+    "val": 100,
+    "test": 100,
+    "total": 999
+  },
+  "image_mask_pairing_rate": 1.0,
+  "missing_images": 0,
+  "missing_masks": 0,
+  "shape_mismatches": 0,
+  "empty_masks": 0,
+  "full_masks": 0,
+  "foreground_ratio": {
+    "min": 0.03473125025629997,
+    "p01": 0.062268374338746074,
+    "p10": 0.12525250017642975,
+    "median": 0.25588423013687134,
+    "p90": 0.5841750144958496,
+    "p99": 0.7862840032577514,
+    "max": 0.8853187561035156,
+    "mean": 0.31210786681493213
+  },
+  "sample_leakage": 0,
+  "md5_leakage": 0,
+  "multi_mask_resolved": 1,
+  "input_resolution": {
+    "height": 384,
+    "width": 384
+  },
+  "resize_policy": "letterbox",
+  "mask_normalization_rule": "mask > 0",
+  "augmentation_summary": {
+    "train": ["horizontal_flip", "rotation_pm10", "scale_0.9_1.1", "brightness_contrast_mild"],
+    "val": false,
+    "test": false
+  },
+  "metrics_defined": ["dice", "iou", "precision", "recall"],
+  "primary_metric": "dice",
+  "acceptance_targets_d3bc": {
+    "minimum_overall_test_dice": 0.9,
+    "target_overall_test_dice": 0.95,
+    "require_per_domain_report": true
+  },
+  "smoke_test_result": "PASS",
+  "validator_result": "PASS",
+  "pytest_result": "74 passed"
+}

@@ -1,0 +1,114 @@
+version: "1.0"
+name: segmentation_contract_v1
+
+data:
+  datasets:
+    - biohit
+    - tongueset3
+  task: segmentation.tongue
+  annotation_type: mask
+  train_split: train
+  val_split: val
+  test_split: test
+  # 多 mask：优先保留 origin_sample_id == canonical sample_id 的 mask
+  multi_mask_policy: prefer_canonical_origin
+  foreground_rule: "mask > 0"
+  supervision_pools_allowed:
+    - gold_candidate
+    - silver
+    - auxiliary
+
+image:
+  channels: 3
+  color_space: RGB
+
+input:
+  height: 384
+  width: 384
+
+resize:
+  policy: letterbox
+  image_interpolation: bilinear
+  mask_interpolation: nearest
+  pad_value_image: 0
+  pad_value_mask: 0
+
+normalization:
+  type: imagenet
+  mean: [0.485, 0.456, 0.406]
+  std: [0.229, 0.224, 0.225]
+
+mask:
+  dtype: float32
+  shape: "[1, H, W]"
+  background: 0
+  foreground: 1
+  threshold: 0.5
+
+augmentation:
+  train:
+    horizontal_flip:
+      enabled: true
+      probability: 0.5
+    rotation:
+      enabled: true
+      degrees: 10
+    scale:
+      enabled: true
+      min: 0.9
+      max: 1.1
+    brightness_contrast:
+      enabled: true
+      brightness_limit: 0.1
+      contrast_limit: 0.1
+      probability: 0.3
+  val:
+    enabled: false
+  test:
+    enabled: false
+
+foreground_ratio_warning:
+  min: 0.01
+  max: 0.95
+
+reproducibility:
+  seed: 20260813
+
+metrics:
+  primary: dice
+  list:
+    - dice
+    - iou
+    - precision
+    - recall
+  mask_threshold: 0.5
+  aggregation: per_image_mean
+
+loss:
+  type: bce_dice
+  bce_weight: 0.5
+  dice_weight: 0.5
+
+baseline_architecture:
+  family: unet
+  encoder_name: resnet34
+  encoder_weights: imagenet
+  note: "D3-B first candidate; not trained in D3-A"
+
+training_contract:
+  optimizer: AdamW
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  scheduler: ReduceLROnPlateau
+  epochs: 50
+  early_stopping_patience: 10
+  batch_size: 8
+  amp: true
+  device: auto
+  num_workers: 0
+
+acceptance_targets_d3bc:
+  note: "engineering baseline gates; not clinical claims"
+  minimum_overall_test_dice: 0.90
+  target_overall_test_dice: 0.95
+  require_per_domain_report: true
