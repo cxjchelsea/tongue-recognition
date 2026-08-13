@@ -4,9 +4,14 @@ data/manifests/
 data/processed/
 data/splits/
 data/segmentation/
+data/stain/
 reports/d2/
 reports/d3/
 reports/d4/
+reports/d4c1/plots/
+reports/d4c1/roi_cache/
+reports/d4c1/*.pkl
+reports/d4c1/*.npy
 runs/
 artifacts/
 checkpoints/

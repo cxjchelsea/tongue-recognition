@@ -1,4 +1,4 @@
-version: '1.1'
+version: '1.3'
 name: input_guard_v1
 contract_version: '1.0'
 qc_ontology_version: '1.0'
@@ -31,14 +31,18 @@ primary_reason_priority:
 - STRONG_SHADOW
 - STAIN_SUSPECTED
 - UNKNOWN_QUALITY_ISSUE
-policy_version: '1.1'
+policy_version: '1.3'
 threshold_status: engineering_heuristic
 notes:
 - Quality checks evaluate capture suitability, not disease/phenotype.
 - Pathological tongue color/coating/crack/toothmark are NOT QC fail reasons.
 - Stain suspected is contamination/quality, not pathological coating.color.
 - D4-B thresholds calibrated on BioHit+TongueSet3 train+val only; test excluded.
+- D4-C stain_suspected thresholds calibrated on stained_coating val only; test excluded
+  from threshold selection.
 - Thresholds are engineering heuristics, not clinical standards.
+- D4-D color_cast/occlusion calibrated on BioHit+TongueSet3 train+val only; test excluded.
+  Synthetic perturbations used for sensitivity only.
 checks:
   tongue_presence:
     enabled: true
@@ -117,21 +121,37 @@ checks:
   color_cast:
     enabled: true
     implementation_stage: D4-D
-    needs_calibration: true
+    needs_calibration: false
     thresholds:
-      warning: null
-      retake: null
+      warning_cast_magnitude: 20.088847335301597
+      retake_cast_magnitude: 28.600699292150182
     warning_reason: COLOR_CAST_SUSPECTED
     retake_reason: SEVERE_COLOR_CAST
+    implementation: signal_rule
+    status: PASS
+    neutral_support:
+      min_luminance: 0.25
+      max_luminance: 0.92
+      max_hsv_saturation: 0.18
+      max_lab_chroma: 12.0
+      max_channel_clip_ratio: 0.02
+      min_candidate_count: 200
+      min_candidate_ratio: 0.01
+      min_spatial_coverage: 0.05
+    fallback: insufficient_neutral_support -> unavailable
   occlusion:
     enabled: true
     implementation_stage: D4-D
-    needs_calibration: true
+    needs_calibration: false
     thresholds:
-      warning: null
-      retake: null
+      warning_combined_score: 0.23593363954037233
+      retake_combined_score: 0.28615079033942487
+      require_multi_evidence_for_retake: true
     warning_reason: TONGUE_OCCLUDED
     retake_reason: TONGUE_OCCLUDED
+    implementation: signal_rule
+    status: PASS
+    fallback: missing_probability_map -> unavailable
   resolution:
     enabled: true
     implementation_stage: D4-B
@@ -144,13 +164,13 @@ checks:
     warning_reason: TONGUE_RESOLUTION_TOO_LOW
     retake_reason: IMAGE_RESOLUTION_TOO_LOW
   stain_suspected:
-    enabled: false
+    enabled: true
     implementation_stage: D4-C
-    needs_calibration: true
+    implementation: learned_model
+    model_contract: '1.0'
+    needs_calibration: false
     thresholds:
-      warning: null
-      retake: null
+      clear: 0.95
+      retake: 0.96
     warning_reason: STAIN_SUSPECTED
     retake_reason: STAIN_SUSPECTED
-policy_version: '1.1'
-threshold_status: engineering_heuristic

@@ -1,0 +1,53 @@
+{
+  "spearman": [
+    {
+      "feature": "mean_s",
+      "spearman": 0.5643991612293394
+    },
+    {
+      "feature": "mean_a",
+      "spearman": 0.5386659918829819
+    },
+    {
+      "feature": "roi_short_side",
+      "spearman": -0.5158001388027954
+    },
+    {
+      "feature": "black_pixel_ratio",
+      "spearman": -0.47520384254857506
+    },
+    {
+      "feature": "mean_b_lab",
+      "spearman": 0.4052954197053153
+    },
+    {
+      "feature": "laplacian_var",
+      "spearman": 0.4009074944363742
+    },
+    {
+      "feature": "padding_ratio",
+      "spearman": -0.39903836933258746
+    },
+    {
+      "feature": "roi_aspect_ratio",
+      "spearman": -0.3100233501790787
+    },
+    {
+      "feature": "foreground_ratio",
+      "spearman": 0.30595286715954756
+    },
+    {
+      "feature": "mask_fill_ratio",
+      "spearman": 0.2122368493629175
+    },
+    {
+      "feature": "luminance_mean",
+      "spearman": 0.18584544844795112
+    },
+    {
+      "feature": "dataset_code",
+      "spearman": 0.0811834120257638
+    }
+  ],
+  "note": "correlation-based diagnostic only; not causal"
+}

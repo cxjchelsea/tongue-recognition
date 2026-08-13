@@ -1,0 +1,132 @@
+{
+  "top_features": [
+    {
+      "feature": "p_stain",
+      "biohit_median": 0.003643209613987218,
+      "tongueset3_median": 0.9977490342664617,
+      "median_diff": 0.9941058246524744,
+      "cohen_d_ts3_minus_bio": 2.814045861829331
+    },
+    {
+      "feature": "mean_b",
+      "biohit_median": 89.10743632607847,
+      "tongueset3_median": 131.56195146515753,
+      "median_diff": 42.454515139079064,
+      "cohen_d_ts3_minus_bio": 2.0515830753249333
+    },
+    {
+      "feature": "luminance_mean",
+      "biohit_median": 99.1338322309185,
+      "tongueset3_median": 134.18632668604218,
+      "median_diff": 35.05249445512368,
+      "cohen_d_ts3_minus_bio": 1.982278211812118
+    },
+    {
+      "feature": "mean_l",
+      "biohit_median": 42.55473780384608,
+      "tongueset3_median": 56.24490102532267,
+      "median_diff": 13.690163221476588,
+      "cohen_d_ts3_minus_bio": 1.974978692077262
+    },
+    {
+      "feature": "mean_g",
+      "biohit_median": 90.9428010540015,
+      "tongueset3_median": 125.63261379989396,
+      "median_diff": 34.68981274589245,
+      "cohen_d_ts3_minus_bio": 1.921853479696257
+    },
+    {
+      "feature": "mean_r",
+      "biohit_median": 129.10704272753134,
+      "tongueset3_median": 164.7410701680079,
+      "median_diff": 35.63402744047656,
+      "cohen_d_ts3_minus_bio": 1.720234263087403
+    },
+    {
+      "feature": "roi_short_side",
+      "biohit_median": 352.0,
+      "tongueset3_median": 242.0,
+      "median_diff": -110.0,
+      "cohen_d_ts3_minus_bio": -1.6525156579418758
+    },
+    {
+      "feature": "bg_ratio",
+      "biohit_median": 0.9787312851967616,
+      "tongueset3_median": 1.040308574606354,
+      "median_diff": 0.061577289409592506,
+      "cohen_d_ts3_minus_bio": 0.9065842276641086
+    },
+    {
+      "feature": "mean_b_lab",
+      "biohit_median": 7.448901915636043,
+      "tongueset3_median": 3.2074138208762975,
+      "median_diff": -4.241488094759745,
+      "cohen_d_ts3_minus_bio": -0.7798356846718378
+    },
+    {
+      "feature": "mean_s",
+      "biohit_median": 82.34953879207939,
+      "tongueset3_median": 69.00389105058366,
+      "median_diff": -13.345647741495725,
+      "cohen_d_ts3_minus_bio": -0.685551688314531
+    },
+    {
+      "feature": "rg_ratio",
+      "biohit_median": 1.4174425164317408,
+      "tongueset3_median": 1.3115059057445937,
+      "median_diff": -0.1059366106871471,
+      "cohen_d_ts3_minus_bio": -0.6845096250349909
+    },
+    {
+      "feature": "foreground_ratio",
+      "biohit_median": 0.6608931324596561,
+      "tongueset3_median": 0.6781045751633987,
+      "median_diff": 0.01721144270374264,
+      "cohen_d_ts3_minus_bio": 0.6209793335673686
+    },
+    {
+      "feature": "mask_fill_ratio",
+      "biohit_median": 0.2819375797193877,
+      "tongueset3_median": 0.25924744897959184,
+      "median_diff": -0.022690130739795866,
+      "cohen_d_ts3_minus_bio": -0.5234956551181715
+    },
+    {
+      "feature": "laplacian_var",
+      "biohit_median": 276.6037447067785,
+      "tongueset3_median": 70.20783227930025,
+      "median_diff": -206.39591242747827,
+      "cohen_d_ts3_minus_bio": -0.4328287761441853
+    },
+    {
+      "feature": "roi_aspect_ratio",
+      "biohit_median": 1.0699169490785856,
+      "tongueset3_median": 1.043824701195219,
+      "median_diff": -0.026092247883366504,
+      "cohen_d_ts3_minus_bio": -0.18343209039992278
+    },
+    {
+      "feature": "mean_a",
+      "biohit_median": 15.368135517892895,
+      "tongueset3_median": 15.926099957283213,
+      "median_diff": 0.557964439390318,
+      "cohen_d_ts3_minus_bio": 0.14279923998482733
+    },
+    {
+      "feature": "black_pixel_ratio",
+      "biohit_median": 0.41552734375,
+      "tongueset3_median": 0.40491470025510207,
+      "median_diff": -0.010612643494897933,
+      "cohen_d_ts3_minus_bio": -0.12141324608182184
+    },
+    {
+      "feature": "padding_ratio",
+      "biohit_median": 0.125,
+      "tongueset3_median": 0.1383928571428571,
+      "median_diff": 0.013392857142857095,
+      "cohen_d_ts3_minus_bio": 0.11777878782393358
+    }
+  ],
+  "n_biohit": 300,
+  "n_tongueset3": 999
+}

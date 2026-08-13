@@ -30,11 +30,16 @@ IMPLEMENTED_SIGNAL_CHECKS = frozenset(
     }
 )
 
-DEFERRED_CHECKS = frozenset(
+# D4-D 起 color_cast/occlusion 由 runtime 注入；此处不再 deferred
+DEFERRED_CHECKS = frozenset()
+
+# 已实现但非本模块 signal_rule：由 runtime 注入
+LEARNED_MODEL_CHECKS = frozenset({CheckId.STAIN_SUSPECTED})
+RUNTIME_INJECTED_CHECKS = frozenset(
     {
+        CheckId.STAIN_SUSPECTED,
         CheckId.COLOR_CAST,
         CheckId.OCCLUSION,
-        CheckId.STAIN_SUSPECTED,
     }
 )
 
@@ -688,10 +693,19 @@ def evaluate_signal_checks(
         if not policy.is_check_enabled(check_id):
             checks[key] = make_not_evaluated_check(key, reason="check_disabled")
             continue
-        if check_id in DEFERRED_CHECKS or not meta.get("implemented", False):
+        if check_id in DEFERRED_CHECKS or (
+            not meta.get("implemented", False)
+            and check_id not in RUNTIME_INJECTED_CHECKS
+        ):
             checks[key] = make_not_evaluated_check(
                 key,
                 reason=f"implementation_stage={meta.get('implementation_stage')}",
+            )
+            continue
+        # runtime 注入 checks：此处占位，由 InputGuardRuntime 覆盖
+        if check_id in RUNTIME_INJECTED_CHECKS:
+            checks[key] = make_not_evaluated_check(
+                key, reason="awaiting_runtime_injection"
             )
             continue
         if no_tongue and meta.get("depends_on_roi") and check_id != CheckId.TONGUE_PRESENCE:

@@ -1,0 +1,42 @@
+version: "1.0"
+name: stain_detection_contract_v1
+# D4-C：quality-only stain contamination detector（非苔色表型）
+
+task: quality.stain_suspected
+dataset: stained_coating
+dataset_role: quality_only_auxiliary_supervision
+
+semantics:
+  positive: "外源染色嫌疑（食物/饮料/药物/色素等）"
+  negative: "无明显外源染色嫌疑"
+  forbidden:
+    - coating.color
+    - phenotype_inference
+    - disease_diagnosis
+
+input:
+  type: masked_tongue_roi
+  size: 224
+  preserve_aspect_ratio: true
+  mask_outside_fill: 0
+  color_space: RGB
+  normalization:
+    type: imagenet
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+
+roi:
+  source: d3e_segmentation
+  bbox: bbox_roi
+  require_valid_roi: true
+  min_roi_success_rate: 0.99
+
+labels:
+  field: canonical_label
+  true_values: ["true", true, "1", 1]
+  false_values: ["false", false, "0", 0]
+  # 禁止使用 labels.value 整数列（本数据中恒为 1）
+
+split:
+  inherit_from: d2_frozen
+  policy: configs/split_policy_v1.yaml

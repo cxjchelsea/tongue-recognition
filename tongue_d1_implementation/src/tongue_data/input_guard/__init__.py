@@ -17,7 +17,7 @@ from .ontology import (
     implemented_checks_count,
 )
 from .policy import InputGuardPolicy, load_input_guard_policy
-from .runtime import InputGuardRuntime
+from .runtime import InputGuardRuntime, UnifiedInputGuard
 from .schema import CheckResult, InputGuardResult
 from .validators import validate_input_guard_contract
 
@@ -31,6 +31,7 @@ __all__ = [
     "InputGuardPolicy",
     "InputGuardResult",
     "InputGuardRuntime",
+    "UnifiedInputGuard",
     "ReasonCode",
     "Severity",
     "aggregate_decision",

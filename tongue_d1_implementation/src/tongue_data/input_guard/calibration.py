@@ -353,16 +353,24 @@ def apply_thresholds_to_policy_doc(
         }
         cfg["thresholds"] = numeric
 
-    # 未实现保持 needs_calibration
-    for short_name in ("color_cast", "occlusion", "stain_suspected"):
+    # D4-D 未实现：保持 needs_calibration；D4-C stain 已由独立校准流程管理，勿回滚
+    for short_name in ("color_cast", "occlusion"):
         doc["checks"][short_name]["needs_calibration"] = True
-        if short_name == "stain_suspected":
-            doc["checks"][short_name]["implementation_stage"] = "D4-C"
-            doc["checks"][short_name]["enabled"] = False
-        else:
-            doc["checks"][short_name]["implementation_stage"] = "D4-D"
-            doc["checks"][short_name]["enabled"] = True
+        doc["checks"][short_name]["implementation_stage"] = "D4-D"
+        doc["checks"][short_name]["enabled"] = True
         doc["checks"][short_name]["thresholds"] = {"warning": None, "retake": None}
+    stain_cfg = doc["checks"].get("stain_suspected", {})
+    if stain_cfg.get("implementation_stage") == "D4-C" and stain_cfg.get("enabled"):
+        # 保留 D4-C frozen thresholds，禁止 D4-B recalibrate 覆盖
+        pass
+    else:
+        doc["checks"]["stain_suspected"]["needs_calibration"] = True
+        doc["checks"]["stain_suspected"]["implementation_stage"] = "D4-C"
+        doc["checks"]["stain_suspected"]["enabled"] = False
+        doc["checks"]["stain_suspected"]["thresholds"] = {
+            "warning": None,
+            "retake": None,
+        }
     return doc
 
 

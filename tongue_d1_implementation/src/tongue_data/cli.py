@@ -213,6 +213,14 @@ def main():
     )
     guard_run_parser.add_argument("--device", default="auto")
     guard_run_parser.add_argument("--sample-id", default=None)
+    guard_run_parser.add_argument("--stain-checkpoint", default=None)
+    guard_run_parser.add_argument(
+        "--stain-data-config", default="configs/stain_detection_v1.yaml"
+    )
+    guard_run_parser.add_argument(
+        "--stain-train-config", default="configs/stain_train_v1.yaml"
+    )
+    guard_run_parser.add_argument("--stain-thresholds", default=None)
 
     test_audit_parser = sub.add_parser("input-guard-test-audit")
     test_audit_parser.add_argument("--checkpoint", required=True)
@@ -229,6 +237,202 @@ def main():
         action="store_true",
         help="required; engineering audit only after threshold freeze",
     )
+
+    # D4-C：stain detection baseline（分离 command，禁止 train+calibrate+test 混跑）
+    stain_build = sub.add_parser("stain-build-manifest")
+    stain_build.add_argument("--processed-dir", default="data/processed/v1")
+    stain_build.add_argument("--split-dir", default="data/splits/v1")
+    stain_build.add_argument("--data-config", default="configs/stain_detection_v1.yaml")
+    stain_build.add_argument("--output", default="data/stain/v1")
+
+    stain_preflight = sub.add_parser("stain-preflight")
+    stain_preflight.add_argument("--processed-dir", default="data/processed/v1")
+    stain_preflight.add_argument("--split-dir", default="data/splits/v1")
+    stain_preflight.add_argument("--data-config", default="configs/stain_detection_v1.yaml")
+    stain_preflight.add_argument("--checkpoint", required=True)
+    stain_preflight.add_argument(
+        "--seg-data-config", default="configs/segmentation_v1.yaml"
+    )
+    stain_preflight.add_argument(
+        "--seg-train-config", default="configs/segmentation_train_v1.yaml"
+    )
+    stain_preflight.add_argument("--output", default="data/stain/v1")
+    stain_preflight.add_argument("--device", default="auto")
+
+    stain_smoke = sub.add_parser("stain-train-smoke")
+    stain_smoke.add_argument("--manifest", default="data/stain/v1/stain_manifest.parquet")
+    stain_smoke.add_argument("--data-config", default="configs/stain_detection_v1.yaml")
+    stain_smoke.add_argument("--train-config", default="configs/stain_train_v1.yaml")
+    stain_smoke.add_argument("--output", default="runs/input_guard/d4c/stain/smoke")
+    stain_smoke.add_argument("--device", default="auto")
+
+    stain_overfit = sub.add_parser("stain-overfit")
+    stain_overfit.add_argument("--manifest", default="data/stain/v1/stain_manifest.parquet")
+    stain_overfit.add_argument("--data-config", default="configs/stain_detection_v1.yaml")
+    stain_overfit.add_argument("--train-config", default="configs/stain_train_v1.yaml")
+    stain_overfit.add_argument("--output", default="runs/input_guard/d4c/stain/overfit")
+    stain_overfit.add_argument("--device", default="auto")
+
+    stain_train = sub.add_parser("stain-train")
+    stain_train.add_argument("--manifest", default="data/stain/v1/stain_manifest.parquet")
+    stain_train.add_argument("--data-config", default="configs/stain_detection_v1.yaml")
+    stain_train.add_argument("--train-config", default="configs/stain_train_v1.yaml")
+    stain_train.add_argument("--output", default="runs/input_guard/d4c/stain")
+    stain_train.add_argument("--device", default="auto")
+
+    stain_calibrate = sub.add_parser("stain-calibrate")
+    stain_calibrate.add_argument("--run-dir", default="runs/input_guard/d4c/stain")
+    stain_calibrate.add_argument(
+        "--manifest", default="data/stain/v1/stain_manifest.parquet"
+    )
+    stain_calibrate.add_argument("--data-config", default="configs/stain_detection_v1.yaml")
+    stain_calibrate.add_argument("--train-config", default="configs/stain_train_v1.yaml")
+    stain_calibrate.add_argument("--device", default="auto")
+    stain_calibrate.add_argument(
+        "--update-policy",
+        default="configs/input_guard_v1.yaml",
+        help="write val-frozen thresholds into Input Guard policy 1.2",
+    )
+
+    stain_evaluate = sub.add_parser("stain-evaluate")
+    stain_evaluate.add_argument("--run-dir", default="runs/input_guard/d4c/stain")
+    stain_evaluate.add_argument(
+        "--manifest", default="data/stain/v1/stain_manifest.parquet"
+    )
+    stain_evaluate.add_argument("--data-config", default="configs/stain_detection_v1.yaml")
+    stain_evaluate.add_argument("--train-config", default="configs/stain_train_v1.yaml")
+    stain_evaluate.add_argument("--device", default="auto")
+    stain_evaluate.add_argument(
+        "--allow-test",
+        action="store_true",
+        help="required; test once after model+thresholds freeze",
+    )
+    stain_evaluate.add_argument("--d4b-audit", default=None)
+
+    stain_infer = sub.add_parser("stain-infer")
+    stain_infer.add_argument("--image", required=True)
+    stain_infer.add_argument("--seg-checkpoint", required=True)
+    stain_infer.add_argument(
+        "--seg-data-config", default="configs/segmentation_v1.yaml"
+    )
+    stain_infer.add_argument(
+        "--seg-train-config", default="configs/segmentation_train_v1.yaml"
+    )
+    stain_infer.add_argument("--stain-checkpoint", required=True)
+    stain_infer.add_argument("--data-config", default="configs/stain_detection_v1.yaml")
+    stain_infer.add_argument("--train-config", default="configs/stain_train_v1.yaml")
+    stain_infer.add_argument("--thresholds", default=None)
+    stain_infer.add_argument("--device", default="auto")
+    stain_infer.add_argument("--sample-id", default=None)
+
+    # D4-D：color_cast / occlusion / unified guard
+    d4d_cal = sub.add_parser("input-guard-d4d-calibrate")
+    d4d_cal.add_argument("--checkpoint", required=True)
+    d4d_cal.add_argument("--segmentation-dir", required=True)
+    d4d_cal.add_argument("--data-config", required=True)
+    d4d_cal.add_argument("--train-config", required=True)
+    d4d_cal.add_argument("--policy", default="configs/input_guard_v1.yaml")
+    d4d_cal.add_argument("--d4d-config", default="configs/input_guard_d4d_v1.yaml")
+    d4d_cal.add_argument("--output", default="runs/input_guard/d4d")
+    d4d_cal.add_argument("--device", default="auto")
+    d4d_cal.add_argument("--max-samples", type=int, default=None)
+
+    d4d_synth = sub.add_parser("input-guard-d4d-synthetic-audit")
+    d4d_synth.add_argument("--checkpoint", required=True)
+    d4d_synth.add_argument("--segmentation-dir", required=True)
+    d4d_synth.add_argument("--data-config", required=True)
+    d4d_synth.add_argument("--train-config", required=True)
+    d4d_synth.add_argument("--policy", default="configs/input_guard_v1.yaml")
+    d4d_synth.add_argument("--d4d-config", default="configs/input_guard_d4d_v1.yaml")
+    d4d_synth.add_argument("--output", default="runs/input_guard/d4d")
+    d4d_synth.add_argument("--device", default="auto")
+    d4d_synth.add_argument("--max-samples", type=int, default=120)
+
+    unified_run = sub.add_parser("input-guard-unified-run")
+    unified_run.add_argument("--image", required=True)
+    unified_run.add_argument("--seg-checkpoint", required=True)
+    unified_run.add_argument("--data-config", required=True)
+    unified_run.add_argument("--train-config", required=True)
+    unified_run.add_argument("--policy", default="configs/input_guard_v1.yaml")
+    unified_run.add_argument("--stain-checkpoint", default=None)
+    unified_run.add_argument("--stain-thresholds", default=None)
+    unified_run.add_argument("--device", default="auto")
+    unified_run.add_argument("--sample-id", default=None)
+
+    unified_audit = sub.add_parser("input-guard-unified-audit")
+    unified_audit.add_argument("--checkpoint", required=True)
+    unified_audit.add_argument("--segmentation-dir", required=True)
+    unified_audit.add_argument("--data-config", required=True)
+    unified_audit.add_argument("--train-config", required=True)
+    unified_audit.add_argument("--policy", default="configs/input_guard_v1.yaml")
+    unified_audit.add_argument("--output", default="runs/input_guard/d4d")
+    unified_audit.add_argument("--stain-checkpoint", default=None)
+    unified_audit.add_argument("--stain-thresholds", default=None)
+    unified_audit.add_argument("--device", default="auto")
+    unified_audit.add_argument("--allow-test", action="store_true")
+
+    # D4-D.1：只读 integration audit（不改 threshold / runtime）
+    integration_audit = sub.add_parser("input-guard-integration-audit")
+    integration_audit.add_argument(
+        "--seg-checkpoint",
+        default="runs/segmentation/d3c/baseline/best.pt",
+    )
+    integration_audit.add_argument(
+        "--segmentation-dir", default="data/segmentation/v1"
+    )
+    integration_audit.add_argument(
+        "--data-config", default="configs/segmentation_v1.yaml"
+    )
+    integration_audit.add_argument(
+        "--train-config", default="configs/segmentation_train_v1.yaml"
+    )
+    integration_audit.add_argument(
+        "--stain-checkpoint", default="runs/input_guard/d4c/stain/best.pt"
+    )
+    integration_audit.add_argument(
+        "--stain-thresholds",
+        default="runs/input_guard/d4c/stain/thresholds.json",
+    )
+    integration_audit.add_argument("--policy", default="configs/input_guard_v1.yaml")
+    integration_audit.add_argument("--output", default="reports/d4")
+    integration_audit.add_argument("--device", default="auto")
+    integration_audit.add_argument(
+        "--d4c-test-predictions",
+        default="runs/input_guard/d4c/stain/test_predictions.parquet",
+    )
+
+    # D4-C.1-A：stain cross-domain shortcut diagnosis（只读）
+    stain_diagnose = sub.add_parser("stain-domain-diagnose")
+    stain_diagnose.add_argument(
+        "--stain-manifest", default="data/stain/v1/stain_manifest.parquet"
+    )
+    stain_diagnose.add_argument(
+        "--segmentation-dir", default="data/segmentation/v1"
+    )
+    stain_diagnose.add_argument(
+        "--seg-checkpoint", default="runs/segmentation/d3c/baseline/best.pt"
+    )
+    stain_diagnose.add_argument(
+        "--seg-data-config", default="configs/segmentation_v1.yaml"
+    )
+    stain_diagnose.add_argument(
+        "--seg-train-config", default="configs/segmentation_train_v1.yaml"
+    )
+    stain_diagnose.add_argument(
+        "--stain-checkpoint", default="runs/input_guard/d4c/stain/best.pt"
+    )
+    stain_diagnose.add_argument(
+        "--stain-data-config", default="configs/stain_detection_v1.yaml"
+    )
+    stain_diagnose.add_argument(
+        "--stain-train-config", default="configs/stain_train_v1.yaml"
+    )
+    stain_diagnose.add_argument(
+        "--stain-thresholds",
+        default="runs/input_guard/d4c/stain/thresholds.json",
+    )
+    stain_diagnose.add_argument("--output", default="reports/d4c1")
+    stain_diagnose.add_argument("--device", default="auto")
 
     args = parser.parse_args()
     if args.cmd == "validate-contract":
@@ -527,6 +731,10 @@ def main():
             train_config=args.train_config,
             policy_path=args.policy,
             device=args.device,
+            stain_checkpoint=args.stain_checkpoint,
+            stain_data_config=args.stain_data_config,
+            stain_train_config=args.stain_train_config,
+            stain_thresholds=args.stain_thresholds,
         )
         result = runtime.evaluate(args.image, sample_id=args.sample_id)
         print(format_runtime_summary(result))
@@ -554,6 +762,339 @@ def main():
             f"warning={report['decision_counts']['warning']} "
             f"retake={report['decision_counts']['retake']} "
             f"review={report['calibration_review_required']}"
+        )
+        return
+    if args.cmd == "stain-build-manifest":
+        from .stain.manifest import build_stain_base_frame, class_balance_report
+        from pathlib import Path as _Path
+        import json as _json
+
+        frame = build_stain_base_frame(
+            args.processed_dir, args.split_dir, args.data_config
+        )
+        out = _Path(args.output)
+        out.mkdir(parents=True, exist_ok=True)
+        frame.to_parquet(out / "stain_base_manifest.parquet", index=False)
+        balance = class_balance_report(frame)
+        (out / "class_balance.json").write_text(
+            _json.dumps(balance, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        print(
+            f"samples={len(frame)} "
+            f"train={(frame.split=='train').sum()} "
+            f"val={(frame.split=='val').sum()} "
+            f"test={(frame.split=='test').sum()} "
+            f"pos={(frame.label==1).sum()} neg={(frame.label==0).sum()}"
+        )
+        return
+    if args.cmd == "stain-preflight":
+        from .stain.manifest import build_stain_base_frame, run_d3e_roi_preflight
+
+        base = build_stain_base_frame(
+            args.processed_dir, args.split_dir, args.data_config
+        )
+        result = run_d3e_roi_preflight(
+            base,
+            checkpoint_path=args.checkpoint,
+            data_config_path=args.seg_data_config,
+            train_config_path=args.seg_train_config,
+            stain_data_config=args.data_config,
+            output_dir=args.output,
+            device=args.device,
+        )
+        audit = result["audit"]
+        print(
+            f"roi_success_rate={audit['roi_success_rate']:.4f} "
+            f"gate={audit['roi_success_gate']} "
+            f"excluded={len(audit['excluded_samples'])}"
+        )
+        return
+    if args.cmd == "stain-train-smoke":
+        from .stain.train import run_stain_training
+
+        meta = run_stain_training(
+            manifest_path=args.manifest,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            output_dir=args.output,
+            device=args.device,
+            smoke=True,
+        )
+        print(
+            f"smoke ok best_val_auroc={meta['best_val_auroc']} "
+            f"epochs={meta['actual_epochs']}"
+        )
+        return
+    if args.cmd == "stain-overfit":
+        from .stain.train import run_tiny_overfit
+
+        report = run_tiny_overfit(
+            manifest_path=args.manifest,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            output_dir=args.output,
+            device=args.device,
+        )
+        print(
+            f"overfit={report['status']} acc={report['final_accuracy']:.3f} "
+            f"loss_drop={report['loss_drop']:.4f}"
+        )
+        return
+    if args.cmd == "stain-train":
+        from .stain.train import run_stain_training
+
+        meta = run_stain_training(
+            manifest_path=args.manifest,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            output_dir=args.output,
+            device=args.device,
+            smoke=False,
+        )
+        print(
+            f"train done best_epoch={meta['best_epoch']} "
+            f"best_val_auroc={meta['best_val_auroc']} "
+            f"actual_epochs={meta['actual_epochs']}"
+        )
+        return
+    if args.cmd == "stain-calibrate":
+        from .stain.evaluate import run_val_calibration
+        from .stain.detector import update_policy_with_stain_thresholds
+
+        calibration = run_val_calibration(
+            run_dir=args.run_dir,
+            manifest_path=args.manifest,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            device=args.device,
+        )
+        if args.update_policy:
+            update_policy_with_stain_thresholds(
+                args.update_policy,
+                t_clear=calibration["t_clear"],
+                t_retake=calibration["t_retake"],
+                policy_version="1.2",
+            )
+        print(
+            f"t_clear={calibration['t_clear']} t_retake={calibration['t_retake']} "
+            f"constraint_not_met={calibration['constraint_not_met']} "
+            f"uncertain_rate={calibration.get('uncertain_rate')}"
+        )
+        return
+    if args.cmd == "stain-evaluate":
+        if not args.allow_test:
+            raise SystemExit(
+                "ERROR: stain-evaluate requires --allow-test after freeze "
+                "(test once; do not retune thresholds)"
+            )
+        from .stain.evaluate import run_frozen_test_evaluation
+
+        report = run_frozen_test_evaluation(
+            run_dir=args.run_dir,
+            manifest_path=args.manifest,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            device=args.device,
+            allow_test=True,
+            d4b_audit_path=args.d4b_audit,
+        )
+        print(
+            f"baseline_status={report['baseline_status']} "
+            f"auroc={report['ranking']['auroc']} "
+            f"stain_precision={report['three_state']['confident_stain_precision']} "
+            f"coverage={report['three_state']['confident_coverage']}"
+        )
+        return
+    if args.cmd == "stain-infer":
+        from .segmentation.inference import TongueSegmentationInference, load_rgb_image
+        from .stain.detector import StainDetector
+        from pathlib import Path as _Path
+
+        rgb, _mode = load_rgb_image(args.image)
+        seg = TongueSegmentationInference(
+            checkpoint_path=args.seg_checkpoint,
+            data_config=args.seg_data_config,
+            train_config=args.seg_train_config,
+            device=args.device,
+            return_masked_roi=False,
+        )
+        seg_result = seg.predict(rgb, sample_id=args.sample_id)
+        thresholds = args.thresholds or str(
+            _Path(args.stain_checkpoint).parent / "thresholds.json"
+        )
+        detector = StainDetector(
+            checkpoint_path=args.stain_checkpoint,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            thresholds_path=thresholds,
+            device=args.device,
+        )
+        check = detector.predict(rgb, seg_result)
+        print(
+            f"finding={check.finding} score={check.score} "
+            f"decision_effect={check.decision_effect} "
+            f"reason={check.reason_code} source={check.source}"
+        )
+        return
+    if args.cmd == "input-guard-d4d-calibrate":
+        from .input_guard.d4d_calibration import run_d4d_calibration_pipeline
+
+        result = run_d4d_calibration_pipeline(
+            checkpoint_path=args.checkpoint,
+            segmentation_dir=args.segmentation_dir,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            policy_path=args.policy,
+            output_dir=args.output,
+            d4d_config_path=args.d4d_config,
+            device=args.device,
+            write_policy=True,
+            max_samples=args.max_samples,
+        )
+        print(
+            f"color_cast={result['color_cast_status']} "
+            f"occlusion={result['occlusion_status']} "
+            f"samples={result['sample_count']} "
+            f"policy={result['policy_path']}"
+        )
+        return
+    if args.cmd == "input-guard-d4d-synthetic-audit":
+        from .input_guard.d4d_calibration import (
+            collect_d4d_calibration_rows,
+            load_d4d_config,
+        )
+        from .input_guard.d4d_synthetic import (
+            run_color_cast_synthetic_audit,
+            run_occlusion_synthetic_audit,
+        )
+        from .input_guard.policy import InputGuardPolicy
+        import json as _json
+        from pathlib import Path as _Path
+
+        d4d_cfg = load_d4d_config(args.d4d_config)
+        rows = collect_d4d_calibration_rows(
+            checkpoint_path=args.checkpoint,
+            segmentation_dir=args.segmentation_dir,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            d4d_config=d4d_cfg,
+            device=args.device,
+            max_samples=args.max_samples,
+        )
+        policy = InputGuardPolicy(args.policy)
+        cast = run_color_cast_synthetic_audit(rows, policy=policy, d4d_cfg=d4d_cfg)
+        occ = run_occlusion_synthetic_audit(rows, policy=policy, d4d_cfg=d4d_cfg)
+        out = _Path(args.output)
+        out.mkdir(parents=True, exist_ok=True)
+        (out / "d4d_synthetic_color_cast.json").write_text(
+            _json.dumps(cast, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        (out / "d4d_synthetic_occlusion.json").write_text(
+            _json.dumps(occ, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        print(
+            f"cast_severe={cast.get('severe_detection_rate')} "
+            f"occ_severe={occ.get('severe_detection_rate')} "
+            f"occ_small_retake={occ.get('small_retake_rate')}"
+        )
+        return
+    if args.cmd == "input-guard-unified-run":
+        from .input_guard.runtime import InputGuardRuntime, format_runtime_summary
+
+        runtime = InputGuardRuntime(
+            checkpoint_path=args.seg_checkpoint,
+            data_config=args.data_config,
+            train_config=args.train_config,
+            policy_path=args.policy,
+            device=args.device,
+            stain_checkpoint=args.stain_checkpoint,
+            stain_thresholds=args.stain_thresholds,
+        )
+        result = runtime.evaluate(args.image, sample_id=args.sample_id)
+        print(format_runtime_summary(result))
+        return
+    if args.cmd == "input-guard-unified-audit":
+        if not args.allow_test:
+            raise SystemExit(
+                "ERROR: unified audit requires --allow-test after threshold freeze"
+            )
+        from .input_guard.d4d_audit import run_unified_test_audit
+
+        report = run_unified_test_audit(
+            checkpoint_path=args.checkpoint,
+            segmentation_dir=args.segmentation_dir,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            policy_path=args.policy,
+            output_dir=args.output,
+            stain_checkpoint=args.stain_checkpoint,
+            stain_thresholds=args.stain_thresholds,
+            device=args.device,
+            allow_test=True,
+        )
+        print(
+            f"total={report['total']} "
+            f"pass={report['decision_counts'].get('pass')} "
+            f"warning={report['decision_counts'].get('warning')} "
+            f"retake={report['decision_counts'].get('retake')} "
+            f"eval_complete_true={report['evaluation_complete'].get('true')}"
+        )
+        return
+    if args.cmd == "input-guard-integration-audit":
+        from .input_guard.d4d1_integration_audit import run_integration_audit
+
+        stats = run_integration_audit(
+            checkpoint_path=args.seg_checkpoint,
+            segmentation_dir=args.segmentation_dir,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            policy_path=args.policy,
+            stain_checkpoint=args.stain_checkpoint,
+            stain_thresholds=args.stain_thresholds,
+            output_dir=args.output,
+            device=args.device,
+            d4c_test_predictions=args.d4c_test_predictions,
+        )
+        ablation = stats["ablation"]["counts"]
+        newly = stats["newly_rejected"]
+        rec = stats["recommendation"]
+        print(
+            f"n={stats['n_samples']} "
+            f"A={ablation['A_d4b_only']} "
+            f"B={ablation['B_d4b_stain']} "
+            f"C={ablation['C_d4b_stain_cast']} "
+            f"D={ablation['D_full']} "
+            f"new_retake={newly['n']} "
+            f"stain_only_new={newly['stain_only']} "
+            f"recommendation={rec['recommendation']}"
+        )
+        return
+    if args.cmd == "stain-domain-diagnose":
+        from .stain.d4c1a_diagnosis import run_d4c1a_diagnosis
+
+        stats = run_d4c1a_diagnosis(
+            stain_manifest=args.stain_manifest,
+            segmentation_dir=args.segmentation_dir,
+            seg_checkpoint=args.seg_checkpoint,
+            seg_data_config=args.seg_data_config,
+            seg_train_config=args.seg_train_config,
+            stain_checkpoint=args.stain_checkpoint,
+            stain_data_config=args.stain_data_config,
+            stain_train_config=args.stain_train_config,
+            stain_thresholds=args.stain_thresholds,
+            output_dir=args.output,
+            device=args.device,
+        )
+        rec = stats["recommendation"]
+        rep = stats["representation_ablation"]
+        print(
+            f"n={stats['n_manifest']} "
+            f"preprocess_ok={stats['preprocessing_equivalence']['pass']} "
+            f"identity_acc={stats['dataset_identity_audit'].get('cv_accuracy')} "
+            f"ts3_black_med={rep.get('tongueset3', {}).get('black', {}).get('median')} "
+            f"ts3_gray_med={rep.get('tongueset3', {}).get('gray', {}).get('median')} "
+            f"primary={stats['shortcut_evidence']['primary_shortcut_hypothesis']} "
+            f"recommendation={rec['recommendation']}"
         )
         return
 

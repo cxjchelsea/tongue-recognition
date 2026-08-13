@@ -31,8 +31,8 @@ POLICY_PATH = ROOT / "configs" / "input_guard_v1.yaml"
 
 def _policy_with_thresholds(tmp_path: Path, overrides: dict) -> InputGuardPolicy:
     doc = yaml.safe_load(POLICY_PATH.read_text(encoding="utf-8"))
-    doc["version"] = "1.1"
-    doc["policy_version"] = "1.1"
+    doc["version"] = "1.2"
+    doc["policy_version"] = "1.2"
     # 为已实现 checks 填最小可用阈值，避免 validation fail
     defaults = {
         "tongue_presence": {"needs_calibration": False, "thresholds": {}},
@@ -105,9 +105,10 @@ def _policy_with_thresholds(tmp_path: Path, overrides: dict) -> InputGuardPolicy
         "color_cast": {"needs_calibration": True, "thresholds": {"warning": None, "retake": None}},
         "occlusion": {"needs_calibration": True, "thresholds": {"warning": None, "retake": None}},
         "stain_suspected": {
-            "enabled": False,
-            "needs_calibration": True,
-            "thresholds": {"warning": None, "retake": None},
+            "enabled": True,
+            "needs_calibration": False,
+            "implementation_stage": "D4-C",
+            "thresholds": {"clear": 0.25, "retake": 0.75},
         },
     }
     for key, cfg in defaults.items():
@@ -346,8 +347,8 @@ def test_signal_rule_source_and_evidence_thresholds(tmp_path):
 
 def test_policy_v11_and_uncalibrated_implemented_fail(tmp_path):
     doc = yaml.safe_load(POLICY_PATH.read_text(encoding="utf-8"))
-    doc["version"] = "1.1"
-    doc["policy_version"] = "1.1"
+    doc["version"] = "1.2"
+    doc["policy_version"] = "1.2"
     doc["checks"]["focus"]["needs_calibration"] = True
     doc["checks"]["focus"]["thresholds"] = {"warning": None, "retake": None}
     path = tmp_path / "bad.yaml"
@@ -394,8 +395,8 @@ def test_original_rgb_not_mutated_by_focus():
     assert np.array_equal(rgb, before)
 
 
-def test_implemented_count_is_eight():
-    assert implemented_checks_count() == 8
+def test_implemented_count_is_eleven():
+    assert implemented_checks_count() == 11
 
 
 @pytest.mark.skipif(
@@ -407,9 +408,10 @@ def test_runtime_deterministic_same_image(tmp_path):
     try:
         policy = InputGuardPolicy(POLICY_PATH)
     except ValueError:
-        pytest.skip("policy not yet calibrated to 1.1")
-    if not str(policy.policy_version).startswith("1.1"):
-        pytest.skip("policy not yet calibrated to 1.1")
+        pytest.skip("policy not yet calibrated to 1.1+")
+    version = str(policy.policy_version)
+    if not (version.startswith("1.1") or version.startswith("1.2")):
+        pytest.skip("policy not yet calibrated to 1.1+")
     runtime = InputGuardRuntime(
         checkpoint_path=ROOT / "runs/segmentation/d3c/baseline/best.pt",
         data_config=ROOT / "configs/segmentation_v1.yaml",

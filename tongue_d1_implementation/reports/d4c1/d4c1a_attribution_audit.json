@@ -1,0 +1,492 @@
+{
+  "group_mean_ratios": {
+    "stained_pos_high": {
+      "inside_ratio": 0.658771045216645,
+      "boundary_ratio": 0.024748949334904298,
+      "background_ratio": 0.20803387982388694,
+      "padding_ratio": 0.10844612562381957,
+      "n": 10
+    },
+    "stained_neg_low": {
+      "inside_ratio": 0.0,
+      "boundary_ratio": 0.0,
+      "background_ratio": 0.0,
+      "padding_ratio": 0.0,
+      "n": 10
+    },
+    "tongueset3_high": {
+      "inside_ratio": 0.6645508462512323,
+      "boundary_ratio": 0.02648398146663462,
+      "background_ratio": 0.22284291073589024,
+      "padding_ratio": 0.08612226154544374,
+      "n": 10
+    },
+    "tongueset3_low": {
+      "inside_ratio": 0.5121842638818221,
+      "boundary_ratio": 0.02948867101977875,
+      "background_ratio": 0.30165872895960655,
+      "padding_ratio": 0.05666833613714243,
+      "n": 10
+    },
+    "biohit": {
+      "inside_ratio": 0.6386368674980335,
+      "boundary_ratio": 0.02720006590423672,
+      "background_ratio": 0.26159166313051413,
+      "padding_ratio": 0.07257140346648806,
+      "n": 5
+    }
+  },
+  "samples": [
+    {
+      "group": "stained_pos_high",
+      "sample_id": "stained_coating::中医舌诊染苔数据/染苔/604_奥利奥饼干.JPG",
+      "p_stain": 0.9999999999965239,
+      "inside_ratio": 0.6116078923837921,
+      "boundary_ratio": 0.022848767160696858,
+      "background_ratio": 0.1794405986407717,
+      "padding_ratio": 0.1861027418139437,
+      "energy_sum": 12570.346855952172
+    },
+    {
+      "group": "stained_pos_high",
+      "sample_id": "stained_coating::中医舌诊染苔数据/染苔/381_黑巧.JPG",
+      "p_stain": 0.9999999999941576,
+      "inside_ratio": 0.7300459943480699,
+      "boundary_ratio": 0.026313998136066358,
+      "background_ratio": 0.22746265050970937,
+      "padding_ratio": 0.01617735700540681,
+      "energy_sum": 13378.099063982678
+    },
+    {
+      "group": "stained_pos_high",
+      "sample_id": "stained_coating::中医舌诊染苔数据/染苔/603_奥利奥饼干.JPG",
+      "p_stain": 0.9999999999929354,
+      "inside_ratio": 0.6255480991677026,
+      "boundary_ratio": 0.023389265504030952,
+      "background_ratio": 0.168778260244858,
+      "padding_ratio": 0.1822843750826768,
+      "energy_sum": 13668.778723362833
+    },
+    {
+      "group": "stained_pos_high",
+      "sample_id": "stained_coating::中医舌诊染苔数据/染苔/634_黑莓.JPG",
+      "p_stain": 0.9999999999890481,
+      "inside_ratio": 0.6969413726727209,
+      "boundary_ratio": 0.025856930524610352,
+      "background_ratio": 0.24655214514009763,
+      "padding_ratio": 0.030649551661892947,
+      "energy_sum": 14746.849650778517
+    },
+    {
+      "group": "stained_pos_high",
+      "sample_id": "stained_coating::中医舌诊染苔数据/染苔/565_蓝莓.JPG",
+      "p_stain": 0.9999999999804059,
+      "inside_ratio": 0.6039414644872892,
+      "boundary_ratio": 0.022217174413525196,
+      "background_ratio": 0.17760090384244026,
+      "padding_ratio": 0.19624045725600975,
+      "energy_sum": 13596.938101129723
+    },
+    {
+      "group": "stained_pos_high",
+      "sample_id": "stained_coating::中医舌诊染苔数据/染苔/464_小台芒.JPG",
+      "p_stain": 0.999999999976821,
+      "inside_ratio": 0.5972062786587408,
+      "boundary_ratio": 0.022234363397382186,
+      "background_ratio": 0.18473698981623124,
+      "padding_ratio": 0.19582236812687873,
+      "energy_sum": 13037.76578977186
+    },
+    {
+      "group": "stained_pos_high",
+      "sample_id": "stained_coating::中医舌诊染苔数据/染苔/590_黑莓.JPG",
+      "p_stain": 0.9999999999602946,
+      "inside_ratio": 0.6396563344077006,
+      "boundary_ratio": 0.024184813273030622,
+      "background_ratio": 0.23181853334895172,
+      "padding_ratio": 0.10434031896965495,
+      "energy_sum": 15104.462037341029
+    },
+    {
+      "group": "stained_pos_high",
+      "sample_id": "stained_coating::中医舌诊染苔数据/染苔/484_黑葡提.JPG",
+      "p_stain": 0.9999999999404108,
+      "inside_ratio": 0.7055826641124737,
+      "boundary_ratio": 0.025868705218196664,
+      "background_ratio": 0.2608540483406135,
+      "padding_ratio": 0.007694582327946308,
+      "energy_sum": 12991.710698727573
+    },
+    {
+      "group": "stained_pos_high",
+      "sample_id": "stained_coating::中医舌诊染苔数据/染苔/497_奥利奥原味饼干.JPG",
+      "p_stain": 0.9999999999104201,
+      "inside_ratio": 0.7150032313594378,
+      "boundary_ratio": 0.028258826016654855,
+      "background_ratio": 0.18459830968245017,
+      "padding_ratio": 0.07213963294072813,
+      "energy_sum": 13716.663813231047
+    },
+    {
+      "group": "stained_pos_high",
+      "sample_id": "stained_coating::中医舌诊染苔数据/染苔/328_黑葡提.JPG",
+      "p_stain": 0.9999999998915423,
+      "inside_ratio": 0.662177120568522,
+      "boundary_ratio": 0.026316649704848937,
+      "background_ratio": 0.21849635867274583,
+      "padding_ratio": 0.09300987105305746,
+      "energy_sum": 12109.773166789571
+    },
+    {
+      "group": "stained_neg_low",
+      "sample_id": "stained_coating::中医舌诊染苔数据/非染苔/660.JPG",
+      "p_stain": 7.345972428517214e-11,
+      "inside_ratio": 0.0,
+      "boundary_ratio": 0.0,
+      "background_ratio": 0.0,
+      "padding_ratio": 0.0,
+      "energy_sum": 0.0
+    },
+    {
+      "group": "stained_neg_low",
+      "sample_id": "stained_coating::中医舌诊染苔数据/非染苔/663.JPG",
+      "p_stain": 1.4288219651785684e-10,
+      "inside_ratio": 0.0,
+      "boundary_ratio": 0.0,
+      "background_ratio": 0.0,
+      "padding_ratio": 0.0,
+      "energy_sum": 0.0
+    },
+    {
+      "group": "stained_neg_low",
+      "sample_id": "stained_coating::中医舌诊染苔数据/非染苔/682.JPG",
+      "p_stain": 1.4949469277837118e-10,
+      "inside_ratio": 0.0,
+      "boundary_ratio": 0.0,
+      "background_ratio": 0.0,
+      "padding_ratio": 0.0,
+      "energy_sum": 0.0
+    },
+    {
+      "group": "stained_neg_low",
+      "sample_id": "stained_coating::中医舌诊染苔数据/非染苔/662.JPG",
+      "p_stain": 1.5242780176736057e-10,
+      "inside_ratio": 0.0,
+      "boundary_ratio": 0.0,
+      "background_ratio": 0.0,
+      "padding_ratio": 0.0,
+      "energy_sum": 0.0
+    },
+    {
+      "group": "stained_neg_low",
+      "sample_id": "stained_coating::中医舌诊染苔数据/非染苔/659.JPG",
+      "p_stain": 2.109415729267351e-10,
+      "inside_ratio": 0.0,
+      "boundary_ratio": 0.0,
+      "background_ratio": 0.0,
+      "padding_ratio": 0.0,
+      "energy_sum": 0.0
+    },
+    {
+      "group": "stained_neg_low",
+      "sample_id": "stained_coating::中医舌诊染苔数据/非染苔/314.JPG",
+      "p_stain": 4.1100438948370074e-10,
+      "inside_ratio": 0.0,
+      "boundary_ratio": 0.0,
+      "background_ratio": 0.0,
+      "padding_ratio": 0.0,
+      "energy_sum": 0.0
+    },
+    {
+      "group": "stained_neg_low",
+      "sample_id": "stained_coating::中医舌诊染苔数据/非染苔/994.JPG",
+      "p_stain": 5.022014760124661e-10,
+      "inside_ratio": 0.0,
+      "boundary_ratio": 0.0,
+      "background_ratio": 0.0,
+      "padding_ratio": 0.0,
+      "energy_sum": 0.0
+    },
+    {
+      "group": "stained_neg_low",
+      "sample_id": "stained_coating::中医舌诊染苔数据/非染苔/335.JPG",
+      "p_stain": 1.0668636786560512e-09,
+      "inside_ratio": 0.0,
+      "boundary_ratio": 0.0,
+      "background_ratio": 0.0,
+      "padding_ratio": 0.0,
+      "energy_sum": 0.0
+    },
+    {
+      "group": "stained_neg_low",
+      "sample_id": "stained_coating::中医舌诊染苔数据/非染苔/656.JPG",
+      "p_stain": 1.2626716394186999e-09,
+      "inside_ratio": 0.0,
+      "boundary_ratio": 0.0,
+      "background_ratio": 0.0,
+      "padding_ratio": 0.0,
+      "energy_sum": 0.0
+    },
+    {
+      "group": "stained_neg_low",
+      "sample_id": "stained_coating::中医舌诊染苔数据/非染苔/646.JPG",
+      "p_stain": 1.8867332123496787e-09,
+      "inside_ratio": 0.0,
+      "boundary_ratio": 0.0,
+      "background_ratio": 0.0,
+      "padding_ratio": 0.0,
+      "energy_sum": 0.0
+    },
+    {
+      "group": "tongueset3_high",
+      "sample_id": "tongueset3::1322.jpg",
+      "p_stain": 0.9999999999270157,
+      "inside_ratio": 0.6733369683415972,
+      "boundary_ratio": 0.023678475432597157,
+      "background_ratio": 0.09876167461184233,
+      "padding_ratio": 0.20422288161320232,
+      "energy_sum": 13141.72232632339
+    },
+    {
+      "group": "tongueset3_high",
+      "sample_id": "tongueset3::179.jpg",
+      "p_stain": 0.9999999988602128,
+      "inside_ratio": 0.6187940905499651,
+      "boundary_ratio": 0.026372834419883272,
+      "background_ratio": 0.2531271051387844,
+      "padding_ratio": 0.10170596989051656,
+      "energy_sum": 11756.338773319992
+    },
+    {
+      "group": "tongueset3_high",
+      "sample_id": "tongueset3::1428.jpg",
+      "p_stain": 0.9999999982592556,
+      "inside_ratio": 0.6735798530546815,
+      "boundary_ratio": 0.02722985521418549,
+      "background_ratio": 0.22340833128734572,
+      "padding_ratio": 0.07578196044310738,
+      "energy_sum": 14709.404905031552
+    },
+    {
+      "group": "tongueset3_high",
+      "sample_id": "tongueset3::1695.jpg",
+      "p_stain": 0.9999999927302361,
+      "inside_ratio": 0.7827678468486587,
+      "boundary_ratio": 0.026871520757064813,
+      "background_ratio": 0.17858369871738983,
+      "padding_ratio": 0.0117769336758812,
+      "energy_sum": 9946.596272059081
+    },
+    {
+      "group": "tongueset3_high",
+      "sample_id": "tongueset3::1090.jpg",
+      "p_stain": 0.9999999917644148,
+      "inside_ratio": 0.6507453829638922,
+      "boundary_ratio": 0.027147778949898695,
+      "background_ratio": 0.2794430875234615,
+      "padding_ratio": 0.042663750562152734,
+      "energy_sum": 16809.42547555978
+    },
+    {
+      "group": "tongueset3_high",
+      "sample_id": "tongueset3::1890.jpg",
+      "p_stain": 0.999999985908848,
+      "inside_ratio": 0.607447538848832,
+      "boundary_ratio": 0.02677028271046445,
+      "background_ratio": 0.2685783372630692,
+      "padding_ratio": 0.09720384117671287,
+      "energy_sum": 10851.884512788733
+    },
+    {
+      "group": "tongueset3_high",
+      "sample_id": "tongueset3::1598.jpg",
+      "p_stain": 0.9999999845415979,
+      "inside_ratio": 0.6603346646408919,
+      "boundary_ratio": 0.02682321592146253,
+      "background_ratio": 0.2611886904503332,
+      "padding_ratio": 0.05165342898644901,
+      "energy_sum": 11582.787586139864
+    },
+    {
+      "group": "tongueset3_high",
+      "sample_id": "tongueset3::1252.jpg",
+      "p_stain": 0.9999999648298069,
+      "inside_ratio": 0.7209733965513931,
+      "boundary_ratio": 0.027847622019926712,
+      "background_ratio": 0.2511789814279075,
+      "padding_ratio": 0.0,
+      "energy_sum": 12942.657727600075
+    },
+    {
+      "group": "tongueset3_high",
+      "sample_id": "tongueset3::1806.jpg",
+      "p_stain": 0.9999999634040844,
+      "inside_ratio": 0.6913254690814856,
+      "boundary_ratio": 0.027698860818677,
+      "background_ratio": 0.24341714431966507,
+      "padding_ratio": 0.03755852577937187,
+      "energy_sum": 12493.797924769751
+    },
+    {
+      "group": "tongueset3_high",
+      "sample_id": "tongueset3::1620.jpg",
+      "p_stain": 0.999999950664278,
+      "inside_ratio": 0.566203251630926,
+      "boundary_ratio": 0.024399368422186103,
+      "background_ratio": 0.17074205661910397,
+      "padding_ratio": 0.23865532332704345,
+      "energy_sum": 13506.949028735748
+    },
+    {
+      "group": "tongueset3_low",
+      "sample_id": "tongueset3::1466.jpg",
+      "p_stain": 0.002167840487192702,
+      "inside_ratio": 0.0,
+      "boundary_ratio": 0.0,
+      "background_ratio": 0.0,
+      "padding_ratio": 0.0,
+      "energy_sum": 0.0
+    },
+    {
+      "group": "tongueset3_low",
+      "sample_id": "tongueset3::1375.jpg",
+      "p_stain": 0.003555965945492904,
+      "inside_ratio": 0.7343338133515637,
+      "boundary_ratio": 0.0293886854675063,
+      "background_ratio": 0.2148992910659552,
+      "padding_ratio": 0.021378210113697393,
+      "energy_sum": 7828.407862733506
+    },
+    {
+      "group": "tongueset3_low",
+      "sample_id": "tongueset3::1729.jpg",
+      "p_stain": 0.003801574881489904,
+      "inside_ratio": 0.3072093028769269,
+      "boundary_ratio": 0.034782354859855535,
+      "background_ratio": 0.35531262386620033,
+      "padding_ratio": 0.3026957183931831,
+      "energy_sum": 2608.100990718878
+    },
+    {
+      "group": "tongueset3_low",
+      "sample_id": "tongueset3::117.jpg",
+      "p_stain": 0.006362494388791402,
+      "inside_ratio": 0.4311178381161747,
+      "boundary_ratio": 0.035410877819191736,
+      "background_ratio": 0.5334712840633519,
+      "padding_ratio": 0.0,
+      "energy_sum": 7801.950368206344
+    },
+    {
+      "group": "tongueset3_low",
+      "sample_id": "tongueset3::1491.jpg",
+      "p_stain": 0.013810286893331676,
+      "inside_ratio": 0.491496032771093,
+      "boundary_ratio": 0.02843044428126595,
+      "background_ratio": 0.40724583649297097,
+      "padding_ratio": 0.07282768645308867,
+      "energy_sum": 6323.180896061582
+    },
+    {
+      "group": "tongueset3_low",
+      "sample_id": "tongueset3::1476.jpg",
+      "p_stain": 0.014658309345129121,
+      "inside_ratio": 0.6725324894524255,
+      "boundary_ratio": 0.04270229427157729,
+      "background_ratio": 0.16914928231557638,
+      "padding_ratio": 0.11561593395899158,
+      "energy_sum": 6996.38515050439
+    },
+    {
+      "group": "tongueset3_low",
+      "sample_id": "tongueset3::1167.jpg",
+      "p_stain": 0.023025472464973624,
+      "inside_ratio": 0.7077601621967646,
+      "boundary_ratio": 0.04084158179200415,
+      "background_ratio": 0.2291918717420481,
+      "padding_ratio": 0.022206384266501553,
+      "energy_sum": 3729.0728411909527
+    },
+    {
+      "group": "tongueset3_low",
+      "sample_id": "tongueset3::1138.jpg",
+      "p_stain": 0.03216958842619552,
+      "inside_ratio": 0.639085916590413,
+      "boundary_ratio": 0.02624079982195494,
+      "background_ratio": 0.33467328358637505,
+      "padding_ratio": 0.0,
+      "energy_sum": 7955.5357816247
+    },
+    {
+      "group": "tongueset3_low",
+      "sample_id": "tongueset3::1021.jpg",
+      "p_stain": 0.038526377836901715,
+      "inside_ratio": 0.5590266607405228,
+      "boundary_ratio": 0.02656671201085942,
+      "background_ratio": 0.3919949616124654,
+      "padding_ratio": 0.022411665634580157,
+      "energy_sum": 6360.219190183453
+    },
+    {
+      "group": "tongueset3_low",
+      "sample_id": "tongueset3::1553.jpg",
+      "p_stain": 0.04027688055949024,
+      "inside_ratio": 0.5792804227223367,
+      "boundary_ratio": 0.030522959873572158,
+      "background_ratio": 0.38064885485112177,
+      "padding_ratio": 0.009547762551381836,
+      "energy_sum": 6299.2712906855195
+    },
+    {
+      "group": "biohit",
+      "sample_id": "biohit::96.bmp",
+      "p_stain": 0.9999262204148137,
+      "inside_ratio": 0.6083538484359715,
+      "boundary_ratio": 0.029130556912225464,
+      "background_ratio": 0.2801480498139832,
+      "padding_ratio": 0.08236754483728756,
+      "energy_sum": 18792.063237188362
+    },
+    {
+      "group": "biohit",
+      "sample_id": "biohit::284.bmp",
+      "p_stain": 0.9999228292437217,
+      "inside_ratio": 0.6397805209164528,
+      "boundary_ratio": 0.025137554542159313,
+      "background_ratio": 0.2732767588333342,
+      "padding_ratio": 0.061805165707144935,
+      "energy_sum": 11004.726741469345
+    },
+    {
+      "group": "biohit",
+      "sample_id": "biohit::160.bmp",
+      "p_stain": 0.9999007573109763,
+      "inside_ratio": 0.6594321737622617,
+      "boundary_ratio": 0.027442564134899705,
+      "background_ratio": 0.2599529635850308,
+      "padding_ratio": 0.053172298517253684,
+      "energy_sum": 18047.83375989436
+    },
+    {
+      "group": "biohit",
+      "sample_id": "biohit::264.bmp",
+      "p_stain": 0.9998872609031536,
+      "inside_ratio": 0.6562502137081324,
+      "boundary_ratio": 0.029236652518173308,
+      "background_ratio": 0.27056276060907497,
+      "padding_ratio": 0.04395037316380544,
+      "energy_sum": 12287.060004190671
+    },
+    {
+      "group": "biohit",
+      "sample_id": "biohit::254.bmp",
+      "p_stain": 0.9997787488563591,
+      "inside_ratio": 0.629367580667349,
+      "boundary_ratio": 0.025053001413725805,
+      "background_ratio": 0.22401778281114731,
+      "padding_ratio": 0.12156163510694866,
+      "energy_sum": 12060.426335805592
+    }
+  ],
+  "selection_rule": "sort by p_stain then sample_id; frozen Grad-CAM"
+}

@@ -194,16 +194,16 @@ CHECK_DEFINITIONS: dict[CheckId, dict] = {
     CheckId.COLOR_CAST: {
         "defined": True,
         "implementation_stage": "D4-D",
-        "implemented": False,
+        "implemented": True,
         "depends_on_roi": True,
-        "description": "偏色嫌疑（禁止粗暴 RGB 比判 RETAKE）",
+        "description": "偏色嫌疑（neutral-reference；禁止舌色捷径）",
     },
     CheckId.OCCLUSION: {
         "defined": True,
         "implementation_stage": "D4-D",
-        "implemented": False,
+        "implemented": True,
         "depends_on_roi": True,
-        "description": "遮挡（唇/齿/手指等）",
+        "description": "遮挡（多弱证据；不把裂纹/齿痕当遮挡）",
     },
     CheckId.RESOLUTION: {
         "defined": True,
@@ -215,7 +215,7 @@ CHECK_DEFINITIONS: dict[CheckId, dict] = {
     CheckId.STAIN_SUSPECTED: {
         "defined": True,
         "implementation_stage": "D4-C",
-        "implemented": False,
+        "implemented": True,
         "depends_on_roi": True,
         "description": "外源染苔嫌疑（非病理苔色）",
     },

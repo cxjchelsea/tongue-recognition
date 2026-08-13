@@ -1,0 +1,174 @@
+{
+  "stage": "D4-D",
+  "input_guard_contract_version": "1.0",
+  "input_guard_policy_version": "1.3",
+  "defined_checks": 11,
+  "implemented_checks": 11,
+  "color_cast_status": "PASS",
+  "occlusion_status": "PASS",
+  "guard_ready": true,
+  "baseline_status": "TARGET_PASS",
+  "D3_checkpoint_hash": "a26934531e6643f6",
+  "stain_checkpoint_hash_ref": "runs/input_guard/d4c/stain/best.pt",
+  "D4_C_t_clear": 0.95,
+  "D4_C_t_retake": 0.96,
+  "D4_C_thresholds_unchanged": true,
+  "color_cast": {
+    "calibration_samples": 1169,
+    "neutral_support_rate": 0.9486740804106074,
+    "clean_counts": {
+      "pass": 1053,
+      "warning": 34,
+      "retake": 22,
+      "unavailable": 60,
+      "not_evaluated": 0
+    },
+    "clean_false_retake_rate": 0.018819503849443968,
+    "thresholds": {
+      "warning_cast_magnitude": 20.088847335301597,
+      "retake_cast_magnitude": 28.600699292150182,
+      "calibration_support_count": 1109,
+      "cast_magnitude_p50": 6.324555320336759,
+      "cast_magnitude_p95": 20.088847335301597,
+      "synthetic_severe_magnitude_p10": 24.78761475827293,
+      "synthetic_severe_count": 96
+    },
+    "synthetic_moderate_detection": 0.3958333333333333,
+    "synthetic_severe_detection": 0.9270833333333334
+  },
+  "occlusion": {
+    "calibration_samples": 1169,
+    "clean_counts": {
+      "pass": 1144,
+      "warning": 24,
+      "retake": 0,
+      "unavailable": 1,
+      "not_evaluated": 0
+    },
+    "clean_false_retake_rate": 0.0,
+    "thresholds": {
+      "warning_combined_score": 0.23593363954037233,
+      "retake_combined_score": 0.28615079033942487,
+      "require_multi_evidence_for_retake": true,
+      "calibration_available_count": 1168,
+      "combined_score_p50": 0.008480727306555483,
+      "combined_score_p95": 0.20099810290869718
+    },
+    "synthetic_small_retake_rate": 0.0,
+    "synthetic_severe_detection": 1.0,
+    "synthetic_summary": {
+      "small": {
+        "n": 24,
+        "retake": 0,
+        "warning": 0,
+        "pass": 24,
+        "unavailable": 0
+      },
+      "moderate": {
+        "n": 24,
+        "retake": 4,
+        "warning": 3,
+        "pass": 17,
+        "unavailable": 0
+      },
+      "severe": {
+        "n": 24,
+        "retake": 24,
+        "warning": 0,
+        "pass": 0,
+        "unavailable": 0
+      }
+    }
+  },
+  "unified_test": {
+    "samples": 130,
+    "pass": 36,
+    "warning": 14,
+    "retake": 80,
+    "evaluation_complete_true": 120,
+    "evaluation_complete_false": 10
+  },
+  "known_failure_biohit_278": {
+    "sample_id": "biohit::278.bmp",
+    "decision": "pass",
+    "usable": true,
+    "evaluation_complete": true,
+    "guard_ready": true,
+    "primary_reason": null,
+    "reason_codes": [],
+    "checks": {
+      "quality.tongue_presence": {
+        "state": "evaluated",
+        "finding": "present",
+        "effect": "pass",
+        "reason": null
+      },
+      "quality.tongue_scale": {
+        "state": "evaluated",
+        "finding": "adequate",
+        "effect": "pass",
+        "reason": null
+      },
+      "quality.tongue_completeness": {
+        "state": "evaluated",
+        "finding": "complete",
+        "effect": "pass",
+        "reason": null
+      },
+      "quality.segmentation_integrity": {
+        "state": "evaluated",
+        "finding": "good",
+        "effect": "pass",
+        "reason": null
+      },
+      "quality.focus": {
+        "state": "evaluated",
+        "finding": "sharp",
+        "effect": "pass",
+        "reason": null
+      },
+      "quality.exposure": {
+        "state": "evaluated",
+        "finding": "normal",
+        "effect": "pass",
+        "reason": null
+      },
+      "quality.illumination_uniformity": {
+        "state": "evaluated",
+        "finding": "uniform",
+        "effect": "pass",
+        "reason": null
+      },
+      "quality.color_cast": {
+        "state": "evaluated",
+        "finding": "acceptable",
+        "effect": "pass",
+        "reason": null
+      },
+      "quality.occlusion": {
+        "state": "evaluated",
+        "finding": "none",
+        "effect": "pass",
+        "reason": null
+      },
+      "quality.resolution": {
+        "state": "evaluated",
+        "finding": "adequate",
+        "effect": "pass",
+        "reason": null
+      },
+      "quality.stain_suspected": {
+        "state": "evaluated",
+        "finding": "false",
+        "effect": "pass",
+        "reason": null
+      }
+    },
+    "note": "known D3 failure; do not retune thresholds for this case"
+  },
+  "real_smoke_samples": 20,
+  "stained_smoke_samples": 10,
+  "pytest_result": "230 passed, 1 skipped",
+  "validator_result": "OK",
+  "note": "D4-C uncertain-rate=0 known limitation preserved; stain thresholds not recalibrated."
+}

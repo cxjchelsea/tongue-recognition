@@ -59,8 +59,7 @@ def validate_input_guard_contract(
         )
     elif implemented < defined:
         warnings.append(
-            f"partial implementation: implemented={implemented}/{defined} "
-            f"(color_cast/occlusion/stain deferred)"
+            f"partial implementation: implemented={implemented}/{defined}"
         )
 
     # stain 必须 defined，且不得与病理苔色混淆

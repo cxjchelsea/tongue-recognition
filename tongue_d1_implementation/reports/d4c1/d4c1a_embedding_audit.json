@@ -1,0 +1,19 @@
+{
+  "n_per_group": {
+    "stain_pos": 250,
+    "stain_neg": 250,
+    "biohit": 250,
+    "tongueset3": 250
+  },
+  "centroid_distances": {
+    "stain_pos__stain_neg": 42.907814025878906,
+    "stain_pos__biohit": 34.05458450317383,
+    "stain_pos__tongueset3": 16.827194213867188,
+    "stain_neg__biohit": 11.95698356628418,
+    "stain_neg__tongueset3": 35.04554748535156,
+    "biohit__tongueset3": 25.424339294433594
+  },
+  "tongueset3_closer_to": "stain_pos",
+  "note": "frozen encoder; no training",
+  "pca_point_count": 1000
+}

@@ -1,0 +1,662 @@
+{
+  "stage": "D4-D.1",
+  "git_note": "working tree may contain uncommitted D4-C/D4-D; audit is read-only",
+  "n_samples": 130,
+  "dataset_counts": {
+    "tongueset3": 100,
+    "biohit": 30
+  },
+  "ablation": {
+    "n": 130,
+    "sample_ids": [
+      "biohit::100.bmp",
+      "biohit::130.bmp",
+      "biohit::133.bmp",
+      "biohit::162.bmp",
+      "biohit::167.bmp",
+      "biohit::186.bmp",
+      "biohit::202.bmp",
+      "biohit::21.bmp",
+      "biohit::22.bmp",
+      "biohit::224.bmp",
+      "biohit::228.bmp",
+      "biohit::234.bmp",
+      "biohit::253.bmp",
+      "biohit::258.bmp",
+      "biohit::261.bmp",
+      "biohit::278.bmp",
+      "biohit::28.bmp",
+      "biohit::289.bmp",
+      "biohit::300.bmp",
+      "biohit::31.bmp",
+      "biohit::40.bmp",
+      "biohit::43.bmp",
+      "biohit::47.bmp",
+      "biohit::57.bmp",
+      "biohit::59.bmp",
+      "biohit::67.bmp",
+      "biohit::72.bmp",
+      "biohit::8.bmp",
+      "biohit::88.bmp",
+      "biohit::93.bmp",
+      "tongueset3::100.jpg",
+      "tongueset3::1004.jpg",
+      "tongueset3::1012.jpg",
+      "tongueset3::1048.jpg",
+      "tongueset3::1052.jpg",
+      "tongueset3::1074.jpg",
+      "tongueset3::1076.jpg",
+      "tongueset3::1080.jpg",
+      "tongueset3::1090.jpg",
+      "tongueset3::1092.jpg",
+      "tongueset3::1103.jpg",
+      "tongueset3::1122.jpg",
+      "tongueset3::1128.jpg",
+      "tongueset3::1129.jpg",
+      "tongueset3::1169.jpg",
+      "tongueset3::1178.jpg",
+      "tongueset3::1184.jpg",
+      "tongueset3::1231.jpg",
+      "tongueset3::1236.jpg",
+      "tongueset3::1239.jpg",
+      "tongueset3::1241.jpg",
+      "tongueset3::126.jpg",
+      "tongueset3::1265.jpg",
+      "tongueset3::127.jpg",
+      "tongueset3::128.jpg",
+      "tongueset3::1283.jpg",
+      "tongueset3::1285.jpg",
+      "tongueset3::1293.jpg",
+      "tongueset3::1295.jpg",
+      "tongueset3::1296.jpg",
+      "tongueset3::1323.jpg",
+      "tongueset3::1331.jpg",
+      "tongueset3::1335.jpg",
+      "tongueset3::1339.jpg",
+      "tongueset3::1348.jpg",
+      "tongueset3::1357.jpg",
+      "tongueset3::136.jpg",
+      "tongueset3::137.jpg",
+      "tongueset3::1375.jpg",
+      "tongueset3::139.jpg",
+      "tongueset3::1392.jpg",
+      "tongueset3::1409.jpg",
+      "tongueset3::1419.jpg",
+      "tongueset3::142.jpg",
+      "tongueset3::1426.jpg",
+      "tongueset3::1436.jpg",
+      "tongueset3::1438.jpg",
+      "tongueset3::1441.jpg",
+      "tongueset3::1469.jpg",
+      "tongueset3::1483.jpg",
+      "tongueset3::1507.jpg",
+      "tongueset3::1509.jpg",
+      "tongueset3::1518.jpg",
+      "tongueset3::1522.jpg",
+      "tongueset3::1531.jpg",
+      "tongueset3::1539.jpg",
+      "tongueset3::1544.jpg",
+      "tongueset3::1546.jpg",
+      "tongueset3::1561.jpg",
+      "tongueset3::157.jpg",
+      "tongueset3::1588.jpg",
+      "tongueset3::1597.jpg",
+      "tongueset3::1610.jpg",
+      "tongueset3::1618.jpg",
+      "tongueset3::1622.jpg",
+      "tongueset3::1631.jpg",
+      "tongueset3::1642.jpg",
+      "tongueset3::1648.jpg",
+      "tongueset3::1656.jpg",
+      "tongueset3::166.jpg",
+      "tongueset3::1665.jpg",
+      "tongueset3::1690.jpg",
+      "tongueset3::1696.jpg",
+      "tongueset3::1701.jpg",
+      "tongueset3::1704.jpg",
+      "tongueset3::1716.jpg",
+      "tongueset3::1721.jpg",
+      "tongueset3::1724.jpg",
+      "tongueset3::1729.jpg",
+      "tongueset3::1733.jpg",
+      "tongueset3::1738.jpg",
+      "tongueset3::1753.jpg",
+      "tongueset3::1758.jpg",
+      "tongueset3::1763.jpg",
+      "tongueset3::1770.jpg",
+      "tongueset3::1780.jpg",
+      "tongueset3::1808.jpg",
+      "tongueset3::1809.jpg",
+      "tongueset3::1813.jpg",
+      "tongueset3::1815.jpg",
+      "tongueset3::1819.jpg",
+      "tongueset3::1822.jpg",
+      "tongueset3::1840.jpg",
+      "tongueset3::1850.jpg",
+      "tongueset3::1862.jpg",
+      "tongueset3::1863.jpg",
+      "tongueset3::1868.jpg",
+      "tongueset3::1878.jpg",
+      "tongueset3::1894.jpg",
+      "tongueset3::1904.jpg"
+    ],
+    "counts": {
+      "A_d4b_only": {
+        "pass": 74,
+        "warning": 43,
+        "retake": 13
+      },
+      "B_d4b_stain": {
+        "pass": 39,
+        "warning": 11,
+        "retake": 80
+      },
+      "C_d4b_stain_cast": {
+        "pass": 36,
+        "warning": 14,
+        "retake": 80
+      },
+      "D_full": {
+        "pass": 36,
+        "warning": 14,
+        "retake": 80
+      }
+    },
+    "delta_retake": {
+      "B_minus_A": 67,
+      "C_minus_B": 0,
+      "D_minus_C": 0
+    },
+    "full_vs_unified_mismatch": 0
+  },
+  "retake_attribution": {
+    "total_retake": 80,
+    "by_source": {
+      "d4b_only": 1,
+      "stain_only": 67,
+      "color_cast_only": 0,
+      "occlusion_only": 0,
+      "d4b_plus_stain": 12,
+      "d4b_plus_cast": 0,
+      "d4b_plus_occlusion": 0,
+      "stain_plus_cast": 0,
+      "stain_plus_occlusion": 0,
+      "cast_plus_occlusion": 0,
+      "three_or_more": 0,
+      "none": 0,
+      "other": 0
+    },
+    "unique_trigger_count": {
+      "D4B": 13,
+      "stain": 79,
+      "color_cast": 0,
+      "occlusion": 0
+    },
+    "raw_bucket_counts": {
+      "stain_only": 67,
+      "d4b_plus_stain": 12,
+      "d4b_only": 1
+    }
+  },
+  "newly_rejected": {
+    "n": 67,
+    "stain_only": 67,
+    "color_cast_only": 0,
+    "occlusion_only": 0,
+    "multiple": 0,
+    "stain_trigger": 67,
+    "color_cast_trigger": 0,
+    "occlusion_trigger": 0,
+    "d4b_trigger": 0
+  },
+  "stain_distribution": {
+    "overall": {
+      "n": 130,
+      "quantiles": {
+        "count": 130,
+        "min": 1.0492543879081495e-05,
+        "p01": 1.6945621364357067e-05,
+        "p05": 0.00025850828824331985,
+        "p10": 0.0027180163073353475,
+        "p25": 0.4434671401977539,
+        "median": 0.9902349412441254,
+        "p75": 0.9996025860309601,
+        "p90": 0.9999799370765686,
+        "p95": 0.9999965906143189,
+        "p99": 0.9999997425079346,
+        "max": 1.0,
+        "mean": 0.7356008894746643,
+        "std": 0.39617574962644037
+      },
+      "band_counts": {
+        "clear": 49,
+        "uncertain": 2,
+        "stain": 79,
+        "missing": 0
+      },
+      "rate_p_le_clear": 0.3769230769230769,
+      "rate_uncertain_band": 0.015384615384615385,
+      "rate_p_ge_retake": 0.6076923076923076
+    },
+    "biohit": {
+      "n": 30,
+      "quantiles": {
+        "count": 30,
+        "min": 1.0492543879081495e-05,
+        "p01": 1.1307550785204512e-05,
+        "p05": 1.895539176075545e-05,
+        "p10": 4.8781544683151887e-05,
+        "p25": 0.0002730647101998329,
+        "median": 0.0033060619607567787,
+        "p75": 0.16442840546369553,
+        "p90": 0.334396812319756,
+        "p95": 0.7858923941850653,
+        "p99": 0.9698263454437256,
+        "max": 0.9825370907783508,
+        "mean": 0.13353040827814766,
+        "std": 0.25878383950244405
+      },
+      "band_counts": {
+        "clear": 29,
+        "uncertain": 0,
+        "stain": 1,
+        "missing": 0
+      },
+      "rate_p_le_clear": 0.9666666666666667,
+      "rate_uncertain_band": 0.0,
+      "rate_p_ge_retake": 0.03333333333333333
+    },
+    "tongueset3": {
+      "n": 100,
+      "quantiles": {
+        "count": 100,
+        "min": 0.0035559660755097866,
+        "p01": 0.0037991190725006163,
+        "p05": 0.4344356432557106,
+        "p10": 0.6909758508205414,
+        "p25": 0.9717920273542404,
+        "median": 0.9979519546031952,
+        "p75": 0.9998461604118347,
+        "p90": 0.9999890923500061,
+        "p95": 0.9999978959560394,
+        "p99": 0.9999998819828033,
+        "max": 1.0,
+        "mean": 0.9162220338336192,
+        "std": 0.20635021736214765
+      },
+      "band_counts": {
+        "clear": 20,
+        "uncertain": 2,
+        "stain": 78,
+        "missing": 0
+      },
+      "rate_p_le_clear": 0.2,
+      "rate_uncertain_band": 0.02,
+      "rate_p_ge_retake": 0.78
+    },
+    "possible_cross_domain_probability_shift": true,
+    "dataset_identity_shift_suspected": true,
+    "uncertain_band_utilization": {
+      "overall_uncertain_count": 2,
+      "note": "known limitation if remains near 0"
+    }
+  },
+  "stain_domain_compare": {
+    "available": true,
+    "d4c_negative_quantiles": {
+      "count": 94,
+      "min": 1.4921465452122362e-10,
+      "p01": 9.185507442305286e-09,
+      "p05": 3.139511598249102e-07,
+      "p10": 1.3100696151013843e-06,
+      "p25": 0.00011448202894825954,
+      "median": 0.0005870272871106863,
+      "p75": 0.0006665117107331753,
+      "p90": 0.0010549935977905993,
+      "p95": 0.0018805701867677254,
+      "p99": 0.007100727234501043,
+      "max": 0.054588377475738525,
+      "mean": 0.001129189678469172,
+      "std": 0.005578518764015532
+    },
+    "biohit_vs_d4c_neg": {
+      "median_shift": 0.0027190346736460924,
+      "mean_shift": 0.1324012185996785,
+      "ks": 0.5347517730496454,
+      "wasserstein": 0.1324012185996785
+    },
+    "tongueset3_vs_d4c_neg": {
+      "median_shift": 0.9973649273160845,
+      "mean_shift": 0.91509284415515,
+      "ks": 0.9893617021276596,
+      "wasserstein": 0.9150928441551499
+    },
+    "d4c_negative_median": 0.0005870272871106863,
+    "biohit_median": 0.0033060619607567787,
+    "tongueset3_median": 0.9979519546031952
+  },
+  "stain_quality_stratum": {
+    "pass": {
+      "n": 74,
+      "p_stain_median": 0.8946902453899384,
+      "stain_true_rate": 0.47297297297297297,
+      "uncertain_rate": 0.0
+    },
+    "warning": {
+      "n": 43,
+      "p_stain_median": 0.9990697503089905,
+      "stain_true_rate": 0.7441860465116279,
+      "uncertain_rate": 0.046511627906976744
+    },
+    "retake": {
+      "n": 13,
+      "p_stain_median": 0.9987446069717407,
+      "stain_true_rate": 0.9230769230769231,
+      "uncertain_rate": 0.0
+    }
+  },
+  "color_cast": {
+    "overall": {
+      "findings": {
+        "acceptable": 115,
+        "null": 10,
+        "suspected": 5
+      },
+      "effects": {
+        "pass": 115,
+        "null": 10,
+        "warning": 5
+      },
+      "states": {
+        "evaluated": 120,
+        "unavailable": 10
+      },
+      "retake_count": 0,
+      "warning_count": 5,
+      "unavailable_count": 10
+    },
+    "by_dataset": {
+      "biohit": {
+        "findings": {
+          "acceptable": 30
+        },
+        "effects": {
+          "pass": 30
+        },
+        "retake_count": 0,
+        "warning_count": 0,
+        "unavailable_count": 0,
+        "n": 30
+      },
+      "tongueset3": {
+        "findings": {
+          "acceptable": 85,
+          "null": 10,
+          "suspected": 5
+        },
+        "effects": {
+          "pass": 85,
+          "null": 10,
+          "warning": 5
+        },
+        "retake_count": 0,
+        "warning_count": 5,
+        "unavailable_count": 10,
+        "n": 100
+      }
+    }
+  },
+  "occlusion": {
+    "overall": {
+      "findings": {
+        "none": 127,
+        "possible_occlusion": 3
+      },
+      "effects": {
+        "pass": 127,
+        "warning": 3
+      },
+      "states": {
+        "evaluated": 130
+      },
+      "retake_count": 0,
+      "warning_count": 3,
+      "unavailable_count": 0
+    },
+    "by_dataset": {
+      "biohit": {
+        "findings": {
+          "none": 30
+        },
+        "effects": {
+          "pass": 30
+        },
+        "retake_count": 0,
+        "warning_count": 0,
+        "unavailable_count": 0,
+        "n": 30
+      },
+      "tongueset3": {
+        "findings": {
+          "none": 97,
+          "possible_occlusion": 3
+        },
+        "effects": {
+          "pass": 97,
+          "warning": 3
+        },
+        "retake_count": 0,
+        "warning_count": 3,
+        "unavailable_count": 0,
+        "n": 100
+      }
+    }
+  },
+  "reason_code_counts": {
+    "STAIN_SUSPECTED": 81,
+    "TONGUE_SLIGHTLY_SMALL": 17,
+    "IMAGE_BLUR": 12,
+    "TONGUE_TOUCHES_FRAME": 11,
+    "UNDEREXPOSED": 11,
+    "UNEVEN_LIGHTING": 10,
+    "IMAGE_RESOLUTION_TOO_LOW": 10,
+    "OVEREXPOSED": 8,
+    "COLOR_CAST_SUSPECTED": 5,
+    "TONGUE_OCCLUDED": 3,
+    "STRONG_SHADOW": 3,
+    "TONGUE_RESOLUTION_TOO_LOW": 3,
+    "SHADOW_CLIPPING": 2,
+    "TONGUE_TOO_SMALL": 2,
+    "HIGHLIGHT_CLIPPING": 2,
+    "TONGUE_CROPPED": 1,
+    "TONGUE_BLUR": 1
+  },
+  "primary_reason_counts": {
+    "STAIN_SUSPECTED": 67,
+    "null": 36,
+    "UNDEREXPOSED": 5,
+    "TONGUE_TOUCHES_FRAME": 3,
+    "TONGUE_SLIGHTLY_SMALL": 3,
+    "STRONG_SHADOW": 3,
+    "COLOR_CAST_SUSPECTED": 3,
+    "SHADOW_CLIPPING": 2,
+    "HIGHLIGHT_CLIPPING": 2,
+    "OVEREXPOSED": 2,
+    "TONGUE_TOO_SMALL": 1,
+    "TONGUE_RESOLUTION_TOO_LOW": 1,
+    "TONGUE_CROPPED": 1,
+    "TONGUE_BLUR": 1
+  },
+  "evaluation_complete_false": {
+    "count": 10,
+    "reason_counts": {
+      "color_cast_unavailable": 10,
+      "occlusion_unavailable": 0,
+      "stain_unavailable": 0,
+      "other": 0
+    },
+    "details": [
+      {
+        "sample_id": "tongueset3::1128.jpg",
+        "flags": [
+          "color_cast_unavailable"
+        ]
+      },
+      {
+        "sample_id": "tongueset3::1285.jpg",
+        "flags": [
+          "color_cast_unavailable"
+        ]
+      },
+      {
+        "sample_id": "tongueset3::137.jpg",
+        "flags": [
+          "color_cast_unavailable"
+        ]
+      },
+      {
+        "sample_id": "tongueset3::1419.jpg",
+        "flags": [
+          "color_cast_unavailable"
+        ]
+      },
+      {
+        "sample_id": "tongueset3::1531.jpg",
+        "flags": [
+          "color_cast_unavailable"
+        ]
+      },
+      {
+        "sample_id": "tongueset3::1561.jpg",
+        "flags": [
+          "color_cast_unavailable"
+        ]
+      },
+      {
+        "sample_id": "tongueset3::1721.jpg",
+        "flags": [
+          "color_cast_unavailable"
+        ]
+      },
+      {
+        "sample_id": "tongueset3::1758.jpg",
+        "flags": [
+          "color_cast_unavailable"
+        ]
+      },
+      {
+        "sample_id": "tongueset3::1808.jpg",
+        "flags": [
+          "color_cast_unavailable"
+        ]
+      },
+      {
+        "sample_id": "tongueset3::1822.jpg",
+        "flags": [
+          "color_cast_unavailable"
+        ]
+      }
+    ]
+  },
+  "aggregation_bugs": {
+    "bug_count": 0,
+    "bugs": []
+  },
+  "stain_mapping_bugs": {
+    "bug_count": 0,
+    "bugs": []
+  },
+  "biohit_278": {
+    "sample_id": "biohit::278.bmp",
+    "D4B_decision": "pass",
+    "stain_probability": 0.006855750922113657,
+    "stain_finding": "false",
+    "color_cast_finding": "acceptable",
+    "occlusion_finding": "none",
+    "unified_decision": "pass",
+    "primary_reason": null,
+    "all_reason_codes": ""
+  },
+  "shortcut_correlations": {
+    "foreground_ratio": 0.005284123622512166,
+    "mean_luminance": 0.43684922412009786,
+    "roi_blur_score": -0.5171416904748313,
+    "effective_short_side_px": -0.5979722492289873
+  },
+  "review_samples": {
+    "stain_only": [
+      {
+        "sample_id": "biohit::300.bmp",
+        "dataset": "biohit",
+        "image_path": "D:\\project\\tongue-recognition\\BioHit Tongue Image Dataset\\TongeImageDataset\\dataset\\300.bmp"
+      },
+      {
+        "sample_id": "tongueset3::100.jpg",
+        "dataset": "tongueset3",
+        "image_path": "D:\\project\\tongue-recognition\\Tongueset3\\img\\100.jpg"
+      },
+      {
+        "sample_id": "tongueset3::1012.jpg",
+        "dataset": "tongueset3",
+        "image_path": "D:\\project\\tongue-recognition\\Tongueset3\\img\\1012.jpg"
+      },
+      {
+        "sample_id": "tongueset3::1048.jpg",
+        "dataset": "tongueset3",
+        "image_path": "D:\\project\\tongue-recognition\\Tongueset3\\img\\1048.jpg"
+      },
+      {
+        "sample_id": "tongueset3::1052.jpg",
+        "dataset": "tongueset3",
+        "image_path": "D:\\project\\tongue-recognition\\Tongueset3\\img\\1052.jpg"
+      },
+      {
+        "sample_id": "tongueset3::1090.jpg",
+        "dataset": "tongueset3",
+        "image_path": "D:\\project\\tongue-recognition\\Tongueset3\\img\\1090.jpg"
+      },
+      {
+        "sample_id": "tongueset3::1092.jpg",
+        "dataset": "tongueset3",
+        "image_path": "D:\\project\\tongue-recognition\\Tongueset3\\img\\1092.jpg"
+      },
+      {
+        "sample_id": "tongueset3::1128.jpg",
+        "dataset": "tongueset3",
+        "image_path": "D:\\project\\tongue-recognition\\Tongueset3\\img\\1128.jpg"
+      },
+      {
+        "sample_id": "tongueset3::1169.jpg",
+        "dataset": "tongueset3",
+        "image_path": "D:\\project\\tongue-recognition\\Tongueset3\\img\\1169.jpg"
+      },
+      {
+        "sample_id": "tongueset3::1178.jpg",
+        "dataset": "tongueset3",
+        "image_path": "D:\\project\\tongue-recognition\\Tongueset3\\img\\1178.jpg"
+      }
+    ],
+    "cast_only": [],
+    "occlusion_only": [],
+    "multiple": []
+  },
+  "frozen_checks": {
+    "stain_t_clear": 0.95,
+    "stain_t_retake": 0.96,
+    "policy_version": "1.3",
+    "thresholds_modified": false,
+    "runtime_modified": false
+  },
+  "recommendation": {
+    "recommendation": "D4C_CROSS_DOMAIN_CONCERN",
+    "guard_ready_recommendation": "SET_FALSE_PENDING_DOMAIN_FIX",
+    "newly_rejected_n": 67,
+    "newly_rejected_stain_only": 67,
+    "newly_rejected_stain_trigger": 67,
+    "newly_rejected_cast_trigger": 0,
+    "newly_rejected_occlusion_trigger": 0,
+    "concerns": [
+      "D4C_CROSS_DOMAIN_CONCERN"
+    ]
+  }
+}

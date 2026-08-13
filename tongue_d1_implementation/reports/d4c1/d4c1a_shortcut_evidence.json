@@ -1,0 +1,49 @@
+{
+  "factors": {
+    "color_distribution": {
+      "status": "strong",
+      "evidence": "pair_top=[{'feature': 'p_stain', 'biohit_median': 0.003643209613987218, 'tongueset3_median': 0.9977490342664617, 'median_diff': 0.9941058246524744, 'cohen_d_ts3_minus_bio': 2.814045861829331}, {'feature': 'mean_b', 'biohit_median': 89.10743632607847, 'tongueset3_median': 131.56195146515753, 'median_diff': 42.454515139079064, 'cohen_d_ts3_minus_bio': 2.0515830753249333}, {'feature': 'luminance_mean', 'biohit_median': 99.1338322309185, 'tongueset3_median': 134.18632668604218, 'median_diff': 35.05249445512368, 'cohen_d_ts3_minus_bio': 1.982278211812118}]"
+    },
+    "white_balance": {
+      "status": "strong",
+      "evidence": "see Lab/HSV shifts and gray-world counterfactual in stats"
+    },
+    "luminance": {
+      "status": "moderate",
+      "evidence": "luminance features in BioHit vs TongueSet3 ranking"
+    },
+    "mask_fill_geometry": {
+      "status": "weak",
+      "evidence": "ts3 delta black-gray=-0.0021406339256216933, black-bbox=0.022149400453276624"
+    },
+    "ROI_geometry": {
+      "status": "weak",
+      "evidence": "geometry ranks in BioHit vs TongueSet3"
+    },
+    "letterbox_padding": {
+      "status": "weak",
+      "evidence": "padding_ratio domain comparison"
+    },
+    "resolution": {
+      "status": "moderate",
+      "evidence": "roi_short_side effect size"
+    },
+    "blur": {
+      "status": "weak",
+      "evidence": "laplacian_var effect size"
+    },
+    "compression": {
+      "status": "undetermined",
+      "evidence": "file_extension summarized; no reliable JPEG quality EXIF across all"
+    },
+    "dataset_identity": {
+      "status": "strong",
+      "evidence": "cv_accuracy=0.9584335279972518"
+    },
+    "local_stain_evidence": {
+      "status": "moderate",
+      "evidence": "tongueset3_high CAM inside=0.6645508462512323 boundary=0.02648398146663462 background=0.22284291073589024 padding=0.08612226154544374"
+    }
+  },
+  "primary_shortcut_hypothesis": "COLOR_ACQUISITION_STYLE"
+}

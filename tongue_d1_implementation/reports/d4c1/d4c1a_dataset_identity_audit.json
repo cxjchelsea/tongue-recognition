@@ -1,0 +1,115 @@
+{
+  "available": true,
+  "cv_accuracy": 0.9584335279972518,
+  "labels": [
+    "biohit",
+    "stained",
+    "tongueset3"
+  ],
+  "confusion_matrix": [
+    [
+      258,
+      10,
+      2
+    ],
+    [
+      7,
+      1699,
+      36
+    ],
+    [
+      21,
+      45,
+      833
+    ]
+  ],
+  "feature_importance_top": [
+    {
+      "feature": "roi_short_side",
+      "importance": 0.2319367506211867
+    },
+    {
+      "feature": "mean_b",
+      "importance": 0.12546394497440472
+    },
+    {
+      "feature": "mean_g",
+      "importance": 0.07581948937239673
+    },
+    {
+      "feature": "luminance_std",
+      "importance": 0.06876231646506754
+    },
+    {
+      "feature": "mean_l",
+      "importance": 0.06071982782662659
+    },
+    {
+      "feature": "luminance_mean",
+      "importance": 0.051535993269718035
+    },
+    {
+      "feature": "rg_ratio",
+      "importance": 0.05056723324739273
+    },
+    {
+      "feature": "laplacian_var",
+      "importance": 0.049662119132643866
+    },
+    {
+      "feature": "bg_ratio",
+      "importance": 0.040209295911398366
+    },
+    {
+      "feature": "mean_s",
+      "importance": 0.039664942212769935
+    },
+    {
+      "feature": "mean_b_lab",
+      "importance": 0.0385108902515218
+    },
+    {
+      "feature": "mean_a",
+      "importance": 0.03523155780373858
+    },
+    {
+      "feature": "mean_v",
+      "importance": 0.034161823053878465
+    },
+    {
+      "feature": "mean_r",
+      "importance": 0.027376747854817685
+    },
+    {
+      "feature": "black_pixel_ratio",
+      "importance": 0.012139829649416657
+    }
+  ],
+  "n": 2911,
+  "dataset_identity_signal": "strong",
+  "features_used": [
+    "mean_r",
+    "mean_g",
+    "mean_b",
+    "mean_l",
+    "mean_a",
+    "mean_b_lab",
+    "mean_s",
+    "mean_v",
+    "luminance_mean",
+    "luminance_std",
+    "rg_ratio",
+    "bg_ratio",
+    "roi_aspect_ratio",
+    "foreground_ratio",
+    "mask_fill_ratio",
+    "padding_ratio",
+    "black_pixel_ratio",
+    "laplacian_var",
+    "roi_short_side",
+    "compactness",
+    "extent",
+    "solidity"
+  ],
+  "forbidden_leakage_fields_used": false
+}

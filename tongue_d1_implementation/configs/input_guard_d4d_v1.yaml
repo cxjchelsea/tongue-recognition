@@ -1,0 +1,66 @@
+# D4-D：color_cast / occlusion 工程参数（校准前默认；校准后写回 input_guard policy）
+version: "1.0"
+name: input_guard_d4d_v1
+seed: 20260813
+calibration_splits: [train, val]
+forbidden_splits: [test]
+datasets: [biohit, tongueset3]
+
+color_cast:
+  implementation: signal_rule
+  # neutral candidate（排除 tongue mask）
+  neutral:
+    min_luminance: 0.25
+    max_luminance: 0.92
+    max_hsv_saturation: 0.18
+    max_lab_chroma: 12.0
+    max_channel_clip_ratio: 0.02
+    min_candidate_count: 200
+    min_candidate_ratio: 0.01
+    min_spatial_coverage: 0.05  # 非零候选所在 8x8 网格占比
+  # cast magnitude = ||(a*, b*)|| of neutral median in Lab
+  # 下列阈值由 calibration 覆盖；此处仅为初始占位
+  thresholds:
+    warning_cast_magnitude: null
+    retake_cast_magnitude: null
+    warning_channel_neutrality_error: null
+    retake_channel_neutrality_error: null
+  gates:
+    clean_retake_max: 0.02
+    synthetic_severe_detection_min: 0.90
+
+occlusion:
+  implementation: signal_rule
+  interior:
+    # distance transform：距边界至少该比例 * min(h,w) 才算 interior
+    border_margin_ratio: 0.08
+    low_probability_threshold: 0.35
+  bright_neutral:
+    min_luminance: 0.70
+    max_hsv_saturation: 0.20
+  # 组合分数阈值由 calibration 覆盖
+  thresholds:
+    warning_interior_hole_ratio: null
+    retake_interior_hole_ratio: null
+    warning_bright_intrusion_ratio: null
+    retake_bright_intrusion_ratio: null
+    warning_combined_score: null
+    retake_combined_score: null
+    # 单弱证据不得单独 RETAKE：retake 需要 combined 或双证据
+    require_multi_evidence_for_retake: true
+  gates:
+    clean_retake_max: 0.02
+    synthetic_severe_detection_min: 0.90
+    synthetic_small_retake_max: 0.10
+
+synthetic:
+  color_cast:
+    sample_count: 24
+    directions: [red, green, blue, yellow]
+    moderate_gain: 1.35
+    severe_gain: 1.80
+  occlusion:
+    sample_count: 24
+    small_area_ratio: 0.04
+    moderate_area_ratio: 0.12
+    severe_area_ratio: 0.28
