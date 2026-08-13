@@ -1,0 +1,67 @@
+version: "1.0"
+name: split_policy_v1
+
+global:
+  seed: 20260813
+  split_names: [train, val, test]
+  target_ratios:
+    train: 0.80
+    val: 0.10
+    test: 0.10
+  split_unit: leakage_group
+  require_deterministic: true
+  leakage_policy:
+    patient: fail
+    md5: fail
+    canonical_sample: fail
+    group: fail
+    pseudo: fail
+    external_holdout: fail
+  preserve_external_holdout: true
+  missing_patient_policy: fallback_to_sample_and_warn
+  stratification:
+    enabled: true
+    strategy: iterative_group_multilabel
+    fallback: deterministic_group_balancing
+    exclude_pools: [pseudo, external_holdout]
+  # 稀有标签保护
+  rare_label:
+    min_groups_for_all_splits: 3
+    two_group_policy: train_and_val
+    one_group_policy: train_priority
+
+  core_tasks:
+    - tongue_body.color
+    - tongue_body.shape
+    - coating.color
+    - coating.properties.thick
+    - features.crack.present
+    - features.crack.severity
+    - features.tooth_mark.present
+    - features.tooth_mark.severity
+    - features.red_spot.present
+    - features.ecchymosis.present
+    - quality.stain_suspected
+    - segmentation.tongue
+    - tongue_body.regional.tip_side_red
+
+datasets:
+  tonguedx:
+    grouping: patient_id
+    required: true
+  tonguexpert:
+    grouping: canonical_sample
+    bind_all_supervision_sources: true
+  tmc_tongue:
+    grouping: canonical_sample
+  biohit:
+    grouping: canonical_sample
+  tongueset3:
+    grouping: canonical_sample
+  tooth_marked:
+    grouping: canonical_sample
+  stained_coating:
+    grouping: canonical_sample
+  dsct:
+    grouping: external_holdout
+    forced_split: external_holdout

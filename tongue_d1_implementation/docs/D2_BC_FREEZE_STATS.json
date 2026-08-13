@@ -1,0 +1,73 @@
+{
+  "stage": "D2-B/C",
+  "input_contract_version": "1.1",
+  "cleaning_policy_version": "1.1",
+  "split_policy_version": "1.0",
+  "seed": 20260813,
+  "base_code_commit": "fe02d79f30fff62e84a2bc18e4c971ae61346ec2",
+  "build_timestamp": "2026-08-13T01:11:08.958377+00:00",
+  "samples_total": 22235,
+  "groups_total": 21776,
+  "train_samples": 17715,
+  "val_samples": 2214,
+  "test_samples": 2214,
+  "external_holdout_samples": 92,
+  "ratios_actual": {
+    "train": 0.8000270965993768,
+    "val": 0.0999864517003116,
+    "test": 0.0999864517003116
+  },
+  "TongueDx": {
+    "patient_groups": 4633,
+    "patients_with_multiple_images": 450,
+    "max_images_per_patient": 4,
+    "missing_patient_ids": 0,
+    "canonical_with_multiple_origin_patient_ids": 17,
+    "patients_train": 3896,
+    "patients_val": 352,
+    "patients_test": 385
+  },
+  "TonguExpert": {
+    "samples_with_L1": 1586,
+    "samples_with_L2": 5992,
+    "samples_with_both_L1_and_L2": 1586,
+    "pseudo_total": 27124,
+    "pseudo_effective_for_train": 21690,
+    "pseudo_effective_for_val": 0,
+    "pseudo_effective_for_test": 0
+  },
+  "DSCT": {
+    "external_holdout_count": 92,
+    "train": 0,
+    "val": 0,
+    "test": 0
+  },
+  "per_dataset_split_counts": {
+    "biohit": {"train": 240, "val": 30, "test": 30, "external_holdout": 0},
+    "dsct": {"train": 0, "val": 0, "test": 0, "external_holdout": 92},
+    "stained_coating": {"train": 1548, "val": 194, "test": 193, "external_holdout": 0},
+    "tmc_tongue": {"train": 5260, "val": 657, "test": 658, "external_holdout": 0},
+    "tonguedx": {"train": 4074, "val": 509, "test": 509, "external_holdout": 0},
+    "tongueset3": {"train": 799, "val": 100, "test": 100, "external_holdout": 0},
+    "tonguexpert": {"train": 4794, "val": 599, "test": 599, "external_holdout": 0},
+    "tooth_marked": {"train": 1000, "val": 125, "test": 125, "external_holdout": 0}
+  },
+  "unstratifiable_labels": [
+    {"fact": "coating.color:light_yellow:positive", "group_count": 2},
+    {"fact": "tongue_body.color:normal:positive", "group_count": 1}
+  ],
+  "distribution_warnings": [
+    {
+      "fact": "tongue_body.color::pale",
+      "max_absolute_prevalence_deviation": 0.16067331984628638
+    }
+  ],
+  "patient_leakage": 0,
+  "md5_leakage": 0,
+  "sample_leakage": 0,
+  "group_leakage": 0,
+  "pseudo_leakage": 0,
+  "external_holdout_leakage": 0,
+  "validate_split_result": "PASS",
+  "pytest_result": "49 passed"
+}

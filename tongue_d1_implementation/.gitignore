@@ -2,6 +2,7 @@
 configs/datasets_v1.local.yaml
 data/manifests/
 data/processed/
+data/splits/
 reports/d2/
 *.egg-info/
 __pycache__/

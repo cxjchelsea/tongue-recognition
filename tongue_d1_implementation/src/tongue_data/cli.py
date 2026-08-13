@@ -2,6 +2,7 @@ import argparse
 from .manifest import ManifestBuilder
 from .validators import validate_contract, validate_manifest
 from .cleaning import CleaningBuilder, validate_clean
+from .splitting import SplitBuilder, validate_split
 
 
 def emit(errors, warnings):
@@ -45,6 +46,33 @@ def main():
     validate_clean_parser.add_argument("--processed-dir", required=True)
     validate_clean_parser.add_argument("--policy", default=None)
 
+    # D2-B/C
+    build_groups_parser = sub.add_parser("build-groups")
+    build_groups_parser.add_argument("--processed-dir", required=True)
+    build_groups_parser.add_argument("--manifest-dir", default=None)
+    build_groups_parser.add_argument("--policy", required=True)
+    build_groups_parser.add_argument("--output", required=True)
+    build_groups_parser.add_argument("--report-dir", required=True)
+
+    split_parser = sub.add_parser("split")
+    split_parser.add_argument("--processed-dir", required=True)
+    split_parser.add_argument("--groups", default=None)
+    split_parser.add_argument("--policy", required=True)
+    split_parser.add_argument("--output", required=True)
+    split_parser.add_argument("--report-dir", required=True)
+
+    build_splits_parser = sub.add_parser("build-splits")
+    build_splits_parser.add_argument("--processed-dir", required=True)
+    build_splits_parser.add_argument("--manifest-dir", default=None)
+    build_splits_parser.add_argument("--policy", required=True)
+    build_splits_parser.add_argument("--output", required=True)
+    build_splits_parser.add_argument("--report-dir", required=True)
+
+    validate_split_parser = sub.add_parser("validate-split")
+    validate_split_parser.add_argument("--split-dir", required=True)
+    validate_split_parser.add_argument("--processed-dir", default=None)
+    validate_split_parser.add_argument("--policy", default=None)
+
     args = parser.parse_args()
     if args.cmd == "validate-contract":
         errors, warnings = validate_contract(
@@ -73,6 +101,44 @@ def main():
         return
     if args.cmd == "validate-clean":
         errors, warnings = validate_clean(args.processed_dir, args.policy)
+        raise SystemExit(emit(errors, warnings))
+    if args.cmd == "build-groups":
+        audit = SplitBuilder(args.policy).build_groups(
+            args.processed_dir, args.manifest_dir, args.output, args.report_dir
+        )
+        print(
+            f"samples={audit['total_canonical_samples']} "
+            f"groups={audit['total_leakage_groups']} "
+            f"missing_patient={audit.get('tonguedx_missing_patient_id_count', 0)}"
+        )
+        return
+    if args.cmd == "split":
+        result = SplitBuilder(args.policy).build_split(
+            args.processed_dir, args.output, args.report_dir, args.groups
+        )
+        report = result["split_report"]
+        print(
+            f"train={report['train']} val={report['val']} test={report['test']} "
+            f"external_holdout={report['external_holdout']} "
+            f"leakage={result['leakage']}"
+        )
+        return
+    if args.cmd == "build-splits":
+        result = SplitBuilder(args.policy).build_all(
+            args.processed_dir, args.manifest_dir, args.output, args.report_dir
+        )
+        report = result["split_report"]
+        print(
+            f"groups={result['group_audit']['total_leakage_groups']} "
+            f"train={report['train']} val={report['val']} test={report['test']} "
+            f"external_holdout={report['external_holdout']} "
+            f"leakage={result['leakage']}"
+        )
+        return
+    if args.cmd == "validate-split":
+        errors, warnings = validate_split(
+            args.split_dir, args.processed_dir, args.policy
+        )
         raise SystemExit(emit(errors, warnings))
 
 
