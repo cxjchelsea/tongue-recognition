@@ -90,6 +90,29 @@ tongue-data validate-clean \
 pytest -q
 ```
 
+## D3-E：原图分割推理 + ROI（不训练）
+
+需要本地提供 frozen D3-C checkpoint（不进 Git）：
+
+```text
+runs/segmentation/d3c/baseline/best.pt
+```
+
+单图推理：
+
+```bash
+tongue-data segmentation-infer \
+  --image path/to/image.jpg \
+  --checkpoint runs/segmentation/d3c/baseline/best.pt \
+  --data-config configs/segmentation_v1.yaml \
+  --train-config configs/segmentation_train_v1.yaml \
+  --output runs/segmentation/d3e/inference
+```
+
+契约与 Freeze：`docs/D3_E_INFERENCE_CONTRACT.md`、`docs/D3_E_FREEZE_REPORT.md`。
+
+原则：下游表型必须使用 **original RGB + original-resolution mask**，禁止直接用 384×384 normalized tensor。
+
 ## D1/D2 边界
 
 D1 不物理删除 raw 重复数据，也不生成最终 train/val/test。

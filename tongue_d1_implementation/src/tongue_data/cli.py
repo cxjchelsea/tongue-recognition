@@ -142,6 +142,30 @@ def main():
         help="required when --split test; only after best checkpoint freeze",
     )
 
+    # D3-E：原图推理 / ROI（不训练）
+    infer_parser = sub.add_parser("segmentation-infer")
+    infer_parser.add_argument("--image", required=True)
+    infer_parser.add_argument("--checkpoint", required=True)
+    infer_parser.add_argument("--data-config", required=True)
+    infer_parser.add_argument("--train-config", required=True)
+    infer_parser.add_argument("--output", required=True)
+    infer_parser.add_argument("--device", default="auto")
+    infer_parser.add_argument("--sample-id", default=None)
+    infer_parser.add_argument("--roi-margin-ratio", type=float, default=0.05)
+
+    infer_batch_parser = sub.add_parser("segmentation-infer-regression")
+    infer_batch_parser.add_argument("--checkpoint", required=True)
+    infer_batch_parser.add_argument("--segmentation-dir", required=True)
+    infer_batch_parser.add_argument("--data-config", required=True)
+    infer_batch_parser.add_argument("--train-config", required=True)
+    infer_batch_parser.add_argument("--output", required=True)
+    infer_batch_parser.add_argument("--device", default="auto")
+    infer_batch_parser.add_argument(
+        "--allow-test",
+        action="store_true",
+        help="required; D3-E test access is engineering regression only",
+    )
+
     args = parser.parse_args()
     if args.cmd == "validate-contract":
         errors, warnings = validate_contract(
@@ -311,6 +335,54 @@ def main():
             f"biohit={result['biohit']['dice']['mean']:.4f} "
             f"tongueset3={result['tongueset3']['dice']['mean']:.4f} "
             f"gap={result['domain_gap_dice']:.4f} gate={gate}"
+        )
+        return
+    if args.cmd == "segmentation-infer":
+        from .segmentation.inference import (
+            TongueSegmentationInference,
+            format_console_summary,
+            load_rgb_image,
+            save_inference_outputs,
+        )
+
+        engine = TongueSegmentationInference(
+            checkpoint_path=args.checkpoint,
+            data_config=args.data_config,
+            train_config=args.train_config,
+            device=args.device,
+            roi_margin_ratio=float(args.roi_margin_ratio),
+        )
+        result = engine.predict(args.image, sample_id=args.sample_id)
+        original_rgb, _mode = load_rgb_image(args.image)
+        sample_name = args.sample_id or Path(args.image).stem
+        sample_dir = Path(args.output) / str(sample_name).replace("::", "__")
+        save_inference_outputs(result, sample_dir, original_rgb=original_rgb)
+        print(format_console_summary(result))
+        print(f"output: {sample_dir}")
+        return
+    if args.cmd == "segmentation-infer-regression":
+        if not args.allow_test:
+            raise SystemExit(
+                "ERROR: D3-E regression on frozen test requires --allow-test "
+                "(engineering regression only; do not tune model)"
+            )
+        from .segmentation.regression_d3e import run_d3e_test_regression
+
+        report = run_d3e_test_regression(
+            checkpoint_path=args.checkpoint,
+            segmentation_dir=args.segmentation_dir,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            output_dir=args.output,
+            device=args.device,
+        )
+        print(
+            f"total={report['total']} "
+            f"d3e_dice={report['overall_original_resolution_dice']:.4f} "
+            f"delta={report['difference_vs_d3c']['overall']:+.4f} "
+            f"biohit={report['biohit_original_resolution_dice']:.4f} "
+            f"tongueset3={report['tongueset3_original_resolution_dice']:.4f} "
+            f"invalid_bbox={report['invalid_bbox']} empty_roi={report['empty_roi']}"
         )
         return
 

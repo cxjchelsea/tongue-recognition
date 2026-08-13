@@ -1,4 +1,4 @@
-"""D3-A：Tongue Segmentation Dataset & Training Contract。"""
+"""D3：Tongue Segmentation Dataset / Training / Inference。"""
 
 from .builder import SegmentationBuilder
 from .validators import validate_segmentation

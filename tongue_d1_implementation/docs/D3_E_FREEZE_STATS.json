@@ -1,0 +1,72 @@
+{
+  "stage": "D3-E",
+  "input_segmentation_contract_version": "1.0",
+  "training_contract_version": "1.0",
+  "checkpoint_run_id": "d3c-resnet34-unet-seed20260813",
+  "checkpoint_config_hash": "a26934531e6643f6",
+  "base_code_commit_before_d3e": "f97a926",
+  "model": {
+    "architecture": "unet",
+    "encoder": "resnet34",
+    "encoder_weights_training": "imagenet",
+    "total_parameters": 24436369
+  },
+  "threshold": 0.5,
+  "input_resolution": [384, 384],
+  "restoration_strategy": "probability_remove_pad_bilinear_then_threshold_original",
+  "bbox_convention": "xyxy_exclusive",
+  "roi_margin_ratio": 0.05,
+  "largest_component_policy": "keep_largest_4connected_default_true",
+  "exif_policy": "ImageOps.exif_transpose_then_RGB",
+  "rgb_policy": "convert_to_RGB_record_original_mode",
+  "test_access_purpose": "engineering_regression_only",
+  "test_regression_samples": 130,
+  "d3c_test_dice": 0.974801113202165,
+  "d3e_original_resolution_test_dice": 0.9748187766387819,
+  "dice_delta": 0.00001766343661691039,
+  "biohit_d3c_dice": 0.9539436306959639,
+  "biohit_d3e_dice": 0.9536792924067226,
+  "biohit_dice_delta": -0.0002643382892413282,
+  "tongueset3_d3c_dice": 0.9810583579540253,
+  "tongueset3_d3e_dice": 0.9811606219083997,
+  "tongueset3_dice_delta": 0.00010226395437440416,
+  "gates": {
+    "overall_drop_max": 0.01,
+    "domain_drop_max": 0.02,
+    "overall_drop_ok": true,
+    "biohit_drop_ok": true,
+    "tongueset3_drop_ok": true
+  },
+  "empty_predictions": 0,
+  "invalid_masks": 0,
+  "invalid_bbox": 0,
+  "empty_roi": 0,
+  "border_touch_count": 14,
+  "roi_coverage": {
+    "mean": 0.9923740992702521,
+    "median": 1.0,
+    "p10": 1.0,
+    "sanity_mean_median_gt_0_95": true
+  },
+  "real_image_integration": {
+    "count": 10,
+    "all_success": true,
+    "all_mask_shape_ok": true,
+    "all_roi_shape_ok": true
+  },
+  "known_failure_sample": "biohit::278.bmp",
+  "known_failure_dice": 0.0047434472666439105,
+  "known_failure_category": "undetermined",
+  "validator_result": "PASS",
+  "pytest_result": "131 passed",
+  "d3e_status": "PASS",
+  "discipline": {
+    "retrained": false,
+    "threshold_changed": false,
+    "d3c_weights_modified": false,
+    "d2_split_modified": false,
+    "d3a_preprocess_contract_modified": false,
+    "entered_d4": false,
+    "test_used_for_model_selection": false
+  }
+}

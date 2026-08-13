@@ -1,26 +1,14 @@
 """Image/Mask 同步几何变换与预处理（letterbox + 保守增广）。"""
 from __future__ import annotations
 
-import math
-from dataclasses import dataclass
-
 import numpy as np
 from PIL import Image
 
 from .config import SegmentationConfig
+from .geometry import LetterboxMetadata, letterbox_image, letterbox_mask
 
-
-@dataclass
-class GeometryMeta:
-    original_height: int
-    original_width: int
-    scale: float
-    pad_left: int
-    pad_top: int
-    pad_right: int
-    pad_bottom: int
-    input_height: int
-    input_width: int
+# 向后兼容：D3-A 代码使用 GeometryMeta 名称
+GeometryMeta = LetterboxMetadata
 
 
 def _pil_resample(name: str) -> Image.Resampling:
@@ -44,7 +32,7 @@ def letterbox_pair(
     pad_value_image: int = 0,
     pad_value_mask: float = 0.0,
 ) -> tuple[np.ndarray, np.ndarray, GeometryMeta]:
-    """保持长宽比缩放 + 居中 padding；image/mask 同步几何。"""
+    """保持长宽比缩放 + 居中 padding；image/mask 同步几何（复用 D3-E geometry）。"""
     if mask_interpolation.lower() != "nearest":
         raise ValueError("mask_interpolation must be nearest")
 
@@ -55,52 +43,15 @@ def letterbox_pair(
             f"image={image.shape[:2]} mask={mask.shape[:2]}"
         )
 
-    scale = min(target_width / original_width, target_height / original_height)
-    resized_width = max(1, int(round(original_width * scale)))
-    resized_height = max(1, int(round(original_height * scale)))
-
-    image_pil = Image.fromarray(image)
-    mask_pil = Image.fromarray((mask > 0.5).astype(np.uint8) * 255, mode="L")
-    image_resized = np.asarray(
-        image_pil.resize((resized_width, resized_height), _pil_resample(image_interpolation)),
-        dtype=np.uint8,
-    )
-    mask_resized = np.asarray(
-        mask_pil.resize((resized_width, resized_height), _pil_resample("nearest")),
-        dtype=np.uint8,
-    )
-    mask_resized = (mask_resized > 0).astype(np.float32)
-
-    pad_left = (target_width - resized_width) // 2
-    pad_top = (target_height - resized_height) // 2
-    pad_right = target_width - resized_width - pad_left
-    pad_bottom = target_height - resized_height - pad_top
-
-    canvas_image = np.full(
-        (target_height, target_width, 3), pad_value_image, dtype=np.uint8
-    )
-    canvas_mask = np.full(
-        (target_height, target_width), pad_value_mask, dtype=np.float32
-    )
-    canvas_image[
-        pad_top : pad_top + resized_height, pad_left : pad_left + resized_width
-    ] = image_resized
-    canvas_mask[
-        pad_top : pad_top + resized_height, pad_left : pad_left + resized_width
-    ] = mask_resized
-
-    meta = GeometryMeta(
-        original_height=original_height,
-        original_width=original_width,
-        scale=float(scale),
-        pad_left=int(pad_left),
-        pad_top=int(pad_top),
-        pad_right=int(pad_right),
-        pad_bottom=int(pad_bottom),
+    canvas_image, metadata = letterbox_image(
+        image,
         input_height=target_height,
         input_width=target_width,
+        image_interpolation=image_interpolation,
+        pad_value=pad_value_image,
     )
-    return canvas_image, canvas_mask, meta
+    canvas_mask = letterbox_mask(mask, metadata, pad_value=pad_value_mask)
+    return canvas_image, canvas_mask, metadata
 
 
 def _rotate_pair(image: np.ndarray, mask: np.ndarray, degrees: float) -> tuple[np.ndarray, np.ndarray]:
