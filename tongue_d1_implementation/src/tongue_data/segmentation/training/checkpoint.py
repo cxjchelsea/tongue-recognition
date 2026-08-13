@@ -22,6 +22,8 @@ def save_checkpoint(
     config_hash: str,
     seed: int,
     history: list[dict],
+    best_epoch: int | None = None,
+    best_val_loss: float | None = None,
     extra: dict | None = None,
 ):
     """保存完整训练状态（不仅 model_state_dict）。"""
@@ -33,6 +35,10 @@ def save_checkpoint(
         "epoch": int(epoch),
         "global_step": int(global_step),
         "best_val_dice": float(best_val_dice),
+        "best_epoch": int(best_epoch) if best_epoch is not None else int(epoch),
+        "best_val_loss": (
+            None if best_val_loss is None or best_val_loss == float("inf") else float(best_val_loss)
+        ),
         "config": config_dict,
         "config_hash": config_hash,
         "seed": int(seed),

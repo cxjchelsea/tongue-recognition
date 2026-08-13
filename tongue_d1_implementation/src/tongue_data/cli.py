@@ -8,7 +8,13 @@ from .cleaning import CleaningBuilder, validate_clean
 from .splitting import SplitBuilder, validate_split
 from .segmentation import SegmentationBuilder, validate_segmentation
 from .segmentation.dataset import smoke_test_dataset
-from .segmentation.training import run_smoke_training, run_tiny_overfit
+from .segmentation.training import (
+    evaluate_checkpoint_on_split,
+    preflight_full_training,
+    run_full_training,
+    run_smoke_training,
+    run_tiny_overfit,
+)
 
 
 def emit(errors, warnings):
@@ -109,6 +115,32 @@ def main():
     overfit_parser.add_argument("--data-config", required=True)
     overfit_parser.add_argument("--train-config", required=True)
     overfit_parser.add_argument("--output", required=True)
+
+    # D3-C：训练与 test 评估物理分离
+    full_train_parser = sub.add_parser("segmentation-train")
+    full_train_parser.add_argument("--segmentation-dir", required=True)
+    full_train_parser.add_argument("--data-config", required=True)
+    full_train_parser.add_argument("--train-config", required=True)
+    full_train_parser.add_argument("--output", required=True)
+    full_train_parser.add_argument("--resume", default=None)
+
+    preflight_parser = sub.add_parser("segmentation-preflight")
+    preflight_parser.add_argument("--segmentation-dir", required=True)
+    preflight_parser.add_argument("--data-config", required=True)
+    preflight_parser.add_argument("--train-config", required=True)
+
+    eval_parser = sub.add_parser("segmentation-evaluate")
+    eval_parser.add_argument("--checkpoint", required=True)
+    eval_parser.add_argument("--segmentation-dir", required=True)
+    eval_parser.add_argument("--data-config", required=True)
+    eval_parser.add_argument("--train-config", required=True)
+    eval_parser.add_argument("--split", required=True, choices=["val", "test"])
+    eval_parser.add_argument("--output", required=True)
+    eval_parser.add_argument(
+        "--allow-test",
+        action="store_true",
+        help="required when --split test; only after best checkpoint freeze",
+    )
 
     args = parser.parse_args()
     if args.cmd == "validate-contract":
@@ -233,6 +265,52 @@ def main():
             f"samples={metadata['sample_count']} steps={metadata['steps']} "
             f"loss={metadata['initial_loss']:.4f}->{metadata['final_loss']:.4f} "
             f"dice={metadata['final_dice']:.4f} result={metadata['result']}"
+        )
+        return
+    if args.cmd == "segmentation-preflight":
+        preflight = preflight_full_training(
+            args.segmentation_dir, args.data_config, args.train_config
+        )
+        print(json.dumps(preflight, ensure_ascii=False, indent=2))
+        return
+    if args.cmd == "segmentation-train":
+        metadata = run_full_training(
+            args.segmentation_dir,
+            args.data_config,
+            args.train_config,
+            args.output,
+            resume_from=args.resume,
+        )
+        print(
+            f"run_id={metadata.get('run_id')} "
+            f"epochs={metadata['actual_epochs']}/{metadata['planned_epochs']} "
+            f"early_stop={metadata['early_stopped']} "
+            f"best_epoch={metadata['best_epoch']} "
+            f"best_val_dice={metadata['best_val_dice']:.4f} "
+            f"frozen={metadata.get('baseline_frozen')}"
+        )
+        return
+    if args.cmd == "segmentation-evaluate":
+        if args.split == "test" and not args.allow_test:
+            raise SystemExit(
+                "ERROR: test evaluation requires --allow-test after best checkpoint freeze"
+            )
+        result = evaluate_checkpoint_on_split(
+            checkpoint_path=args.checkpoint,
+            segmentation_dir=args.segmentation_dir,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            split=args.split,
+            output_dir=args.output,
+            allow_test=bool(args.allow_test or args.split != "test"),
+        )
+        overall = result["overall"]["dice"]["mean"]
+        gate = (result.get("baseline_gate") or {}).get("baseline_status")
+        print(
+            f"split={result['split']} dice={overall:.4f} "
+            f"biohit={result['biohit']['dice']['mean']:.4f} "
+            f"tongueset3={result['tongueset3']['dice']['mean']:.4f} "
+            f"gap={result['domain_gap_dice']:.4f} gate={gate}"
         )
         return
 

@@ -70,3 +70,28 @@ smoke:
   max_train_batches: 2
   max_val_batches: 2
   epochs: 1
+
+# D3-C 正式训练模式标记（不改变核心超参）
+run:
+  mode: full
+  run_id: d3c-resnet34-unet-seed20260813
+  expected_counts:
+    train: 1039
+    val: 130
+    test: 130
+    biohit_train: 240
+    biohit_val: 30
+    biohit_test: 30
+    tongueset3_train: 799
+    tongueset3_val: 100
+    tongueset3_test: 100
+
+evaluation:
+  threshold: 0.5
+  worst_k: 20
+  near_full_ratio: 0.95
+  foreground_buckets: quantile_33_66
+  gates:
+    overall_target: 0.95
+    overall_minimum: 0.90
+    domain_minimum: 0.90
