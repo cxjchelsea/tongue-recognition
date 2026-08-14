@@ -1,0 +1,115 @@
+{
+  "stage": "D4-C.1-B",
+  "calibration_splits": [
+    "train"
+  ],
+  "forbidden_test_usage": true,
+  "calibration_data": {
+    "stained": {
+      "n": 1548,
+      "mean_rgb": [
+        102.74485302581667,
+        65.13463360994014,
+        61.862112390867836
+      ],
+      "p05_rgb": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "p95_rgb": [
+        171.34526779880196,
+        122.92258864789756,
+        120.35708963008167
+      ]
+    },
+    "biohit": {
+      "n": 240,
+      "mean_rgb": [
+        129.4898196629708,
+        91.17459254700523,
+        89.27864689865939
+      ],
+      "p05_rgb": [
+        112.39483093009407,
+        77.78151199590387,
+        76.79675076645624
+      ],
+      "p95_rgb": [
+        144.48869266963086,
+        104.03315761232972,
+        101.63469217674859
+      ]
+    },
+    "tongueset3": {
+      "n": 799,
+      "mean_rgb": [
+        164.7917453311974,
+        126.09936365553648,
+        131.5793120177805
+      ],
+      "p05_rgb": [
+        120.01178252255922,
+        85.37950788152527,
+        84.71464121760135
+      ],
+      "p95_rgb": [
+        211.2277355894889,
+        165.31283162440178,
+        177.41527679185086
+      ]
+    }
+  },
+  "safe_caps": {
+    "channel_gain_min": 0.75,
+    "channel_gain_max": 1.35,
+    "gamma_min": 0.8,
+    "gamma_max": 1.25,
+    "exposure_min": 0.8,
+    "exposure_max": 1.25,
+    "contrast_min": 0.85,
+    "contrast_max": 1.2,
+    "jpeg_quality_min": 55,
+    "jpeg_quality_max": 95
+  },
+  "channel_gain_ranges": {
+    "r": [
+      0.9,
+      1.35
+    ],
+    "g": [
+      0.9,
+      1.35
+    ],
+    "b": [
+      0.9,
+      1.35
+    ]
+  },
+  "gamma_range": [
+    0.8,
+    1.25
+  ],
+  "exposure_range": [
+    0.8,
+    1.25
+  ],
+  "contrast_range": [
+    0.85,
+    1.2
+  ],
+  "jpeg_range": [
+    55,
+    95
+  ],
+  "enable_jpeg": false,
+  "forbidden_ops": [
+    "color_inversion",
+    "extreme_hue_rotation",
+    "posterize",
+    "random_grayscale",
+    "solarize",
+    "strong_saturation_shift"
+  ],
+  "rationale": "Ranges derived from train-only ROI mean RGB ratios across Stained/BioHit/TongueSet3, clipped by predeclared SAFE_CAPS. No test split used. JPEG disabled for train throughput; range retained for audit."
+}

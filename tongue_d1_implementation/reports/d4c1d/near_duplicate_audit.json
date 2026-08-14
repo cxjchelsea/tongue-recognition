@@ -1,0 +1,23 @@
+{
+  "n_unique_dhash": 1465,
+  "cross_label_hash_groups": 1,
+  "same_label_multi_hash_groups": 93,
+  "near_duplicate_concern": true,
+  "examples": [
+    {
+      "dhash": "00060e0e0e060000",
+      "sample_ids": [
+        "stained_coating::中医舌诊染苔数据/染苔/275_橘子.JPG",
+        "stained_coating::中医舌诊染苔数据/非染苔/144.JPG",
+        "stained_coating::中医舌诊染苔数据/非染苔/865.JPG"
+      ],
+      "labels": [
+        1,
+        0,
+        0
+      ],
+      "type": "cross_label"
+    }
+  ],
+  "action": "report_only_no_deletion"
+}

@@ -1,0 +1,50 @@
+{
+  "color_label_confounding": {
+    "strength": "strong",
+    "evidence_summary": "color-only AUROC=0.948"
+  },
+  "luminance_label_confounding": {
+    "strength": "strong",
+    "evidence_summary": "luminance bin positive_rate_span=0.825"
+  },
+  "resolution_label_confounding": {
+    "strength": "strong",
+    "evidence_summary": "resolution-only AUROC=0.951; span=0.862"
+  },
+  "blur_label_confounding": {
+    "strength": "moderate",
+    "evidence_summary": "quality-only AUROC=0.958"
+  },
+  "geometry_label_confounding": {
+    "strength": "moderate",
+    "evidence_summary": "geometry-only AUROC=0.965"
+  },
+  "batch_label_confounding": {
+    "strength": "strong",
+    "evidence_summary": "extreme folder batches=2"
+  },
+  "format_label_confounding": {
+    "strength": "weak",
+    "evidence_summary": "file_extension group rates"
+  },
+  "camera_label_confounding": {
+    "strength": "unavailable",
+    "evidence_summary": "EXIF make/model audit"
+  },
+  "near_duplicate_concern": {
+    "strength": "moderate",
+    "evidence_summary": "cross_label_hash_groups=1"
+  },
+  "common_support": {
+    "strength": "weak",
+    "evidence_summary": "common_support_rate=0.752"
+  },
+  "matchability": {
+    "strength": "strong",
+    "evidence_summary": "positive_match_rate=0.132; pairs=118"
+  },
+  "local_signal_support": {
+    "strength": "not_supported",
+    "evidence_summary": "local AUROC=0.894 vs global=0.978"
+  }
+}

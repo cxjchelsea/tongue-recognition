@@ -1,0 +1,80 @@
+{
+  "folder_batch": {
+    "available": true,
+    "groups": [
+      {
+        "key": "染苔",
+        "n": 892,
+        "positive_rate": 1.0,
+        "n_positive": 892,
+        "n_negative": 0
+      },
+      {
+        "key": "非染苔",
+        "n": 850,
+        "positive_rate": 0.0,
+        "n_positive": 0,
+        "n_negative": 850
+      }
+    ],
+    "extreme_groups": [
+      {
+        "key": "染苔",
+        "n": 892,
+        "positive_rate": 1.0,
+        "n_positive": 892,
+        "n_negative": 0
+      },
+      {
+        "key": "非染苔",
+        "n": 850,
+        "positive_rate": 0.0,
+        "n_positive": 0,
+        "n_negative": 850
+      }
+    ],
+    "batch_label_confounding": true
+  },
+  "file_extension": {
+    "available": true,
+    "groups": [
+      {
+        "key": ".jpg",
+        "n": 1742,
+        "positive_rate": 0.5120551090700345,
+        "n_positive": 892,
+        "n_negative": 850
+      }
+    ],
+    "extreme_groups": [],
+    "batch_label_confounding": false
+  },
+  "exif_make": {
+    "available": true,
+    "groups": [
+      {
+        "key": "None",
+        "n": 1742,
+        "positive_rate": 0.5120551090700345,
+        "n_positive": 892,
+        "n_negative": 850
+      }
+    ],
+    "extreme_groups": [],
+    "batch_label_confounding": false
+  },
+  "exif_model": {
+    "available": true,
+    "groups": [
+      {
+        "key": "None",
+        "n": 1742,
+        "positive_rate": 0.5120551090700345,
+        "n_positive": 892,
+        "n_negative": 850
+      }
+    ],
+    "extreme_groups": [],
+    "batch_label_confounding": false
+  }
+}

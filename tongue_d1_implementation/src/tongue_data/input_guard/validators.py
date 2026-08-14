@@ -57,19 +57,30 @@ def validate_input_guard_contract(
         warnings.append(
             "implemented_checks_count=0 (signal checks not marked implemented)"
         )
-    elif implemented < defined:
-        warnings.append(
-            f"partial implementation: implemented={implemented}/{defined}"
-        )
 
     # stain 必须 defined，且不得与病理苔色混淆
-    stain_meta = CHECK_DEFINITIONS
     from .ontology import CheckId
 
-    if CheckId.STAIN_SUSPECTED not in stain_meta:
+    if CheckId.STAIN_SUSPECTED not in CHECK_DEFINITIONS:
         errors.append("stain_suspected missing from ontology")
     if ReasonCode.STAIN_SUSPECTED.value not in registered_reason_codes():
         errors.append("STAIN_SUSPECTED missing from reason registry")
+
+    # D4-E：deferred 合法；enabled 无实现不合法（policy.validate 已覆盖）
+    deferred = policy.deferred_check_ids()
+    if CheckId.STAIN_SUSPECTED in deferred:
+        stain_cfg = policy.check_config(CheckId.STAIN_SUSPECTED)
+        if stain_cfg.get("enabled"):
+            errors.append("deferred stain must have enabled=false")
+        if not stain_cfg.get("deferred_reason"):
+            errors.append("deferred stain missing deferred_reason")
+    elif policy.policy_version.startswith("1.4"):
+        warnings.append("policy 1.4 expected stain deferred")
+
+    # enabled checks must be implemented
+    for check_id in policy.active_check_ids():
+        if not CHECK_DEFINITIONS[check_id].get("implemented"):
+            errors.append(f"enabled check lacks implementation: {check_id.value}")
 
     if not policy.primary_reason_priority:
         warnings.append("primary_reason_priority is empty")

@@ -5,9 +5,10 @@ Input Guard 只评价图像是否适合视觉分析，不评价健康/舌象病�
 from __future__ import annotations
 
 from enum import Enum
+from typing import Any
 
 
-INPUT_GUARD_CONTRACT_VERSION = "1.0"
+INPUT_GUARD_CONTRACT_VERSION = "1.1"
 QC_ONTOLOGY_VERSION = "1.0"
 REASON_REGISTRY_VERSION = "1.0"
 
@@ -216,8 +217,9 @@ CHECK_DEFINITIONS: dict[CheckId, dict] = {
         "defined": True,
         "implementation_stage": "D4-C",
         "implemented": True,
+        "production_supported": False,  # D4-E deferred
         "depends_on_roi": True,
-        "description": "外源染苔嫌疑（非病理苔色）",
+        "description": "外源染苔嫌疑（非病理苔色）；D4-E production deferred",
     },
 }
 
@@ -305,3 +307,22 @@ def defined_checks_count() -> int:
 
 def implemented_checks_count() -> int:
     return sum(1 for meta in CHECK_DEFINITIONS.values() if meta["implemented"])
+
+
+def production_supported_checks_count(policy: Any | None = None) -> int:
+    """若给 policy：统计 enabled+production_supported；否则按 ontology。"""
+    if policy is None:
+        return sum(
+            1
+            for check_id, meta in CHECK_DEFINITIONS.items()
+            if meta.get("implemented") and meta.get("production_supported", True)
+        )
+    count = 0
+    for check_id in CheckId:
+        if not policy.is_check_enabled(check_id):
+            continue
+        cfg = policy.check_config(check_id)
+        if cfg.get("production_supported", True):
+            count += 1
+    return count
+

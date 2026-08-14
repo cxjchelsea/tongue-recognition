@@ -401,6 +401,29 @@ def main():
         default="runs/input_guard/d4c/stain/test_predictions.parquet",
     )
 
+    # D4-E：production stain-deferred unified audit + final freeze docs
+    d4e_audit = sub.add_parser("input-guard-d4e-production-audit")
+    d4e_audit.add_argument(
+        "--seg-checkpoint", default="runs/segmentation/d3c/baseline/best.pt"
+    )
+    d4e_audit.add_argument("--segmentation-dir", default="data/segmentation/v1")
+    d4e_audit.add_argument("--data-config", default="configs/segmentation_v1.yaml")
+    d4e_audit.add_argument(
+        "--train-config", default="configs/segmentation_train_v1.yaml"
+    )
+    d4e_audit.add_argument("--policy", default="configs/input_guard_v1.yaml")
+    d4e_audit.add_argument(
+        "--output", default="reports/d4/d4e_production_unified_audit.json"
+    )
+    d4e_audit.add_argument(
+        "--stain-checkpoint", default="runs/input_guard/d4c/stain/best.pt"
+    )
+    d4e_audit.add_argument(
+        "--stain-thresholds",
+        default="runs/input_guard/d4c/stain/thresholds.json",
+    )
+    d4e_audit.add_argument("--device", default="auto")
+
     # D4-C.1-A：stain cross-domain shortcut diagnosis（只读）
     stain_diagnose = sub.add_parser("stain-domain-diagnose")
     stain_diagnose.add_argument(
@@ -433,6 +456,156 @@ def main():
     )
     stain_diagnose.add_argument("--output", default="reports/d4c1")
     stain_diagnose.add_argument("--device", default="auto")
+
+    # D4-C.1-B：domain-robust stain v2
+    style_contract = sub.add_parser("stain-style-contract")
+    style_contract.add_argument(
+        "--stain-manifest", default="data/stain/v1/stain_manifest.parquet"
+    )
+    style_contract.add_argument(
+        "--roi-index", default="reports/d4c1/roi_cache/index.parquet"
+    )
+    style_contract.add_argument(
+        "--output", default="reports/d4c1b/style_augmentation_contract.json"
+    )
+
+    v2_overfit = sub.add_parser("stain-v2-overfit")
+    v2_overfit.add_argument(
+        "--stain-manifest", default="data/stain/v1/stain_manifest.parquet"
+    )
+    v2_overfit.add_argument("--data-config", default="configs/stain_detection_v2.yaml")
+    v2_overfit.add_argument("--train-config", default="configs/stain_train_v2.yaml")
+    v2_overfit.add_argument(
+        "--style-contract",
+        default="reports/d4c1b/style_augmentation_contract.json",
+    )
+    v2_overfit.add_argument("--output", default="runs/input_guard/d4c1b/stain_v2")
+    v2_overfit.add_argument("--device", default="auto")
+
+    v2_smoke = sub.add_parser("stain-v2-consistency-smoke")
+    v2_smoke.add_argument(
+        "--roi-index", default="reports/d4c1/roi_cache/index.parquet"
+    )
+    v2_smoke.add_argument("--data-config", default="configs/stain_detection_v2.yaml")
+    v2_smoke.add_argument("--train-config", default="configs/stain_train_v2.yaml")
+    v2_smoke.add_argument(
+        "--style-contract",
+        default="reports/d4c1b/style_augmentation_contract.json",
+    )
+    v2_smoke.add_argument("--output", default="runs/input_guard/d4c1b/stain_v2")
+    v2_smoke.add_argument("--device", default="auto")
+
+    v2_train = sub.add_parser("stain-v2-train")
+    v2_train.add_argument(
+        "--stain-manifest", default="data/stain/v1/stain_manifest.parquet"
+    )
+    v2_train.add_argument(
+        "--roi-index", default="reports/d4c1/roi_cache/index.parquet"
+    )
+    v2_train.add_argument("--data-config", default="configs/stain_detection_v2.yaml")
+    v2_train.add_argument("--train-config", default="configs/stain_train_v2.yaml")
+    v2_train.add_argument(
+        "--style-contract",
+        default="reports/d4c1b/style_augmentation_contract.json",
+    )
+    v2_train.add_argument("--output", default="runs/input_guard/d4c1b/stain_v2")
+    v2_train.add_argument("--device", default="auto")
+    v2_train.add_argument("--max-epochs", type=int, default=None)
+
+    v2_audit = sub.add_parser("stain-v2-audit")
+    v2_audit.add_argument("--run-dir", default="runs/input_guard/d4c1b/stain_v2")
+    v2_audit.add_argument("--reports-dir", default="reports/d4c1b")
+    v2_audit.add_argument("--device", default="auto")
+
+    # D4-C.1-C：representation domain invariance v3
+    v3_pre = sub.add_parser("stain-domain-v3-preflight")
+    v3_pre.add_argument(
+        "--stain-manifest", default="data/stain/v1/stain_manifest.parquet"
+    )
+    v3_pre.add_argument("--data-config", default="configs/stain_detection_v3.yaml")
+    v3_pre.add_argument("--train-config", default="configs/stain_train_v3.yaml")
+    v3_pre.add_argument(
+        "--style-contract",
+        default="reports/d4c1b/style_augmentation_contract.json",
+    )
+    v3_pre.add_argument("--output", default="runs/input_guard/d4c1c/preflight")
+    v3_pre.add_argument("--device", default="auto")
+
+    v3_train = sub.add_parser("stain-domain-v3-train")
+    v3_train.add_argument("--candidate", required=True, choices=["c1", "c2", "c3"])
+    v3_train.add_argument(
+        "--stain-manifest", default="data/stain/v1/stain_manifest.parquet"
+    )
+    v3_train.add_argument(
+        "--roi-index", default="reports/d4c1/roi_cache/index.parquet"
+    )
+    v3_train.add_argument("--data-config", default="configs/stain_detection_v3.yaml")
+    v3_train.add_argument("--train-config", default="configs/stain_train_v3.yaml")
+    v3_train.add_argument(
+        "--style-contract",
+        default="reports/d4c1b/style_augmentation_contract.json",
+    )
+    v3_train.add_argument("--output-root", default="runs/input_guard/d4c1c")
+    v3_train.add_argument("--device", default="auto")
+    v3_train.add_argument("--max-epochs", type=int, default=None)
+    v3_train.add_argument(
+        "--allow-c3",
+        action="store_true",
+        help="仅当 C1/C2 已有 meaningful robustness signal 时允许",
+    )
+
+    v3_audit = sub.add_parser("stain-domain-v3-robustness-audit")
+    v3_audit.add_argument("--candidate", required=True, choices=["c1", "c2", "c3"])
+    v3_audit.add_argument("--output-root", default="runs/input_guard/d4c1c")
+    v3_audit.add_argument("--reports-dir", default="reports/d4c1c")
+    v3_audit.add_argument(
+        "--stain-manifest", default="data/stain/v1/stain_manifest.parquet"
+    )
+    v3_audit.add_argument(
+        "--roi-index", default="reports/d4c1/roi_cache/index.parquet"
+    )
+    v3_audit.add_argument("--data-config", default="configs/stain_detection_v3.yaml")
+    v3_audit.add_argument("--train-config", default="configs/stain_train_v3.yaml")
+    v3_audit.add_argument(
+        "--style-contract",
+        default="reports/d4c1b/style_augmentation_contract.json",
+    )
+    v3_audit.add_argument("--device", default="auto")
+    v3_audit.add_argument("--v2-domain-probe", type=float, default=None)
+    v3_audit.add_argument("--v2-style-sensitivity", type=float, default=None)
+
+    v3_cal = sub.add_parser("stain-domain-v3-calibrate")
+    v3_cal.add_argument("--candidate", required=True, choices=["c1", "c2", "c3"])
+    v3_cal.add_argument("--output-root", default="runs/input_guard/d4c1c")
+    v3_cal.add_argument(
+        "--stain-manifest", default="data/stain/v1/stain_manifest.parquet"
+    )
+    v3_cal.add_argument("--data-config", default="configs/stain_detection_v3.yaml")
+    v3_cal.add_argument("--train-config", default="configs/stain_train_v3.yaml")
+    v3_cal.add_argument("--device", default="auto")
+
+    v3_src = sub.add_parser("stain-domain-v3-source-test")
+    v3_src.add_argument(
+        "--help-note",
+        action="store_true",
+        help="占位：仅 candidate PASS 后启用",
+    )
+
+    v3_known = sub.add_parser("stain-domain-v3-known-audit")
+    v3_unified = sub.add_parser("stain-domain-v3-unified-recovery")
+
+    # D4-C.1-D：dataset confounding audit（无 CNN 训练）
+    d4c1d = sub.add_parser("stain-confounding-audit")
+    d4c1d.add_argument(
+        "--stain-manifest", default="data/stain/v1/stain_manifest.parquet"
+    )
+    d4c1d.add_argument("--reports-dir", default="reports/d4c1d")
+    d4c1d.add_argument("--docs-dir", default="docs")
+    d4c1d.add_argument(
+        "--reuse-manifest",
+        action="store_true",
+        help="若已有 source_confounding_manifest.parquet 则复用",
+    )
 
     args = parser.parse_args()
     if args.cmd == "validate-contract":
@@ -1069,6 +1242,32 @@ def main():
             f"recommendation={rec['recommendation']}"
         )
         return
+    if args.cmd == "input-guard-d4e-production-audit":
+        from .input_guard.d4e_audit import (
+            run_d4e_production_unified_audit,
+            write_d4_final_docs,
+        )
+
+        audit = run_d4e_production_unified_audit(
+            checkpoint_path=args.seg_checkpoint,
+            segmentation_dir=args.segmentation_dir,
+            data_config_path=args.data_config,
+            train_config_path=args.train_config,
+            policy_path=args.policy,
+            output_path=args.output,
+            stain_checkpoint=args.stain_checkpoint,
+            stain_thresholds=args.stain_thresholds,
+            device=args.device,
+        )
+        write_d4_final_docs(audit=audit, docs_dir="docs")
+        print(
+            f"n={audit['samples']} "
+            f"pass={audit['pass']} warning={audit['warning']} retake={audit['retake']} "
+            f"stain_inv={audit['stain_model_invocations']} "
+            f"guard_ready={audit['guard_ready']} "
+            f"full_cov={audit['full_capability_coverage']}"
+        )
+        return
     if args.cmd == "stain-domain-diagnose":
         from .stain.d4c1a_diagnosis import run_d4c1a_diagnosis
 
@@ -1095,6 +1294,233 @@ def main():
             f"ts3_gray_med={rep.get('tongueset3', {}).get('gray', {}).get('median')} "
             f"primary={stats['shortcut_evidence']['primary_shortcut_hypothesis']} "
             f"recommendation={rec['recommendation']}"
+        )
+        return
+    if args.cmd == "stain-style-contract":
+        from .stain.style_augment import estimate_style_ranges_from_train
+
+        contract = estimate_style_ranges_from_train(
+            stain_manifest=args.stain_manifest,
+            external_roi_index=args.roi_index,
+            output_path=args.output,
+        )
+        print(
+            f"style_contract={args.output} "
+            f"gain={contract['channel_gain_ranges']} "
+            f"gamma={contract['gamma_range']}"
+        )
+        return
+    if args.cmd == "stain-v2-overfit":
+        from .stain.robust_train import run_tiny_source_overfit
+
+        result = run_tiny_source_overfit(
+            stain_manifest=args.stain_manifest,
+            data_config=args.data_config,
+            train_config=args.train_config,
+            style_contract=args.style_contract,
+            output_dir=args.output,
+            device=args.device,
+        )
+        print(
+            f"overfit_passed={result['passed']} "
+            f"acc={result['final_accuracy']} epochs={result['epochs_run']}"
+        )
+        return
+    if args.cmd == "stain-v2-consistency-smoke":
+        from .stain.robust_train import run_external_consistency_smoke
+
+        result = run_external_consistency_smoke(
+            roi_index=args.roi_index,
+            data_config=args.data_config,
+            train_config=args.train_config,
+            style_contract=args.style_contract,
+            output_dir=args.output,
+            device=args.device,
+        )
+        print(
+            f"consistency_smoke_passed={result['passed']} loss={result['loss']}"
+        )
+        return
+    if args.cmd == "stain-v2-train":
+        from .stain.robust_train import train_stain_v2
+
+        result = train_stain_v2(
+            stain_manifest=args.stain_manifest,
+            roi_index=args.roi_index,
+            data_config=args.data_config,
+            train_config=args.train_config,
+            style_contract_path=args.style_contract,
+            output_dir=args.output,
+            device=args.device,
+            max_epochs=args.max_epochs,
+        )
+        meta = result["metadata"]
+        print(
+            f"best_epoch={meta['best_epoch']} "
+            f"val_auroc={meta['best_source_val_auroc']} "
+            f"t_clear={meta['t_clear_v2']} t_retake={meta['t_retake_v2']}"
+        )
+        return
+    if args.cmd == "stain-v2-audit":
+        from .stain.robust_audit import run_post_train_pipeline
+
+        stats = run_post_train_pipeline(
+            output_run=Path(args.run_dir),
+            reports_dir=Path(args.reports_dir),
+            device=args.device,
+        )
+        decision = stats["decision"]
+        print(
+            f"status={decision['baseline_status']} "
+            f"recommendation={decision['recommendation']} "
+            f"policy_activated={decision['policy_activated']}"
+        )
+        return
+    if args.cmd == "stain-domain-v3-preflight":
+        import json as _json
+
+        from .stain.v3_train import (
+            run_grl_unit_smoke,
+            run_mixstyle_unit_smoke,
+            run_v3_tiny_overfit,
+        )
+
+        grl = run_grl_unit_smoke()
+        mix = run_mixstyle_unit_smoke()
+        overfit = run_v3_tiny_overfit(
+            stain_manifest=args.stain_manifest,
+            data_config=args.data_config,
+            train_config=args.train_config,
+            style_contract=args.style_contract,
+            output_dir=args.output,
+            device=args.device,
+        )
+        out = Path(args.output)
+        out.mkdir(parents=True, exist_ok=True)
+        payload = {"grl": grl, "mixstyle": mix, "tiny_overfit": overfit}
+        (out / "preflight.json").write_text(
+            _json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
+        )
+        print(
+            f"grl={grl['passed']} mixstyle={mix['passed']} "
+            f"overfit={overfit['passed']} acc={overfit['final_accuracy']}"
+        )
+        return
+    if args.cmd == "stain-domain-v3-train":
+        from .stain.v3_train import CANDIDATE_RUN_DIRS, train_stain_v3_candidate
+
+        result = train_stain_v3_candidate(
+            candidate=args.candidate,
+            stain_manifest=args.stain_manifest,
+            roi_index=args.roi_index,
+            data_config=args.data_config,
+            train_config=args.train_config,
+            style_contract_path=args.style_contract,
+            output_root=args.output_root,
+            device=args.device,
+            max_epochs=args.max_epochs,
+            allow_c3=bool(args.allow_c3),
+        )
+        meta = result["metadata"]
+        print(
+            f"candidate={args.candidate} "
+            f"run={CANDIDATE_RUN_DIRS[args.candidate]} "
+            f"best_epoch={meta['best_epoch']} "
+            f"val_auroc={meta['best_source_val_auroc']}"
+        )
+        return
+    if args.cmd == "stain-domain-v3-robustness-audit":
+        from .stain.v3_audit import run_candidate_full_audit
+        from .stain.v3_train import CANDIDATE_RUN_DIRS
+
+        ckpt = (
+            Path(args.output_root)
+            / CANDIDATE_RUN_DIRS[args.candidate]
+            / "best.pt"
+        )
+        report = run_candidate_full_audit(
+            candidate=args.candidate,
+            ckpt_path=ckpt,
+            stain_manifest=Path(args.stain_manifest),
+            roi_index=Path(args.roi_index),
+            data_config=Path(args.data_config),
+            train_config=Path(args.train_config),
+            style_contract_path=Path(args.style_contract),
+            reports_dir=Path(args.reports_dir),
+            device=args.device,
+            v2_domain_probe=args.v2_domain_probe,
+            v2_style_sensitivity=args.v2_style_sensitivity,
+        )
+        acc = report["acceptance"]
+        print(
+            f"candidate={args.candidate} "
+            f"auroc={report['source_val_auroc']} "
+            f"gap_red={report['gap_reduction_vs_v2']} "
+            f"ts3_high={report['tongueset3_highscore_rate']} "
+            f"status={acc['status']} signal={report['meaningful_signal']}"
+        )
+        return
+    if args.cmd == "stain-domain-v3-calibrate":
+        from .stain.v3_train import (
+            CANDIDATE_RUN_DIRS,
+            calibrate_v3_thresholds,
+            load_v3_checkpoint,
+        )
+        from .stain.train import resolve_device
+
+        run_dir = Path(args.output_root) / CANDIDATE_RUN_DIRS[args.candidate]
+        final_dir = Path(args.output_root) / "final"
+        device_t = resolve_device(args.device)
+        model, _ckpt = load_v3_checkpoint(
+            run_dir / "best.pt",
+            candidate=args.candidate,
+            train_config=args.train_config,
+            map_location=device_t,
+        )
+        model = model.to(device_t)
+        thr = calibrate_v3_thresholds(
+            model=model,
+            stain_manifest=args.stain_manifest,
+            data_config=args.data_config,
+            train_config=args.train_config,
+            output_dir=final_dir,
+            device=device_t,
+        )
+        print(
+            f"t_clear_v3={thr['t_clear']} t_retake_v3={thr['t_retake']} "
+            f"out={final_dir / 'thresholds.json'}"
+        )
+        return
+    if args.cmd in {
+        "stain-domain-v3-source-test",
+        "stain-domain-v3-known-audit",
+        "stain-domain-v3-unified-recovery",
+    }:
+        print(
+            "BLOCKED: source-test / known-audit / unified-recovery "
+            "仅在至少一名 candidate 通过 acceptance gate 后启用；"
+            "当前请先完成 robustness-audit。"
+        )
+        return
+    if args.cmd == "stain-confounding-audit":
+        from .stain.d4c1d_audit import run_full_d4c1d_audit
+
+        stats = run_full_d4c1d_audit(
+            stain_manifest=args.stain_manifest,
+            reports_dir=args.reports_dir,
+            docs_dir=args.docs_dir,
+            rebuild_manifest=not bool(args.reuse_manifest),
+        )
+        decision = stats["decision"]
+        print(
+            f"n={stats['n_audit_samples']} "
+            f"pos={stats['n_positive']} neg={stats['n_negative']} "
+            f"acq_auroc={stats['all_acquisition']['auroc']:.4f} "
+            f"match_rate={stats['matching']['positive_match_rate']:.3f} "
+            f"confirmed={decision['SOURCE_CONFOUNDING_CONFIRMED']} "
+            f"level={decision['SOURCE_CONFOUNDING_LEVEL']} "
+            f"rescuable={decision['EXISTING_DATA_RESCUABLE']} "
+            f"action={decision['RECOMMENDED_DATA_ACTION']}"
         )
         return
 

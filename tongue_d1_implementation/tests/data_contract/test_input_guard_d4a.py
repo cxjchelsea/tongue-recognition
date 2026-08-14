@@ -387,7 +387,7 @@ def test_policy_and_contract_validate_ok():
     assert implemented_checks_count() == 11
     assert len(CHECK_DEFINITIONS) == 11
     policy = InputGuardPolicy(POLICY_PATH)
-    assert policy.version in {"1.0", "1.1", "1.2", "1.3"}
+    assert policy.version in {"1.0", "1.1", "1.2", "1.3", "1.4"}
 
 
 def test_retake_requires_reason_on_check():

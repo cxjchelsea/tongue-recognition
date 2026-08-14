@@ -12,6 +12,12 @@ reports/d4c1/plots/
 reports/d4c1/roi_cache/
 reports/d4c1/*.pkl
 reports/d4c1/*.npy
+reports/d4c1b/*.pkl
+reports/d4c1b/*.npy
+reports/d4c1c/*.pkl
+reports/d4c1c/*.npy
+reports/d4c1d/*.pkl
+reports/d4c1d/*.npy
 runs/
 artifacts/
 checkpoints/

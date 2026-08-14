@@ -43,7 +43,7 @@ class InputGuardPolicy:
 
     def validate(self) -> list[str]:
         errors: list[str] = []
-        if self.version not in {"1.0", "1.1", "1.2", "1.3"}:
+        if self.version not in {"1.0", "1.1", "1.2", "1.3", "1.4"}:
             errors.append(f"unsupported policy version: {self.version}")
 
         expected_order = [Decision.PASS, Decision.WARNING, Decision.RETAKE]
@@ -69,15 +69,30 @@ class InputGuardPolicy:
 
             thresholds = check_cfg.get("thresholds")
             needs_calibration = bool(check_cfg.get("needs_calibration", False))
+            enabled = bool(check_cfg.get("enabled", False))
+            capability_status = str(check_cfg.get("capability_status", "active"))
             implemented = bool(
                 (CHECK_DEFINITIONS.get(check_id) or {}).get("implemented", False)
             )
-            # policy 1.1+：已实现 check 不得仍标记 needs_calibration
+            # deferred：允许 enabled=false + 有 reason；不要求 runtime model
+            if capability_status == "deferred" or (
+                not enabled and check_cfg.get("deferred_reason")
+            ):
+                if not check_cfg.get("deferred_reason") and capability_status == "deferred":
+                    errors.append(f"check {check_key}: deferred requires deferred_reason")
+                # deferred 不强制 needs_calibration / thresholds 可用性
+                continue
+
+            # enabled checks 必须有实现
+            if enabled and not implemented:
+                errors.append(
+                    f"check {check_key}: enabled but ontology implemented=false"
+                )
+
+            # policy 1.1+：已实现且 enabled 的 check 不得仍标记 needs_calibration
             policy_major_minor = self.policy_version.split("-")[0]
-            # 1.3：已实现 check 不得 needs_calibration
-            # 1.2：允许 color_cast/occlusion 过渡期仍 needs_calibration
-            if implemented and needs_calibration:
-                if policy_major_minor.startswith("1.3"):
+            if enabled and implemented and needs_calibration:
+                if policy_major_minor.startswith(("1.3", "1.4")):
                     errors.append(
                         f"check {check_key}: implemented but still needs_calibration "
                         f"under policy {self.policy_version}"
@@ -93,8 +108,7 @@ class InputGuardPolicy:
                     errors.append(f"check {check_key}: thresholds must be mapping")
                 else:
                     for threshold_name, threshold_value in thresholds.items():
-                        if threshold_value is None and not needs_calibration:
-                            # 允许 null 仅当显式 needs_calibration
+                        if threshold_value is None and not needs_calibration and enabled:
                             errors.append(
                                 f"check {check_key}: threshold {threshold_name} "
                                 f"is null but needs_calibration is not true"
@@ -134,6 +148,18 @@ class InputGuardPolicy:
         short_name = check_id.value.split(".", 1)[1]
         cfg = self.checks.get(short_name) or self.checks.get(check_id.value) or {}
         return bool(cfg.get("enabled", False))
+
+    def is_check_deferred(self, check: str | CheckId) -> bool:
+        cfg = self.check_config(check)
+        if str(cfg.get("capability_status", "")).lower() == "deferred":
+            return True
+        return (not bool(cfg.get("enabled", False))) and bool(cfg.get("deferred_reason"))
+
+    def active_check_ids(self) -> list[CheckId]:
+        return [check_id for check_id in CheckId if self.is_check_enabled(check_id)]
+
+    def deferred_check_ids(self) -> list[CheckId]:
+        return [check_id for check_id in CheckId if self.is_check_deferred(check_id)]
 
     def check_config(self, check: str | CheckId) -> dict[str, Any]:
         check_id = parse_check_id(check)

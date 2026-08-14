@@ -1,0 +1,53 @@
+{
+  "stage": "D4-E",
+  "d4_final_status": "PARTIAL_PASS_WITH_KNOWN_LIMITATION",
+  "input_guard_contract_version": "1.1",
+  "input_guard_policy_version": "1.4",
+  "defined_checks": 11,
+  "implemented_checks": 11,
+  "active_checks": 10,
+  "production_supported_checks": 10,
+  "deferred_checks": 1,
+  "deferred_capabilities": [
+    "stain_suspected"
+  ],
+  "deferred_reason": "source_dataset_severe_confounding",
+  "guard_ready": true,
+  "full_capability_coverage": false,
+  "stain_production_enabled": false,
+  "stain_research_model_preserved": true,
+  "stain_model_invocations": 0,
+  "unified_test_samples": 130,
+  "unified_pass": 70,
+  "unified_warning": 47,
+  "unified_retake": 13,
+  "stain_triggered_retake": 0,
+  "stain_triggered_warning": 0,
+  "evaluation_complete_true": 120,
+  "evaluation_complete_false": 10,
+  "known_limitations": [
+    "STAIN_DETECTION_DEFERRED"
+  ],
+  "d3_checkpoint_hash_expected": "a26934531e6643f6",
+  "d4b_thresholds_unchanged": true,
+  "color_cast_thresholds_unchanged": true,
+  "occlusion_thresholds_unchanged": true,
+  "pytest_result": "PASS: 301 passed, 1 skipped (d4a/d4b/d4c/d4d/d4d1/d4c1b/d4c1c/d4c1d/d4e)",
+  "validator_result": "PASS",
+  "biohit_278": {
+    "sample_id": "biohit::278.bmp",
+    "dataset": "biohit",
+    "decision": "pass",
+    "evaluation_complete": true,
+    "guard_ready": true,
+    "full_capability_coverage": false,
+    "primary_reason": null,
+    "reason_codes": [],
+    "stain_finding": null,
+    "stain_evaluation_state": "not_evaluated",
+    "stain_decision_effect": null,
+    "stain_model_invocations_cumulative": 0
+  },
+  "d3_checkpoint_config_hash_actual": "a26934531e6643f6",
+  "d3_checkpoint_unchanged": true
+}

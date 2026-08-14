@@ -1,0 +1,21 @@
+{
+  "positive": {
+    "median_h": 950.5,
+    "median_w": 900.0,
+    "median_luminance": 112.83334732055664,
+    "median_red": 143.84439086914062,
+    "median_blue": 94.6881217956543
+  },
+  "negative": {
+    "median_h": 1512.5,
+    "median_w": 2599.0,
+    "median_luminance": 17.30083465576172,
+    "median_red": 22.362131118774414,
+    "median_blue": 14.66645622253418
+  },
+  "luminance_gap": 95.53251266479492,
+  "red_gap": 121.48225975036621,
+  "resolution_area_gap": 3075537.5,
+  "source_confounding_suspected": true,
+  "note": "audit only; not used for training"
+}

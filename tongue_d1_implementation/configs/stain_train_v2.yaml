@@ -1,0 +1,132 @@
+version: "2.0"
+name: stain_train_v2
+data_contract: configs/stain_detection_v2.yaml
+v1_reference:
+  data_contract: configs/stain_detection_v1.yaml
+  train_config: configs/stain_train_v1.yaml
+  checkpoint: runs/input_guard/d4c/stain/best.pt
+  thresholds: runs/input_guard/d4c/stain/thresholds.json
+
+model:
+  architecture: resnet18
+  encoder_weights: imagenet
+  in_channels: 3
+  classes: 1
+  # 禁止从 D4-C v1 best.pt 继续 fine-tune
+  init_from_v1: false
+
+loss:
+  name: bce_with_logits
+  pos_weight: null
+  supervised_weight: 1.0
+  source_consistency_weight: 0.5
+  external_consistency_weight: 0.5
+  consistency_warmup_epochs: 5
+  # 禁止 entropy minimization / pseudo-label threshold
+  entropy_minimization: false
+  pseudo_labeling: false
+
+optimizer:
+  name: adamw
+  lr: 0.001
+  weight_decay: 0.0001
+
+scheduler:
+  name: reduce_on_plateau
+  mode: max
+  factor: 0.5
+  patience: 3
+  min_lr: 1.0e-6
+
+training:
+  epochs: 30
+  batch_size: 32
+  external_batch_size: 32
+  num_workers: 0
+  amp: true
+  device: auto
+  gradient_clip_norm: 1.0
+
+early_stopping:
+  enabled: true
+  patience: 7
+
+checkpoint:
+  monitor: val_auroc
+  mode: max
+  # 仅 source val AUROC；external 不得选模
+  tie_break_epsilon: 0.001
+  forbid_external_selection: true
+  forbid_test_selection: true
+
+augmentation:
+  train:
+    horizontal_flip: true
+    rotation_degrees: 10
+    scale_min: 0.9
+    scale_max: 1.1
+    translate_frac: 0.05
+    color_jitter: false
+    brightness_contrast: false
+    # acquisition-style 由 style_augment 模块单独控制
+    style_enabled: true
+  val:
+    enabled: false
+  test:
+    enabled: false
+
+style_augmentation:
+  contract_path: reports/d4c1b/style_augmentation_contract.json
+  forbidden:
+    - random_grayscale
+    - color_inversion
+    - solarize
+    - posterize
+    - extreme_hue_rotation
+    - strong_saturation_shift
+
+external:
+  biohit_fraction: 0.5
+  tongueset3_fraction: 0.5
+  stop_gradient_weak_target: true
+  roi_cache_index: reports/d4c1/roi_cache/index.parquet
+
+calibration:
+  target_confident_precision: 0.90
+
+metrics:
+  primary: val_auroc
+
+reproducibility:
+  seed: 20260813
+
+gates:
+  target:
+    test_auroc: 0.95
+    test_pr_auc: 0.95
+    confident_stain_precision: 0.90
+    stain_recall: 0.90
+    confident_clean_purity: 0.90
+    max_auroc_drop_vs_v1: 0.03
+  external_val:
+    # engineering proxies（无 gold）
+    max_tongueset3_highscore_rate: 0.50
+    min_logit_gap_reduction_vs_v1: 0.50
+    min_style_consistency_improvement: 0.30
+
+smoke:
+  epochs: 1
+  max_train_batches: 3
+  max_val_batches: 3
+
+overfit:
+  sample_count: 16
+  positives: 8
+  negatives: 8
+  epochs: 40
+  accuracy_gate: 0.95
+  disable_style: true
+
+consistency_smoke:
+  biohit: 4
+  tongueset3: 4

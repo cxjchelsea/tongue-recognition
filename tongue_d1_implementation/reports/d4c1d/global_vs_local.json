@@ -1,0 +1,58 @@
+{
+  "global_acquisition_auroc": 0.9784641255605382,
+  "local_heterogeneity_auroc": 0.8944816671063043,
+  "local_gain": -0.08398245845423391,
+  "interpretation": "global_dominates",
+  "local_classifier": {
+    "model": "logistic",
+    "n_samples": 1742,
+    "n_features": 8,
+    "features": [
+      "local_chroma_var",
+      "spatial_color_var",
+      "patch_lab_var",
+      "center_edge_delta_l",
+      "center_edge_delta_a",
+      "center_edge_delta_b",
+      "sat_p95",
+      "sat_extrema_ratio"
+    ],
+    "auroc": 0.8944816671063043,
+    "pr_auc": 0.8736062770602254,
+    "balanced_accuracy": 0.8315655499868109,
+    "f1": 0.8449653702717101,
+    "confusion_matrix": [
+      [
+        658,
+        192
+      ],
+      [
+        99,
+        793
+      ]
+    ],
+    "feature_importance": {
+      "sat_p95": 2.732482098238797,
+      "sat_extrema_ratio": -0.6453104813689389,
+      "spatial_color_var": -0.3753804732564018,
+      "center_edge_delta_b": 0.34175111487672777,
+      "patch_lab_var": -0.2133064470557857,
+      "center_edge_delta_l": 0.1606526061730575,
+      "local_chroma_var": 0.09274321732282535,
+      "center_edge_delta_a": 0.08885274824381768
+    },
+    "top_features": [
+      "sat_p95",
+      "sat_extrema_ratio",
+      "spatial_color_var",
+      "center_edge_delta_b",
+      "patch_lab_var",
+      "center_edge_delta_l",
+      "local_chroma_var",
+      "center_edge_delta_a"
+    ],
+    "gate": "MODERATE_CONFOUNDING_SIGNAL",
+    "seed": 20260814,
+    "n_splits": 5
+  }
+}

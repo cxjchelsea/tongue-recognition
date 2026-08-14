@@ -1,0 +1,101 @@
+{
+  "stage": "D4-C.1-B",
+  "stain_contract_version": "1.1",
+  "decision": {
+    "baseline_status": "NEEDS_IMPROVEMENT",
+    "recommendation": "NEEDS_IMPROVEMENT_STOP",
+    "policy_activated": false,
+    "early_stop_before_test": true,
+    "reason": "external val saturation unresolved or source val weak"
+  },
+  "best_epoch": 8,
+  "best_source_val_auroc": 0.9977671451355661,
+  "t_clear_v2": 0.95,
+  "t_retake_v2": 0.96,
+  "external_val_robustness": {
+    "v1": {
+      "biohit": {
+        "n": 30,
+        "median_p": 0.0069343456998467445,
+        "mean_p": 0.15947081950962455,
+        "p05_p": 3.2234372429229556e-05,
+        "p95_p": 0.9433757066726681,
+        "median_logit": -5.01886248588562,
+        "mean_logit": -4.21553938438495,
+        "highscore_rate": 0.06666666666666667,
+        "uncertain_rate": 0.0,
+        "band_counts": {
+          "clear": 28,
+          "uncertain": 0,
+          "stain": 2
+        }
+      },
+      "tongueset3": {
+        "n": 100,
+        "median_p": 0.9984997510910034,
+        "mean_p": 0.9592492444813252,
+        "p05_p": 0.792139083147049,
+        "p95_p": 0.9999922394752503,
+        "median_logit": 6.501876592636108,
+        "mean_logit": 6.441156023144722,
+        "highscore_rate": 0.84,
+        "uncertain_rate": 0.0,
+        "band_counts": {
+          "clear": 16,
+          "uncertain": 0,
+          "stain": 84
+        }
+      },
+      "domain_gap_median_logit": 11.520739078521729,
+      "domain_gap_median_p": 0.9915654053911567
+    },
+    "v2": {
+      "biohit": {
+        "n": 30,
+        "median_p": 0.0022160954540595412,
+        "mean_p": 0.031522140282322655,
+        "p05_p": 0.0003126915151369758,
+        "p95_p": 0.09941399022936816,
+        "median_logit": -6.110047817230225,
+        "mean_logit": -5.718305276830991,
+        "highscore_rate": 0.0,
+        "uncertain_rate": 0.0,
+        "band_counts": {
+          "clear": 30,
+          "uncertain": 0,
+          "stain": 0
+        }
+      },
+      "tongueset3": {
+        "n": 100,
+        "median_p": 0.9894626438617706,
+        "mean_p": 0.9150911414623261,
+        "p05_p": 0.4065237507224083,
+        "p95_p": 0.9999463677406311,
+        "median_logit": 4.54242467880249,
+        "mean_logit": 4.830434755012393,
+        "highscore_rate": 0.74,
+        "uncertain_rate": 0.03,
+        "band_counts": {
+          "clear": 23,
+          "uncertain": 3,
+          "stain": 74
+        }
+      },
+      "domain_gap_median_logit": 10.652472496032715,
+      "domain_gap_median_p": 0.9872465484077111
+    },
+    "logit_gap_v1": 11.520739078521729,
+    "logit_gap_v2": 10.652472496032715,
+    "logit_gap_reduction": 0.07536552790330397,
+    "tongueset3_highscore_rate_v2": 0.74,
+    "catastrophic_saturation_resolved": false,
+    "note": "external val has no stain gold; engineering proxies only"
+  },
+  "v1_checkpoint_md5_unchanged": true,
+  "v1_thresholds_text_unchanged": true,
+  "source_test_summary": "SKIPPED_EARLY_STOP",
+  "external_known_audit_summary": "SKIPPED_EARLY_STOP",
+  "unified_recovery_summary": "SKIPPED_EARLY_STOP",
+  "early_stop_before_test": true
+}

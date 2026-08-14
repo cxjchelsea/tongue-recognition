@@ -1,6 +1,6 @@
-version: '1.3'
+version: '1.4'
 name: input_guard_v1
-contract_version: '1.0'
+contract_version: '1.1'
 qc_ontology_version: '1.0'
 reason_registry_version: '1.0'
 decision_order:
@@ -31,21 +31,36 @@ primary_reason_priority:
 - STRONG_SHADOW
 - STAIN_SUSPECTED
 - UNKNOWN_QUALITY_ISSUE
-policy_version: '1.3'
+policy_version: '1.4'
 threshold_status: engineering_heuristic
+capability_coverage:
+  defined_checks: 11
+  implemented_checks: 11
+  active_checks: 10
+  production_supported_checks: 10
+  deferred_checks: 1
+  guard_ready: true
+  full_capability_coverage: false
+known_limitations:
+- code: STAIN_DETECTION_DEFERRED
+  reason: SOURCE_DATASET_CONFOUNDING_SEVERE
+  affects_decision: false
+capture_guidance:
+- 拍摄前请尽量避免近期摄入可能明显改变舌面颜色的有色食物、饮料、药物或漱口液；当前版本暂不具备可靠的外源染色自动识别能力。
 notes:
 - Quality checks evaluate capture suitability, not disease/phenotype.
 - Pathological tongue color/coating/crack/toothmark are NOT QC fail reasons.
 - Stain suspected is contamination/quality, not pathological coating.color.
 - D4-B thresholds calibrated on BioHit+TongueSet3 train+val only; test excluded.
-- D4-C stain_suspected thresholds calibrated on stained_coating val only; test excluded
-  from threshold selection.
-- Thresholds are engineering heuristics, not clinical standards.
-- D4-D color_cast/occlusion calibrated on BioHit+TongueSet3 train+val only; test excluded.
-  Synthetic perturbations used for sensitivity only.
+- D4-C stain_suspected research thresholds remain 0.95/0.96 but production disabled.
+- D4-D color_cast/occlusion calibrated on BioHit+TongueSet3 train+val only; test excluded. Synthetic perturbations used for sensitivity only.
+- "D4-E: stain_suspected deferred due to SOURCE_DATASET_CONFOUNDING_SEVERE; research artifacts preserved; production decision_effect=none."
+- Downstream D5 coating-color phenotype cannot assume external staining is excluded.
 checks:
   tongue_presence:
     enabled: true
+    production_supported: true
+    capability_status: active
     implementation_stage: D4-B
     needs_calibration: false
     thresholds: {}
@@ -53,6 +68,8 @@ checks:
     retake_reason: NO_TONGUE_DETECTED
   tongue_scale:
     enabled: true
+    production_supported: true
+    capability_status: active
     implementation_stage: D4-B
     needs_calibration: false
     thresholds:
@@ -66,6 +83,8 @@ checks:
     retake_reason: TONGUE_TOO_SMALL
   tongue_completeness:
     enabled: true
+    production_supported: true
+    capability_status: active
     implementation_stage: D4-B
     needs_calibration: false
     thresholds:
@@ -78,6 +97,8 @@ checks:
     retake_reason: TONGUE_CROPPED
   segmentation_integrity:
     enabled: true
+    production_supported: true
+    capability_status: active
     implementation_stage: D4-B
     needs_calibration: false
     thresholds:
@@ -89,6 +110,8 @@ checks:
     retake_reason: SEGMENTATION_IMPLAUSIBLE
   focus:
     enabled: true
+    production_supported: true
+    capability_status: active
     implementation_stage: D4-B
     needs_calibration: false
     thresholds:
@@ -98,6 +121,8 @@ checks:
     retake_reason: TONGUE_BLUR
   exposure:
     enabled: true
+    production_supported: true
+    capability_status: active
     implementation_stage: D4-B
     needs_calibration: false
     thresholds:
@@ -113,6 +138,8 @@ checks:
     retake_reason: null
   illumination_uniformity:
     enabled: true
+    production_supported: true
+    capability_status: active
     implementation_stage: D4-B
     needs_calibration: false
     thresholds:
@@ -120,6 +147,8 @@ checks:
       retake_relative_range: 1.201061970189598
   color_cast:
     enabled: true
+    production_supported: true
+    capability_status: active
     implementation_stage: D4-D
     needs_calibration: false
     thresholds:
@@ -141,6 +170,8 @@ checks:
     fallback: insufficient_neutral_support -> unavailable
   occlusion:
     enabled: true
+    production_supported: true
+    capability_status: active
     implementation_stage: D4-D
     needs_calibration: false
     thresholds:
@@ -154,6 +185,8 @@ checks:
     fallback: missing_probability_map -> unavailable
   resolution:
     enabled: true
+    production_supported: true
+    capability_status: active
     implementation_stage: D4-B
     needs_calibration: false
     thresholds:
@@ -164,11 +197,26 @@ checks:
     warning_reason: TONGUE_RESOLUTION_TOO_LOW
     retake_reason: IMAGE_RESOLUTION_TOO_LOW
   stain_suspected:
-    enabled: true
+    # D4-E：研究实现保留，生产禁用
+    defined: true
+    implemented: true
+    enabled: false
+    production_supported: false
+    capability_status: deferred
+    deferred_reason: SOURCE_DATASET_CONFOUNDING_SEVERE
     implementation_stage: D4-C
     implementation: learned_model
     model_contract: '1.0'
+    research_model:
+      contract_version: '1.0'
+      checkpoint: runs/input_guard/d4c/stain/best.pt
+      thresholds_preserved:
+        clear: 0.95
+        retake: 0.96
+    deployment:
+      decision_effect: none
     needs_calibration: false
+    # 历史 research thresholds 保留为 provenance，不参与 production
     thresholds:
       clear: 0.95
       retake: 0.96

@@ -1,0 +1,203 @@
+version: "3.0"
+name: stain_train_v3
+data_contract: configs/stain_detection_v3.yaml
+stage: D4-C.1-C
+
+v1_reference:
+  data_contract: configs/stain_detection_v1.yaml
+  train_config: configs/stain_train_v1.yaml
+  checkpoint: runs/input_guard/d4c/stain/best.pt
+  thresholds: runs/input_guard/d4c/stain/thresholds.json
+
+v2_reference:
+  data_contract: configs/stain_detection_v2.yaml
+  train_config: configs/stain_train_v2.yaml
+  checkpoint: runs/input_guard/d4c1b/stain_v2/best.pt
+  thresholds: runs/input_guard/d4c1b/stain_v2/thresholds.json
+  # D4-C.1-B frozen baseline gap（工程对照）
+  baseline_domain_logit_gap: 10.652472496032715
+  baseline_tongueset3_highscore_rate: 0.74
+
+model:
+  architecture: resnet18
+  encoder_weights: imagenet
+  in_channels: 3
+  classes: 1
+  init_from_v1: false
+  init_from_v2: false
+
+# 预注册 MixStyle（C1/C3）；不做大搜索
+mixstyle:
+  enabled: false  # candidate 覆盖
+  layers: [layer1]
+  p: 0.5
+  alpha: 0.1
+  mixing_strategy: cross_domain
+  warmup_epochs: 0  # 训练开始即启用
+  label_mixup: false
+
+# 预注册 GRL（C2/C3）
+domain_adversarial:
+  enabled: false  # candidate 覆盖
+  hidden: 256
+  dropout: 0.1
+  num_domains: 3
+  domain_loss_weight: 1.0
+  lambda_schedule:
+    type: linear_warmup
+    # epoch 从 1 起：前 warmup_epochs 线性爬升到 lambda_max
+    warmup_epochs: 5
+    lambda_max: 0.3  # moderate 档（预注册；不按 test 追加）
+  # 备选 weak 档仅文档记录，本阶段默认 moderate；禁止结果后追加搜索
+  lambda_presets:
+    weak: 0.1
+    moderate: 0.3
+
+loss:
+  name: bce_with_logits
+  pos_weight: null
+  supervised_weight: 1.0
+  source_consistency_weight: 0.5
+  external_consistency_weight: 0.5
+  consistency_warmup_epochs: 5
+  entropy_minimization: false
+  pseudo_labeling: false
+
+optimizer:
+  name: adamw
+  lr: 0.001
+  weight_decay: 0.0001
+
+scheduler:
+  name: reduce_on_plateau
+  mode: max
+  factor: 0.5
+  patience: 3
+  min_lr: 1.0e-6
+
+training:
+  epochs: 25
+  batch_size: 24
+  external_batch_size: 24
+  domain_per_domain: 8  # stained=N, biohit=N, tongueset3=N
+  num_workers: 0
+  amp: true
+  device: auto
+  gradient_clip_norm: 1.0
+
+early_stopping:
+  enabled: true
+  patience: 6
+
+checkpoint:
+  monitor: val_auroc
+  mode: max
+  forbid_external_selection: true
+  forbid_test_selection: true
+
+augmentation:
+  train:
+    horizontal_flip: true
+    rotation_degrees: 10
+    scale_min: 0.9
+    scale_max: 1.1
+    translate_frac: 0.05
+    color_jitter: false
+    brightness_contrast: false
+    style_enabled: true
+  val:
+    enabled: false
+  test:
+    enabled: false
+
+style_augmentation:
+  # 冻结 D4-C.1-B 范围，不重新搜索
+  contract_path: reports/d4c1b/style_augmentation_contract.json
+  forbidden:
+    - random_grayscale
+    - color_inversion
+    - solarize
+    - posterize
+    - extreme_hue_rotation
+    - strong_saturation_shift
+
+external:
+  biohit_fraction: 0.5
+  tongueset3_fraction: 0.5
+  stop_gradient_weak_target: true
+  roi_cache_index: reports/d4c1/roi_cache/index.parquet
+
+candidates:
+  c0:
+    description: frozen D4-C.1-B reference（不重训）
+    retrain: false
+  c1:
+    mixstyle: true
+    domain_adversarial: false
+    consistency: true
+  c2:
+    mixstyle: false
+    domain_adversarial: true
+    consistency: true
+  c3:
+    mixstyle: true
+    domain_adversarial: true
+    consistency: true
+    require_c1_or_c2_signal: true
+
+calibration:
+  target_confident_precision: 0.90
+
+metrics:
+  primary: val_auroc
+
+reproducibility:
+  seed: 20260814
+
+gates:
+  source:
+    val_auroc_min: 0.95
+    val_pr_auc_min: 0.95
+    target_val_auroc: 0.97
+  domain_robustness:
+    # 相对 v2 gap≈10.65
+    min_gap_reduction: 0.40
+    target_gap_reduction: 0.50
+    max_tongueset3_highscore: 0.50
+    target_tongueset3_highscore: 0.30
+    min_domain_probe_drop: 0.10
+    target_domain_probe_drop: 0.20
+    min_style_sensitivity_reduction: 0.30
+    early_stop_gap_reduction: 0.20
+  target_test:
+    test_auroc: 0.95
+    test_pr_auc: 0.95
+    confident_stain_precision: 0.90
+    stain_recall: 0.90
+    confident_clean_purity: 0.90
+    max_auroc_drop_vs_v1: 0.03
+
+smoke:
+  epochs: 1
+  max_train_batches: 3
+  max_val_batches: 3
+
+overfit:
+  sample_count: 16
+  positives: 8
+  negatives: 8
+  epochs: 40
+  accuracy_gate: 0.95
+  disable_style: true
+  disable_mixstyle: true
+  disable_grl: true
+  disable_consistency: true
+
+consistency_smoke:
+  biohit: 4
+  tongueset3: 4
+
+c3_execution:
+  # C1/C2 至少一项 meaningful robustness 才跑 C3
+  min_gap_reduction_signal: 0.15
+  max_highscore_to_count_as_signal: 0.65

@@ -1,0 +1,393 @@
+{
+  "stage": "D4-C.1-D",
+  "n_audit_samples": 1742,
+  "n_positive": 892,
+  "n_negative": 850,
+  "splits": [
+    "train",
+    "val"
+  ],
+  "top10_effects": [
+    {
+      "feature": "original_height",
+      "cohens_d": -2.4799211670973387,
+      "ks_statistic": 0.8634898443682406,
+      "wasserstein": 2250.05533632287
+    },
+    {
+      "feature": "HSV_s_mean",
+      "cohens_d": 2.2941986309000932,
+      "ks_statistic": 0.7210709575309945,
+      "wasserstein": 75.29389022937276
+    },
+    {
+      "feature": "original_width",
+      "cohens_d": -2.1242177489981113,
+      "ks_statistic": 0.7896096016882089,
+      "wasserstein": 3264.1675151675017
+    },
+    {
+      "feature": "Lab_a_median",
+      "cohens_d": 2.1025082723402475,
+      "ks_statistic": 0.6591005011870219,
+      "wasserstein": 16.336853073067793
+    },
+    {
+      "feature": "Lab_a_mean",
+      "cohens_d": 2.0566569941714743,
+      "ks_statistic": 0.6502426800316539,
+      "wasserstein": 14.688180167977197
+    },
+    {
+      "feature": "original_pixel_count",
+      "cohens_d": -2.0271690482529787,
+      "ks_statistic": 0.8332207860722765,
+      "wasserstein": 12994729.440129254
+    },
+    {
+      "feature": "clipping_dark_ratio",
+      "cohens_d": -1.9504783299077433,
+      "ks_statistic": 0.6749960432603535,
+      "wasserstein": 0.591610553512387
+    },
+    {
+      "feature": "ROI_width",
+      "cohens_d": -1.9470766440033718,
+      "ks_statistic": 0.7600606700079134,
+      "wasserstein": 1646.8845977314695
+    },
+    {
+      "feature": "foreground_ratio",
+      "cohens_d": 1.8921963727226074,
+      "ks_statistic": 0.7008203640200474,
+      "wasserstein": 0.3120220810999256
+    },
+    {
+      "feature": "bbox_area_ratio",
+      "cohens_d": 1.8604096097064224,
+      "ks_statistic": 0.7402400422052229,
+      "wasserstein": 0.2831587110511541
+    }
+  ],
+  "family_aurocs": {
+    "color_only": 0.9475019783698233,
+    "resolution_only": 0.9508361909786335,
+    "geometry_only": 0.9646729095225535,
+    "quality_only": 0.9582122131363757
+  },
+  "all_acquisition": {
+    "auroc": 0.9784641255605382,
+    "pr_auc": 0.9547778426601665,
+    "gate": "STRONG_CONFOUNDING_SIGNAL",
+    "top_features": [
+      "clipping_dark_ratio",
+      "original_height",
+      "HSV_s_mean",
+      "luminance_std",
+      "ROI_width",
+      "ROI_pixel_count",
+      "foreground_ratio",
+      "Lab_a_median",
+      "original_pixel_count",
+      "blur_laplacian"
+    ]
+  },
+  "propensity": {
+    "positive_propensity": {
+      "mean": 0.9177474472837318,
+      "median": 0.9726635714960807,
+      "p05": 0.5978969691420729,
+      "p95": 0.9962052715694518
+    },
+    "negative_propensity": {
+      "mean": 0.08340267825704546,
+      "median": 0.0024323116485828636,
+      "p05": 5.223772481480274e-08,
+      "p95": 0.5840354548242368
+    },
+    "overlap_range": [
+      0.002645495405546296,
+      1.0
+    ],
+    "samples_in_common_support": 1310,
+    "samples_outside_common_support": 432,
+    "positive_support_rate": 1.0,
+    "negative_support_rate": 0.49176470588235294,
+    "common_support_rate": 0.7520091848450058
+  },
+  "matching": {
+    "covariates": [
+      "luminance_mean",
+      "Lab_a_mean",
+      "Lab_b_mean",
+      "ROI_short_side",
+      "ROI_aspect_ratio",
+      "foreground_ratio",
+      "original_pixel_count",
+      "blur_laplacian"
+    ],
+    "caliper": 1.5,
+    "n_positive": 892,
+    "n_negative": 850,
+    "n_matched_pairs": 118,
+    "positive_match_rate": 0.13228699551569506,
+    "negative_match_utilization": 0.1388235294117647,
+    "median_match_distance": 1.187375905980754,
+    "p95_match_distance": 1.4424039078662438,
+    "unmatched_positive_count": 774,
+    "unmatched_positive_ids": [
+      "stained_coating::中医舌诊染苔数据/染苔/101_红心火龙果.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/132_巧克力.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/137_蓝莓蛋糕.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/139_泡腾片.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/14_紫薯.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/153_彩虹糖.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/157_橙汁.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/160_芒果.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/162_杨梅.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/163_奥利奥饼干.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/164_彩虹糖.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/166_彩虹糖.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/168_橘子.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/169_巧克力.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/16_彩虹糖.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/170_彩虹糖.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/171_彩虹糖.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/172_巧克力.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/173_巧克力.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/17_橙子.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/184_橙子味棒棒糖.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/187_芒果.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/18_橙子.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/191_芒果.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/193_橘子.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/195_桑葚.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/197_红心火龙果.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/198_芒果.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/19_巧克力.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/201_红心火龙果.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/202_橘子.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/203_可口可乐.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/205_黑巧.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/206_火龙果.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/207_蓝莓.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/20_奶糖.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/210_芒果.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/212_咖啡味棒棒糖.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/213_冰淇淋.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/216_椰子灰甜筒.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/219_柠檬糖.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/220_葡萄味糖.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/221_椰子灰冰淇淋.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/222_咖啡味糖果.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/223_椰子灰冰淇淋.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/224_椰子灰冰淇淋.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/225_橘子味糖果.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/226_椰子灰冰淇淋.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/22_黑巧.JPG",
+      "stained_coating::中医舌诊染苔数据/染苔/233_芬达汽水.JPG"
+    ],
+    "n_pairs_written": 118
+  },
+  "matched_subset_audit": {
+    "n_matched_samples": 236,
+    "before_auroc": 0.9784641255605382,
+    "after_auroc": 0.8685004309106579,
+    "auroc_delta": 0.10996369464988032
+  },
+  "resolution_stratification": {
+    "feature": "original_pixel_count",
+    "bins": [
+      {
+        "bin": "(44099.999, 196271.25]",
+        "n": 436,
+        "positive_rate": 0.9426605504587156,
+        "n_positive": 411
+      },
+      {
+        "bin": "(196271.25, 3285600.0]",
+        "n": 665,
+        "positive_rate": 0.58796992481203,
+        "n_positive": 391
+      },
+      {
+        "bin": "(3285600.0, 20668416.0]",
+        "n": 639,
+        "positive_rate": 0.13771517996870108,
+        "n_positive": 88
+      },
+      {
+        "bin": "(20668416.0, 31961088.0]",
+        "n": 2,
+        "positive_rate": 1.0,
+        "n_positive": 2
+      }
+    ],
+    "positive_rate_span": 0.8622848200312989,
+    "approximately_monotonic": false,
+    "confounding_flag": true
+  },
+  "color_stratification": {
+    "luminance": {
+      "feature": "luminance_mean",
+      "bins": [
+        {
+          "bin": "(-0.001, 18.459]",
+          "n": 436,
+          "positive_rate": 0.0,
+          "n_positive": 0
+        },
+        {
+          "bin": "(18.459, 91.963]",
+          "n": 435,
+          "positive_rate": 0.6505747126436782,
+          "n_positive": 283
+        },
+        {
+          "bin": "(91.963, 105.611]",
+          "n": 435,
+          "positive_rate": 0.825287356321839,
+          "n_positive": 359
+        },
+        {
+          "bin": "(105.611, 196.487]",
+          "n": 436,
+          "positive_rate": 0.573394495412844,
+          "n_positive": 250
+        }
+      ],
+      "positive_rate_span": 0.825287356321839,
+      "approximately_monotonic": false,
+      "confounding_flag": true
+    },
+    "Lab_a": {
+      "feature": "Lab_a_mean",
+      "bins": [
+        {
+          "bin": "(-0.001154, 3.038]",
+          "n": 436,
+          "positive_rate": 0.011467889908256881,
+          "n_positive": 5
+        },
+        {
+          "bin": "(3.038, 18.879]",
+          "n": 435,
+          "positive_rate": 0.39080459770114945,
+          "n_positive": 170
+        },
+        {
+          "bin": "(18.879, 23.479]",
+          "n": 435,
+          "positive_rate": 0.6804597701149425,
+          "n_positive": 296
+        },
+        {
+          "bin": "(23.479, 45.851]",
+          "n": 436,
+          "positive_rate": 0.9655963302752294,
+          "n_positive": 421
+        }
+      ],
+      "positive_rate_span": 0.9541284403669725,
+      "approximately_monotonic": true,
+      "confounding_flag": true
+    }
+  },
+  "metadata": {
+    "batch_label_confounding": true,
+    "format_extreme": false
+  },
+  "near_duplicate": {
+    "n_unique_dhash": 1465,
+    "cross_label_hash_groups": 1,
+    "same_label_multi_hash_groups": 93,
+    "near_duplicate_concern": true,
+    "examples": [
+      {
+        "dhash": "00060e0e0e060000",
+        "sample_ids": [
+          "stained_coating::中医舌诊染苔数据/染苔/275_橘子.JPG",
+          "stained_coating::中医舌诊染苔数据/非染苔/144.JPG",
+          "stained_coating::中医舌诊染苔数据/非染苔/865.JPG"
+        ],
+        "labels": [
+          1,
+          0,
+          0
+        ],
+        "type": "cross_label"
+      }
+    ],
+    "action": "report_only_no_deletion"
+  },
+  "global_vs_local": {
+    "global_auroc": 0.9784641255605382,
+    "local_auroc": 0.8944816671063043,
+    "interpretation": "global_dominates"
+  },
+  "evidence_matrix": {
+    "color_label_confounding": {
+      "strength": "strong",
+      "evidence_summary": "color-only AUROC=0.948"
+    },
+    "luminance_label_confounding": {
+      "strength": "strong",
+      "evidence_summary": "luminance bin positive_rate_span=0.825"
+    },
+    "resolution_label_confounding": {
+      "strength": "strong",
+      "evidence_summary": "resolution-only AUROC=0.951; span=0.862"
+    },
+    "blur_label_confounding": {
+      "strength": "moderate",
+      "evidence_summary": "quality-only AUROC=0.958"
+    },
+    "geometry_label_confounding": {
+      "strength": "moderate",
+      "evidence_summary": "geometry-only AUROC=0.965"
+    },
+    "batch_label_confounding": {
+      "strength": "strong",
+      "evidence_summary": "extreme folder batches=2"
+    },
+    "format_label_confounding": {
+      "strength": "weak",
+      "evidence_summary": "file_extension group rates"
+    },
+    "camera_label_confounding": {
+      "strength": "unavailable",
+      "evidence_summary": "EXIF make/model audit"
+    },
+    "near_duplicate_concern": {
+      "strength": "moderate",
+      "evidence_summary": "cross_label_hash_groups=1"
+    },
+    "common_support": {
+      "strength": "weak",
+      "evidence_summary": "common_support_rate=0.752"
+    },
+    "matchability": {
+      "strength": "strong",
+      "evidence_summary": "positive_match_rate=0.132; pairs=118"
+    },
+    "local_signal_support": {
+      "strength": "not_supported",
+      "evidence_summary": "local AUROC=0.894 vs global=0.978"
+    }
+  },
+  "decision": {
+    "SOURCE_CONFOUNDING_CONFIRMED": true,
+    "SOURCE_CONFOUNDING_LEVEL": "SEVERE",
+    "EXISTING_DATA_RESCUABLE": "false",
+    "RECOMMENDED_DATA_ACTION": "RECOLLECT_STAIN_DATASET",
+    "acquisition_auroc_before_match": 0.9784641255605382,
+    "acquisition_auroc_after_match": 0.8685004309106579,
+    "auroc_delta": 0.10996369464988032,
+    "folder_label_perfect_split": true
+  },
+  "frozen_artifacts_unchanged": true,
+  "cnn_training_performed": false,
+  "policy_modified": false,
+  "source_test_used": false,
+  "known_external_audit_run": false
+}

@@ -1,0 +1,52 @@
+version: "1.1"
+name: stain_detection_contract_v2
+# D4-C.1-B：domain-robust stain detector（非苔色表型）
+# 继承 v1 输入语义；不覆盖 v1 合同文件
+
+parent_contract: configs/stain_detection_v1.yaml
+task: quality.stain_suspected
+dataset: stained_coating
+dataset_role: quality_only_auxiliary_supervision
+
+semantics:
+  positive: "外源染色嫌疑（食物/饮料/药物/色素等）"
+  negative: "无明显外源染色嫌疑"
+  forbidden:
+    - coating.color
+    - phenotype_inference
+    - disease_diagnosis
+    - external_pseudo_labels
+
+input:
+  type: masked_tongue_roi
+  size: 224
+  preserve_aspect_ratio: true
+  mask_outside_fill: 0
+  color_space: RGB
+  representation: black_masked_roi
+  normalization:
+    type: imagenet
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+
+roi:
+  source: d3e_segmentation
+  bbox: bbox_roi
+  require_valid_roi: true
+  min_roi_success_rate: 0.99
+
+labels:
+  field: canonical_label
+  true_values: ["true", true, "1", 1]
+  false_values: ["false", false, "0", 0]
+  external_domains_have_gold: false
+
+split:
+  inherit_from: d2_frozen
+  policy: configs/split_policy_v1.yaml
+
+external_unlabeled:
+  datasets: [biohit, tongueset3]
+  train_only_for_consistency: true
+  forbid_pseudo_labels: true
+  forbid_entropy_minimization: true

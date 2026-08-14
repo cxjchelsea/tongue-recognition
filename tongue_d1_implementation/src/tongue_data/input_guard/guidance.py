@@ -79,6 +79,22 @@ RETAKE_GUIDANCE: dict[ReasonCode, str] = {
 
 FALLBACK_GUIDANCE = "当前照片质量不适合继续分析，请按规范重新拍摄。"
 
+# D4-E：静态采集指导（非算法；降低外源染色风险）
+DEFAULT_CAPTURE_GUIDANCE = [
+    "拍摄前请尽量避免近期摄入可能明显改变舌面颜色的有色食物、饮料、药物或漱口液；"
+    "当前版本暂不具备可靠的外源染色自动识别能力。"
+]
+
+
+def capture_guidance_list(policy=None) -> list[str]:
+    """从 policy 读取 capture guidance；缺失则用默认文案。"""
+    if policy is None:
+        return list(DEFAULT_CAPTURE_GUIDANCE)
+    items = list(getattr(policy, "doc", {}).get("capture_guidance") or [])
+    if not items:
+        return list(DEFAULT_CAPTURE_GUIDANCE)
+    return [str(item) for item in items]
+
 
 def guidance_for_reason(reason: str | ReasonCode) -> str:
     """返回用户可读重拍建议；未知 reason 使用安全 fallback。"""

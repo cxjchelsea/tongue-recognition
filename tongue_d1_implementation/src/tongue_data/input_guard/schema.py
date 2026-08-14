@@ -74,6 +74,12 @@ class InputGuardResult:
     quality_confidence: float | None = None
     contract_version: str = INPUT_GUARD_CONTRACT_VERSION
     guard_ready: bool = False
+    full_capability_coverage: bool = False
+    known_limitations: list[Any] = field(default_factory=list)
+    active_checks: list[str] = field(default_factory=list)
+    deferred_checks: list[str] = field(default_factory=list)
+    capture_guidance: list[str] = field(default_factory=list)
+    stain_model_invocations: int = 0
     notes: list[str] = field(default_factory=list)
 
     def validate(self) -> None:
@@ -107,6 +113,7 @@ class InputGuardResult:
             "usable": self.usable,
             "evaluation_complete": self.evaluation_complete,
             "guard_ready": self.guard_ready,
+            "full_capability_coverage": self.full_capability_coverage,
             "quality_confidence": self.quality_confidence,
             "primary_reason": self.primary_reason,
             "reason_codes": list(self.reason_codes),
@@ -116,6 +123,11 @@ class InputGuardResult:
             "features": dict(self.features),
             "segmentation_reference": dict(self.segmentation_reference),
             "contract_version": self.contract_version,
+            "known_limitations": list(self.known_limitations),
+            "active_checks": list(self.active_checks),
+            "deferred_checks": list(self.deferred_checks),
+            "capture_guidance": list(self.capture_guidance),
+            "stain_model_invocations": int(self.stain_model_invocations),
             "notes": list(self.notes),
         }
 

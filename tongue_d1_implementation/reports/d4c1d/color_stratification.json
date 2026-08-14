@@ -1,0 +1,66 @@
+{
+  "luminance": {
+    "feature": "luminance_mean",
+    "bins": [
+      {
+        "bin": "(-0.001, 18.459]",
+        "n": 436,
+        "positive_rate": 0.0,
+        "n_positive": 0
+      },
+      {
+        "bin": "(18.459, 91.963]",
+        "n": 435,
+        "positive_rate": 0.6505747126436782,
+        "n_positive": 283
+      },
+      {
+        "bin": "(91.963, 105.611]",
+        "n": 435,
+        "positive_rate": 0.825287356321839,
+        "n_positive": 359
+      },
+      {
+        "bin": "(105.611, 196.487]",
+        "n": 436,
+        "positive_rate": 0.573394495412844,
+        "n_positive": 250
+      }
+    ],
+    "positive_rate_span": 0.825287356321839,
+    "approximately_monotonic": false,
+    "confounding_flag": true
+  },
+  "Lab_a": {
+    "feature": "Lab_a_mean",
+    "bins": [
+      {
+        "bin": "(-0.001154, 3.038]",
+        "n": 436,
+        "positive_rate": 0.011467889908256881,
+        "n_positive": 5
+      },
+      {
+        "bin": "(3.038, 18.879]",
+        "n": 435,
+        "positive_rate": 0.39080459770114945,
+        "n_positive": 170
+      },
+      {
+        "bin": "(18.879, 23.479]",
+        "n": 435,
+        "positive_rate": 0.6804597701149425,
+        "n_positive": 296
+      },
+      {
+        "bin": "(23.479, 45.851]",
+        "n": 436,
+        "positive_rate": 0.9655963302752294,
+        "n_positive": 421
+      }
+    ],
+    "positive_rate_span": 0.9541284403669725,
+    "approximately_monotonic": true,
+    "confounding_flag": true
+  }
+}

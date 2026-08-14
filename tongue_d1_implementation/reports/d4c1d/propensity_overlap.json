@@ -1,0 +1,23 @@
+{
+  "positive_propensity": {
+    "mean": 0.9177474472837318,
+    "median": 0.9726635714960807,
+    "p05": 0.5978969691420729,
+    "p95": 0.9962052715694518
+  },
+  "negative_propensity": {
+    "mean": 0.08340267825704546,
+    "median": 0.0024323116485828636,
+    "p05": 5.223772481480274e-08,
+    "p95": 0.5840354548242368
+  },
+  "overlap_range": [
+    0.002645495405546296,
+    1.0
+  ],
+  "samples_in_common_support": 1310,
+  "samples_outside_common_support": 432,
+  "positive_support_rate": 1.0,
+  "negative_support_rate": 0.49176470588235294,
+  "common_support_rate": 0.7520091848450058
+}

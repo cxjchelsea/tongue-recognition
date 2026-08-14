@@ -183,7 +183,8 @@ def test_17_audit_does_not_modify_stain_thresholds():
 
 def test_18_audit_does_not_modify_policy_version():
     doc = yaml.safe_load(POLICY.read_text(encoding="utf-8"))
-    assert str(doc.get("policy_version")) == "1.3"
+    # D4-E 升至 1.4；integration audit 本身不负责改 policy
+    assert str(doc.get("policy_version")) in {"1.3", "1.4"}
 
 
 def test_19_audit_does_not_modify_d4b_focus_thresholds():

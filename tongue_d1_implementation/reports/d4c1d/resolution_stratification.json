@@ -1,0 +1,32 @@
+{
+  "feature": "original_pixel_count",
+  "bins": [
+    {
+      "bin": "(44099.999, 196271.25]",
+      "n": 436,
+      "positive_rate": 0.9426605504587156,
+      "n_positive": 411
+    },
+    {
+      "bin": "(196271.25, 3285600.0]",
+      "n": 665,
+      "positive_rate": 0.58796992481203,
+      "n_positive": 391
+    },
+    {
+      "bin": "(3285600.0, 20668416.0]",
+      "n": 639,
+      "positive_rate": 0.13771517996870108,
+      "n_positive": 88
+    },
+    {
+      "bin": "(20668416.0, 31961088.0]",
+      "n": 2,
+      "positive_rate": 1.0,
+      "n_positive": 2
+    }
+  ],
+  "positive_rate_span": 0.8622848200312989,
+  "approximately_monotonic": false,
+  "confounding_flag": true
+}
